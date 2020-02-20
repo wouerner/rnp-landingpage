@@ -11,8 +11,8 @@ COPY src/ .
 
 COPY docker/apache/ /etc/apache2/sites-enabled/
 # copiando os certificados
-COPY docker/certs/full-certificate.crt /etc/apache2/ssl/
-COPY docker/certs/certificate.key /etc/apache2/ssl/
+COPY docker/certs/ /etc/apache2/ssl/
+#COPY docker/certs/certificate.key /etc/apache2/ssl/
 
 RUN a2enmod ssl 
 RUN a2enmod headers
