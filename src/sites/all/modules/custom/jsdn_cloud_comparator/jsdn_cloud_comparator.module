@@ -1,0 +1,97 @@
+<?php
+/**
+ * Implements hook_user_login
+ */
+function jsdn_cloud_comparator_user_login(&$edit, $account) {
+    global $user;    
+    // If the user has a NULL time zone, notify them to set a time zone.
+    if (!empty($_SESSION["products"])) {
+          $wishlist_data = serialize($_SESSION["products"]);
+          $uid = $user->uid;
+          $wishlist = services_jsdn_check_wishlist_data();
+          if (empty($wishlist)) {
+            $wid = db_insert('wishlist_cloud_comparator') // Table name no longer needs {}
+                  ->fields(array(
+                    'wishlist_data' => $wishlist_data,
+                    'uid' => $uid,
+                    'timestamp' => REQUEST_TIME,
+                  ))
+                  ->execute();
+          }
+          else{
+              $wishlist = unserialize($wishlist);
+              $wishlist_data = array_merge($wishlist, $_SESSION["products"]);
+              $_SESSION["products"] = $wishlist_data;
+              $wishlist_data = serialize($wishlist_data);
+              $query = db_update('wishlist_cloud_comparator')
+                ->fields(array('wishlist_data' => $wishlist_data, 'timestamp' => REQUEST_TIME))
+                ->condition('uid', $uid);
+              $wid = $query->execute();
+          }
+    }
+  
+    if (empty($_SESSION["products"])) {
+        $wishlist_data = services_jsdn_check_wishlist_data();
+        if (!empty($wishlist_data)) {
+            $_SESSION["products"] = unserialize($wishlist_data);
+        }
+    }
+}
+
+
+/**
+ * Api function to check whether service id exits or not
+*/
+function services_jsdn_check_wishlist_data() {
+    global $user;
+    $uid = $user->uid;
+    $query = db_select('wishlist_cloud_comparator', 'z')
+                ->fields('z', array('wishlist_data'))
+                ->condition('z.uid', $uid)
+                ->range(0, 1)
+                ->execute();
+    $result = $query->fetchObject();
+    return $result->wishlist_data;
+}
+
+/**
+ * Api function to download file as CSV
+*/
+function downloadWishlistAction($items, $filename = "wishlist.csv") {
+    $data = array(
+        'ID',
+        'Product Type',
+        'Product Name',
+        'Product Configuration',
+        'Provider',
+        'Region',
+        'Price',
+        'Quantity',
+    );
+    $fp = fopen('php://output', 'w+');
+    fputcsv($fp, $data, ',', '"');
+    $count = 0;
+    foreach ($items as $key=>$item) {
+        foreach ($item as $key_val=>$product) {
+            $count++;
+            $data = array(
+                'id' => $count,
+                'product_type' => $key,
+                'product_name' => $product['product_name'],
+                'product_config' => $product['product_conf'],
+                'provider' => $product['product_provider'],
+                'region' => $product['region'],
+                'price' => $product['price'],
+                'qty' => $product['product_qty'],
+            );
+            fputcsv($fp, $data, ',', '"');
+        }
+    }
+    rewind($fp);
+    $csvFile = stream_get_contents($fp);
+    fclose($fp);
+    header('Content-Type: text/csv');
+    header('Content-Length: '.strlen($csvFile));
+    header('Content-Disposition: attachment; filename='.$filename);
+    exit($csvFile);
+}

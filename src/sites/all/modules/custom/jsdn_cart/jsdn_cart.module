@@ -1,0 +1,426 @@
+<?php
+
+/**
+ * @file
+ * JSDN cart module file.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function jsdn_cart_permission() {
+  return array(
+    'view jsdn cart orders' => array(
+      'title' => t('View jsdn cart orders'),
+      'description' => t('View jsdn cart orders.'),
+    )
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function jsdn_cart_menu() {
+  $items = array();
+
+  $items['shoppingcart'] = array(
+    'title' => 'Shopping Cart',
+    'description' => 'The shopping cart page',
+    'page callback' => 'jsdn_cart_cart',
+    'access arguments' => array('view jsdn cart orders'),
+    'type' => MENU_CALLBACK
+  );
+
+  $items['jsdncart/add/%ctools_js/%/%'] = array(
+    'title' => 'Add to cart',
+    'description' => 'Add to cart url.',
+    'page callback' => 'jsdn_cart_add_to_cart',
+    'page arguments' => array(2, 3, 4),
+    'access arguments' => array('view jsdn cart orders'),
+    'type' => MENU_CALLBACK
+  );
+  
+  $items['jsdncart/family/%ctools_js/%/%'] = array(
+    'title' => 'Add to cart',
+    'description' => 'Add to cart url.',
+    'page callback' => 'jsdn_cart_family_add_to_cart',
+    'page arguments' => array(2, 3, 4),
+    'access arguments' => array('view jsdn cart orders'),
+    'type' => MENU_CALLBACK
+  );
+
+  $items['jsdncart/remove'] = array(
+    'title' => 'Remove from cart',
+    'description' => 'Remove from cart url.',
+    'page callback' => 'jsdn_cart_remove_from_cart',
+    'access arguments' => array('view jsdn cart orders'),
+    'type' => MENU_CALLBACK
+  );
+  $items['jsdnRegisterCart'] = array(
+    'page callback' => 'jsdn_cart_register_cart',
+    'access arguments' => array('access content'),
+    );
+  
+  return $items;
+}
+/**
+   * Implement hook_form_alter() to change the behaviour of the login form.
+   * We simply replace 'user_login_authenticate_validate' with 'jsdn_cart_login_validate'.
+   */
+function jsdn_cart_form_user_login_block_alter( &$form, $form_state ){
+    array_push($form['#validate'], 'jsdn_cart_login_validate');
+}
+/**
+ * Implements jsdn_cart_login_validate().
+ */
+ 
+ 
+/**
+ * Implements jsdn_cart_external_cart().
+ */
+function jsdn_cart_external_cart($cart) {   
+    $offercode = array();
+    $offerbuy = array();
+    foreach($cart as $offer => $node){
+        $offercode[] = $offer;
+        if(!$node->basic_cart_node_trial){
+           $offerbuy[] =  $offer.'.fromBuy=true';
+        }
+    }
+    
+    $offer = implode('~', $offercode);
+    $no_trial_offers = implode('&', $offerbuy);
+    if($no_trial_offers){
+        $offers = 'offerCode='.$offer.'&'.$no_trial_offers; 
+    }
+    else{
+        $offers = 'offerCode='.$offer;
+    }
+
+    $cart_url = JSDN_OAUTH_HOST .'/jsdn/deeplink/addItemToCart.action?'.$offers;
+    jsdn_cart_empty_cart();
+    watchdog('jsdn_cart', 'Redirect to the url %url.', array('%url' => $cart_url));
+    return $cart_url;
+}
+/**
+ * Implements jsdn_cart_external_cart().
+ */
+function jsdn_cart_external_login_cart($cart) {   
+    $offercode = array();
+    $offerbuy = array();
+    foreach($cart as $offer => $node){
+        $offercode[] = $offer;
+        if(!$node->basic_cart_node_trial){
+           $offerbuy[] =  $offer.'.fromBuy=true';
+        }
+    }
+    
+    $offer = implode('~', $offercode);
+    $no_trial_offers = implode('&', $offerbuy);
+    if($no_trial_offers){
+        $offers = 'offerCode='.$offer.'&'.$no_trial_offers; 
+    }
+    else{
+        $offers = 'offerCode='.$offer;
+    }
+
+    $cart_url = JSDN_OAUTH_HOST .'/jsdn/login/commonLogin.action?'.$offers;
+    watchdog('jsdn_cart', 'Redirect to the login url %url.', array('%url' => $cart_url));
+    return $cart_url;
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdn_cart_theme() {
+  return array(
+    'jsdn_cart_cart_flat' => array(
+      'template' => 'jsdn_cart_cart_flat',
+      'variables' => array('cart' => NULL),
+    )
+  );
+}
+/**
+ * Callback function for cart listing.
+ */
+function jsdn_cart_cart() {
+    drupal_set_title(t('Shopping Cart'));
+    $cart = jsdn_cart_get_cart();
+    $options = array(
+      'cart' => $cart
+    );
+   
+    $cart = theme('jsdn_cart_cart_flat', $options);
+    return $cart;
+}
+/**
+ * Function for shopping cart retrieval.
+ *
+ * @param int $nid
+ *   We are using the node id to store the node in the shopping cart
+ *
+ * @return mixed
+ *   Returning the shopping cart contents.
+ *   An empty array if there is nothing in the cart
+ */
+function jsdn_cart_get_cart($nid = NULL) {
+   if (isset($nid)) {
+      return $_SESSION['jsdn_cart']['cart'][$nid];
+    }
+    if (isset($_SESSION['jsdn_cart']['cart'])) {
+      return $_SESSION['jsdn_cart']['cart'];
+    }
+    // Empty cart.
+    return array();
+}
+/**
+ * Callback function for cart/add/.
+ *
+ * @param int $nid
+ *   We are using the node id to store the node in the shopping cart
+ */
+function jsdn_cart_family_add_to_cart($js = NULL, $nid = NULL, $offercode = NULL, $has_trial = false, $quantity = 1) {
+    $nid = (int) $nid;
+    $quantity = (int) $quantity;
+    drupal_session_start();
+    if ($nid > 0 && $quantity > 0) {
+      // If a node is added more times, just update the quantity.
+      $cart = jsdn_cart_get_cart();
+      if (!empty($cart) && in_array($nid, array_keys($cart))) {
+        // Clicked 2 times on add to cart button. Increment quantity.
+        $_SESSION['jsdn_cart']['cart'][$nid]->basic_cart_quantity += $quantity;
+      }
+      else {
+        $node = node_load($nid);
+        $node->basic_cart_node_offercode = $offercode;
+        $offer_details = jsdn_cart_get_family_offer_details($offercode);
+        if(isset($offer_details)){
+            $node->basic_cart_node_offername = $offer_details['offname'];
+        }  
+        if($has_trial){
+            $node->basic_cart_node_trial = true;
+        }
+      }
+    }
+	
+    $check_exits = jsdn_cart_get_cart($offercode);
+    if(empty($check_exits)){
+        $_SESSION['jsdn_cart']['cart'][$offercode] = $node;
+        $message = t('The item !offer is added to your cart.', array('!offer' =>  $offer_details['offname']));
+        drupal_set_message($message);
+    }
+    else{
+        $message = t('The item !offer is already added to your cart.', array('!offer' =>  $offer_details['offname']));
+        drupal_set_message($message, 'error');
+    }    
+    drupal_goto("shoppingcart");
+}
+
+/**
+ * Callback function for cart/add/.
+ *
+ * @param int $nid
+ *   We are using the node id to store the node in the shopping cart
+ */
+function jsdn_cart_add_to_cart($js = NULL, $nid = NULL, $offercode = NULL, $has_trial = false, $quantity = 1) {
+    $nid = (int) $nid;
+    $quantity = (int) $quantity;
+    drupal_session_start();
+    if ($nid > 0 && $quantity > 0) {
+      // If a node is added more times, just update the quantity.
+      $cart = jsdn_cart_get_cart();
+      if (!empty($cart) && in_array($nid, array_keys($cart))) {
+        // Clicked 2 times on add to cart button. Increment quantity.
+        $_SESSION['jsdn_cart']['cart'][$nid]->basic_cart_quantity += $quantity;
+      }
+      else {
+        $node = node_load($nid);
+        $node->basic_cart_node_offercode = $offercode;
+        $offer_details = jsdn_cart_get_offer_details($offercode);
+        if(isset($offer_details)){
+            $node->basic_cart_node_offername = $offer_details['offname'];
+        }  
+        if($has_trial){
+            $node->basic_cart_node_trial = true;
+        }
+      }
+    }
+    if($js){    
+        ctools_add_js('ajax-responder');
+        ctools_include('ajax');	
+        $check_exits = jsdn_cart_get_cart($offercode);
+        if(empty($check_exits)){
+            $_SESSION['jsdn_cart']['cart'][$offercode] = $node;
+            $message = t('The item !offer is added to your cart.', array('!offer' =>  $offer_details['offname']));
+            drupal_set_message($message);
+        }
+        else{
+            $message = t('The item !offer is already added to your cart.', array('!offer' =>  $offer_details['offname']));
+            drupal_set_message($message, 'error');
+        }    
+        //$commands[] = ajax_command_remove('#messages');
+        //$commands[] = ajax_command_replace('.navbar .messages', '');
+        //$commands[] = ajax_command_prepend('.navbar', '<div class="grid-12">' . theme('status_messages') . '</div>');
+        $commands[] =  ctools_ajax_command_redirect("shoppingcart");
+        print ajax_render($commands);
+        exit;
+    }
+    else{
+        // Storing in session.
+        return $node;
+    }
+}
+/**
+ * Callback function for cart/remove/.
+ *
+ * @param int $nid
+ *   We are using the node id to remove the node in the shopping cart
+ */
+function jsdn_cart_remove_from_cart($offercode = NULL) {
+  if ($offercode) {
+    unset($_SESSION['jsdn_cart']['cart'][$offercode]);
+  }
+  drupal_set_message(t('The item have been successfully removed from your cart.'));
+  drupal_goto('shoppingcart');
+}
+/**
+ * Shopping cart reset.
+ */
+function jsdn_cart_empty_cart() {
+  unset($_SESSION['jsdn_cart']['cart']);
+}
+/**
+ * jsdn_cart_get_offer_details.
+ */
+function jsdn_cart_get_family_offer_details($offercode = NULL) {
+    if (isset($_SESSION['service_details'])) {
+        $service_details = $_SESSION['service_details'];
+        $json = json_decode($service_details);
+        $offer_details = array();
+        for($j=0; $j < count($json->Services->serviceList); $j++){
+            for($i=0; $i < count($json->Services->serviceList[$j]->offers->offerList); $i++){
+                $offercode_service = $json->Services->serviceList[$j]->offers->offerList[$i]->code;
+                if($offercode_service === $offercode){
+                    $offname=$json->Services->serviceList[$j]->offers->offerList[$i]->name;
+                    $offdescription=$json->Services->serviceList[$j]->offers->offerList[$i]->description;
+                    $offer_details = array('offname' => $offname, 'offdescription' => $offdescription);
+                }    
+            }
+        }
+        return $offer_details;
+    }
+    return;
+}
+
+/**
+ * jsdn_cart_get_offer_details.
+ */
+function jsdn_cart_get_offer_details($offercode = NULL) {
+    if (isset($_SESSION['service_details'])) {
+        $service_details = $_SESSION['service_details'];
+        $json = json_decode($service_details);
+        $offer_details = array();
+        for($i=0; $i < count($json->Service->offers->offerList); $i++){
+            $offercode_service = $json->Service->offers->offerList[$i]->code;
+            if($offercode_service === $offercode){
+                $offname=$json->Service->offers->offerList[$i]->name;
+                $offdescription=$json->Service->offers->offerList[$i]->description;
+                $offer_details = array('offname' => $offname, 'offdescription' => $offdescription);
+            }    
+        }
+        return $offer_details;
+    }
+    return;
+}
+/**
+ * Callback function for check the cart table.
+ *
+ * @param string $email
+ *   We are using the email id to check the shopping cart table
+ */
+function jsdn_cart_email_check_cart($email = NULL) {
+    //return email row data
+    if ($email) {
+        $data_cart = db_select('jsdn_cart_order_node', 'jcon')
+            ->fields('jcon')
+            ->condition('email', $email, '=')
+            ->execute()
+            ->fetchAssoc();
+        $cart = json_decode($data_cart['cart_data']);
+    }
+    return $cart;
+}
+/**
+ * Callback function for update the cart table.
+ *
+ * @param string $email
+ *   We are using the email id to insert the shopping cart table
+ * @param json $cart
+ */
+function jsdn_cart_email_update_cart($email = NULL, $cart = NULL) {
+    $email_exits = jsdn_cart_email_check_cart($email);
+    $cart_data = json_encode($cart);
+    if(isset($email_exits)){
+        //update
+        $cid = db_update('jsdn_cart_order_node')
+        ->fields(array(
+            'cart_data' => $cart_data,
+            'timestamp' => REQUEST_TIME
+        ))
+        ->condition('email', $email)
+        ->execute();
+    }
+    else{
+        //insert
+        $cid = db_insert('jsdn_cart_order_node')
+        ->fields(array(
+          'email' => $email,
+          'cart_data' => $cart_data,
+          'timestamp' => REQUEST_TIME
+        ))
+        ->execute();
+    }
+    return;
+}
+/**
+ * Callback function for remove the cart data from shopping cart table.
+ *
+ * @param string $email
+ *   We are using the email id to remove the shopping cart table
+ */
+function jsdn_cart_email_remove_cart($email = NULL) { 
+    if (db_table_exists('jsdn_cart_order_node')) {
+        db_delete('jsdn_cart_order_node')->condition('email', $email)->execute();
+    }
+}
+
+/**
+ * Implements jsdn_cart_external_cart().
+ */
+function jsdn_cart_register_cart() {
+    $cart = jsdn_cart_get_cart();
+    if($cart){
+        $offercode = array();
+        $offerbuy = array();
+        foreach($cart as $offer => $node){
+            $offercode[] = $offer;
+            if(!$node->basic_cart_node_trial){
+               $offerbuy[] =  $offer.'.fromBuy=true';
+            }
+        }
+
+        $offer = implode('~', $offercode);
+        $no_trial_offers = implode('&', $offerbuy);
+        if($no_trial_offers){
+            $offers = 'offerCode='.$offer;
+            $offerstrail ='&'.$no_trial_offers; 
+        }
+        else{
+            $offers = 'offerCode='.$offer;
+            $offerstrail = '';
+        }
+    }
+    $out = array('offers' => $offers, 'offerstrail' => $offerstrail);
+    echo json_encode($out);
+    die(); 
+}
+

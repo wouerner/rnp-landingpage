@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Module file for Avaya service sync Services.
+ * Contains the resource declarations for the service APIs
+ * and other commons functions/hooks. if necessary
+ */
+
+/**
+ * Implements hook_services_resources().
+ * Create service resource for APIs to return the necessary json data.
+ */
+function services_jsdn_services_resources() {    
+   $resources = array();
+
+//Include the necessary inc files.
+  module_load_include('inc', 'services_jsdn', 'includes/services_jsdn.services');
+
+//Service Apis for contents.
+  $resources += services_jsdn_resource();
+
+  return $resources;
+}

@@ -1,0 +1,22 @@
+.main-menu{background:#404040!important}
+.top > a{background:none!important;border-right:1px solid #101010!important}
+.top:first-child > a {border-left: none!important;}
+#mainWrapper .content-section .search-section button{background:#404040;border:1px solid #404040}
+.main-menu ul li:hover{background:#1c1c1c;}
+.apply-success{background-color:#fcd70d!important;color:#fcd70d!important}
+.apply-success:hover{background-color:#fcd70d!important;color:#fcd70d!important}
+.bootstrap-dialog.type-primary .modal-header{background-color: #404040!important;}
+.page-resource-details .resource-tabs{background: #efe4b2!important;}
+.resource-detail a.backbutton{border:solid 1px #f8d013!important;color: #f8d013!important;}
+.btn-primary {background-color: #fcd70d!important;color:#fcd70d!important;border-color:#fcd70d!important;}
+.btn-default{border:solid 1px #50a8c9!important;color: #fff!important;}
+.btn-primary:hover, .btn-primary.disabled.focus,.btn-primary.disabled:focus,.btn-primary.disabled:hover,.btn-primary[disabled].focus,.btn-primary[disabled]:focus,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary.focus,fieldset[disabled] .btn-primary:focus,fieldset[disabled] .btn-primary:hover{background-color: #fcd70d!important;border-color:#fcd70d!important;}
+.btn-default:hover{border:solid 1px #fcd70d!important;color: #fcd70d!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton{background-color: #fcd70d!important;border-color:#fcd70d!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton:hover {background-color: #D9AF00!important;border-color:#D9AF00!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton a:hover{text-decoration:none!important}
+#footer div.block:first-child {border-bottom: 1px solid #121212;}
+#footer {border-left: 1px solid #121212;}
+.offer-popup .modal-header, .modal-header{background: #404040;}
+.comment-wrapper .comment-form .form-actions{background: #404040;}
+#footer-wrapper{background:#191919}

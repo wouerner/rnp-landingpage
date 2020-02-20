@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the jsdn_cart module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function jsdn_cart_schema() {
+  $schema['jsdn_cart_order_node'] = array(
+    'description' => 'Jsdn cart order anonymous table.',
+    'fields' => array(
+      'cid' => array(
+        'description' => 'The primary identifier for an order.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'email' => array(
+        'type' => 'varchar',
+        'length' => 254,
+        'not null' => FALSE,
+        'default' => '',
+        'description' => "User's e-mail address.",
+      ),
+      'cart_data' => array(
+        'description' => 'The order entry.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      'timestamp' => array(
+        'description' => 'A Unix timestamp indicating when this cart was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('cid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function jsdn_cart_enable() {
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('view jsdn cart orders'));
+}

@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Module file for Avaya service sync Services.
+ * Contains the resource declarations for the service APIs
+ * and other commons functions/hooks. if necessary
+ */
+
+/**
+ * Implements hook_services_resources().
+ * Create service resource for APIs to return the necessary json data.
+ */
+ /**
+ * Implements hook_preprocess_page().
+ */
+function vendor_console_preprocess_page(&$vars) {
+    drupal_add_css(drupal_get_path('module', 'vendor_console') . '/css/console.css');
+}
+function vendor_console_theme() {
+  return array(
+    'vendor_console' => array(
+      'template' => 'templates/vendor-console'
+    ),
+  );
+
+}
+function vendor_console_block_info() {
+  $blocks = array();
+  $blocks['vendor_console'] = array(
+    'info' => t('Vendor Console'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+function vendor_console_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    
+    case 'vendor_console':
+        $block['content'] = array('#theme' => 'vendor_console');      
+      return $block;
+  }
+}

@@ -1,0 +1,45 @@
+ <div class="main-menu" id="jcMenu">
+  <ul class="main-menu-ul">
+   {{#main_menu}}   
+    {{#URL}}
+     <li class="top"><a href="#" class="main-link no-sublink" onclick="javascript:openPopup('{{URL}}',{{Window}})">{{{label}}}</a>
+     </li>
+    {{/URL}}
+    
+    {{^URL}}
+     <li class="top"><a href="#" class="main-link sublink hasSubmenu">{{{label}}}</a>
+      <ul class="clearfix subGroup">
+       {{#submenu}}
+        <li>
+        {{#label}}
+         <div><h2 class="heading_app">{{{label}}}</h2></div>
+       {{/label}}
+         {{#submenu}}
+          <div class="app_li">
+          <h2 class="heading">
+         
+          {{#script}}
+             <a href="#" onclick="{{script}}">{{{label}}}</a>
+          {{/script}}
+              {{^script}}
+           <a href="#" onclick="javascript:openPopup('{{URL}}',{{Window}})">{{{label}}}</a>
+           {{/script}}
+           </h2>
+          </div>
+         {{/submenu}}
+         </li>
+       {{/submenu}}
+       
+      </ul>
+     </li>
+    {{/URL}}
+   {{/main_menu}}
+  </ul>
+   {{#profile}}
+   <div class="floatRight menu_right">
+         <div id="profileLogoutMenu">
+         <a href="javascript:doLogOut();"><div class="profileLogoutIcon"></div></a>
+    </div>
+    </div>
+  {{/profile}}    
+ </div>

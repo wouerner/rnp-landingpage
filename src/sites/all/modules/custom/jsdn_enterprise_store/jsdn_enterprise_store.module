@@ -1,0 +1,281 @@
+<?php
+/**
+ * @file
+ * Utility jsdn_enterprise_store module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_enterprise_store_init() { 
+    global $_domain;
+    $domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+    $path = explode('/', drupal_get_path_alias('node/' . arg(1)));
+    if ($domain_is_store && user_is_anonymous() && arg(1) != 'api' && ($_SERVER['REQUEST_URI'] != '/cms/jsdnConnect/userLogin.php') && arg(0) != 'jsdnLogin' && arg(0) != 'jsdnLogin' && arg(0) != 'login' && arg(1) != 'logout' && (!in_array($path[1], array('sobre', 'privacidade', 'about-us', 'seguranca', 'termos-servicos')))) {
+	drupal_goto('login');
+        return;
+    }
+}
+/**
+ * Implements hook_menu().
+ */
+function jsdn_enterprise_store_menu() {
+  $items = array();
+  $items['login'] = array(
+    'page callback' => 'enterprise_login_callback',
+    'title callback' => 'enterprise_login_title_callback',
+    'title' => '',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM
+    );
+  return $items;
+}
+/**
+ * Implements menu callback().
+ */
+function enterprise_login_callback(){
+     return t('');
+}
+/**
+ * Implements title callback().
+ */
+function enterprise_login_title_callback(){
+     return variable_get('site_name', "");
+}
+/**
+ * Implements hook_preprocess_page().
+ */
+function jsdn_enterprise_store_preprocess_page(&$variables, $hook) {
+  if ( arg(0) == 'login' ) {
+    $variables['theme_hook_suggestions'][] = 'page__'. str_replace('_', '--', 'enterprise');
+  }
+}
+/**
+ * Implementation of hook_views_query_alter().
+ */
+function jsdn_enterprise_store_views_query_alter(&$view, &$query) {
+/*
+    global $_domain;
+    $domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    if ($domain_is_store && !$isProxied) {
+        $serviceIds = $_SESSION['serviceIds'];
+        if(empty($serviceIds)){
+            $serviceIds = array('nothing');
+        }
+	
+        if ((($view->name == 'service_listing_default_theme') || ($view->name == 'new_services') || ($view->name == 'related_products')) && !empty($serviceIds)) {    
+          //create the join
+          $join = new views_join();
+          $join->table = 'field_data_field_service_id';
+          $join->field = 'entity_id';
+          $join->left_table = 'node';
+          $join->left_field = 'nid';
+          $join->type = 'left';
+          //add the join the the view query
+          $view->query->add_relationship('field_data_field_service_id',$join,'node');
+          foreach($serviceIds as $key=>$serviceId){
+              $filter_serviceId = $serviceId;
+              $view->query->add_where('filter_user', "field_data_field_service_id.field_service_id_value", $filter_serviceId, "=");
+          }
+          $view->query->set_where_group('OR', 'filter_user');
+        }
+    }
+	*/
+}
+/**
+ * Lets modules alter a search query before executing it.
+ *
+ * @param SearchApiQueryInterface $query
+ *   The SearchApiQueryInterface object representing the search query.
+ */
+function jsdn_enterprise_store_search_api_query_alter($query) {
+/*
+    global $_domain;
+    $domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    if ($domain_is_store && !$isProxied) {
+        $index = $query->getIndex();
+        $serviceIds = $_SESSION['serviceIds'];
+        if(empty($serviceIds)){
+            $serviceIds = array('nothing');
+        }
+
+        if(!empty($serviceIds)){
+            $main_filter = $query->createFilter('OR');
+            foreach($serviceIds as $key=>$serviceId){
+                $filter_serviceId = $serviceId;
+                $filter = $query->createFilter('AND');
+                $filter->condition('field_service_id', $filter_serviceId , '=');
+                $main_filter->filter($filter);
+            }
+            $query->filter($main_filter);
+        }
+        if ($index->server()->supportsFeature('search_api_facets')) {
+          // This is the main point of communication between the facet system and the
+          // search back-end - it makes the query respond to active facets.
+          $searcher = 'search_api@' . $index->machine_name;
+          $adapter = facetapi_adapter_load($searcher);
+          if ($adapter) {
+            $adapter->addActiveFilters($query);
+          }
+        }
+    }
+	*/
+}
+/**
+ * Implements hook_node_access().
+ */
+function jsdn_enterprise_store_node_access($node, $op, $account) {
+/*
+    $serviceIds = $_SESSION['serviceIds'];
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+   // Check if $node is object as in some cases it returns string.
+  if (is_object($node) && !empty($serviceIds) && !$isProxied) {
+    // Check for bypass permission.
+    if (isset($node->field_service_id)) {
+      $is_found = FALSE;
+      $node_service_id = $node->field_service_id['und'][0]['value'];
+      if (!empty($serviceIds)) {
+        foreach ($serviceIds as $serviceId) {
+          if ($serviceId == $node_service_id) {
+            $is_found = TRUE;
+            break;
+          }
+        }
+      }
+      // Visible only for selected service ids.
+      if ($is_found) {
+        return NODE_ACCESS_IGNORE;
+      }
+      // For unselected service ids.
+      elseif (!$is_found) {
+        return NODE_ACCESS_DENY;
+      }
+    }
+  }
+  // Returning nothing from this function would have the same effect.
+  return NODE_ACCESS_IGNORE;
+  */
+}
+/**
+ * Implements hook_form_alter().
+ *
+ * - TODO ??? on domain_batch_form
+ */
+function jsdn_enterprise_store_form_alter(&$form, $form_state, $form_id) {
+    $domain_id = arg(4);
+    $domain = domain_lookup($domain_id);
+    $domain_is_store = domain_conf_variable_get($domain['domain_id'], 'domain_is_store');
+    $domain_ad_configure = domain_conf_variable_get($domain['domain_id'], 'domain_ad_configure');
+    $package_visibility = domain_conf_variable_get($domain['domain_id'], 'package_visibility');
+    $enduser_catalog = domain_conf_variable_get($domain['domain_id'], 'enduser_catalog');
+    $getting_started = domain_conf_variable_get($domain['domain_id'], 'getting_started');
+    switch ($form_id) {    
+    case 'domain_form':
+        $form['submit']['#weight'] = 10;
+        $form['is_store'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Restrict Pre-Login Catalog'),
+            '#default_value' => isset($domain_is_store) ? $domain_is_store : 0,
+            '#description' => t(''),
+            '#weight' => 1
+        );
+        $form['ad_configure'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('AD Configured'),
+            '#default_value' => isset($domain_ad_configure) ? $domain_ad_configure : 0,
+            '#description' => t(''),
+            '#weight' => 2
+        );
+        $form['package_visibility'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Enable Visibility Package'),
+            '#default_value' => isset($package_visibility) ? $package_visibility : 0,
+            '#description' => t(''),
+            '#weight' => 3
+        );
+        $form['enduser_catalog'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Show Catalog for End User'),
+            '#default_value' => isset($enduser_catalog) ? $enduser_catalog : 0,
+            '#description' => t(''),
+            '#weight' => 4
+        );
+        $form['getting_started'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Package Help URL'),
+            '#default_value' => $getting_started,
+            '#description' => t(''),
+            '#weight' => 5
+        );			
+		
+        $form['#submit'][] = 'jsdn_enterprise_store_domain_form_submit';
+        break;
+    
+    case 'user_login_block':
+        $form['actions']['submit']['#value'] = t('Sign In');
+        break;
+    
+    case 'webform_client_form_112':
+        $form['submitted']['name']['#default_value'] = $_SESSION['username'];
+        $form['submitted']['company']['#default_value'] = $_SESSION['companyname'];
+        $form['submitted']['email_address']['#default_value'] = $_SESSION['useremail'];
+        //$form['submitted']['telephone_number']['#default_value'] = t('Sign In');
+        break;
+    }
+}
+/**
+ * - TODO ??? on domain_batch_form
+ */
+function jsdn_enterprise_store_domain_form_submit($form, &$form_state) {
+  $domain_id = $form_state['values']['domain_id'];
+  domain_conf_variable_set($domain_id, 'domain_is_store', $form_state['values']['is_store']);
+  domain_conf_variable_set($domain_id, 'domain_ad_configure', $form_state['values']['ad_configure']);
+  domain_conf_variable_set($domain_id, 'package_visibility', $form_state['values']['package_visibility']);  
+  domain_conf_variable_set($domain_id, 'enduser_catalog', $form_state['values']['enduser_catalog']);  
+  domain_conf_variable_set($domain_id, 'getting_started', $form_state['values']['getting_started']);  
+}
+
+function jsdn_enterprise_store_translated_menu_link_alter(&$item, $map) {
+global $_domain;
+$domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+$visibility_package = domain_conf_variable_get($_domain['domain_id'], 'package_visibility');
+$enduser_catalog_visibility = domain_conf_variable_get($_domain['domain_id'], 'enduser_catalog');
+$getting_started_url = domain_conf_variable_get($_domain['domain_id'], 'getting_started');
+if ($item['menu_name'] == 'menu-login' && $visibility_package) {
+  if ($item['link_title'] == 'Sign Up') {
+  	$item['access'] = FALSE;
+  }
+}
+if ($item['menu_name'] == 'main-menu' && $enduser_catalog_visibility == 0 && json_decode($_SESSION['MenuJSON'])->profile->roleName == "End User") {
+  drupal_goto('home');
+  drupal_set_message("Thank you for rating this node.");
+}
+if ($item['menu_name'] == 'menu-login' && $domain_is_store) {
+if ($item['link_title'] == 'Sign Up' || $item['link_title'] == 'Sign In' || $item['link_title'] == 'Cart') {
+	$item['access'] = FALSE;
+}
+}
+
+if (isset($getting_started_url) && $getting_started_url != '' )
+{
+if ($item['menu_name'] == 'menu-login') {
+	if ($item['mlid'] == '2042') {
+		$item['href'] = $getting_started_url;
+	}
+}  
+}
+else {
+if ($item['menu_name'] == 'menu-login') {
+	if ($item['mlid'] == '2042') {
+		$item['access'] = FALSE;
+		}
+	}
+}  
+
+if (drupal_is_front_page() && $visibility_package) {
+$myscript = 'jQuery( document ).ready(function(){jQuery("#main-wrapper").remove();})';
+drupal_add_js($myscript, 'inline');
+  }  
+  
+}

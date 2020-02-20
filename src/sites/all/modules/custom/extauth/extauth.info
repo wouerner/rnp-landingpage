@@ -1,0 +1,11 @@
+name = External Authentication
+description = Authenticate users against an external service.
+package = Authentication
+core = "7.x"
+version = "7.x-1.0"
+
+; Information added by Himangshu Dutta packaging script on 2015-03-24
+version = "7.x-1.1"
+core = "7.x"
+project = "extauth"
+datestamp = "1426747691"

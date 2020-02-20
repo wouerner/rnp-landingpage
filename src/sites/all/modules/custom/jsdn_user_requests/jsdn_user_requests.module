@@ -1,0 +1,310 @@
+<?php
+/**
+ * @file
+ * Utility jsdn_user_requests module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_user_requests_init() {
+    if(arg(0) == 'requests'){
+        jsdn_user_requests_api();
+    }
+}
+
+function jsdn_user_requests_library() {
+  $libraries['table'] = array(
+    'title' => 'Table',
+    'website' => '',
+    'version' => '1.2',
+    'js' => array(
+      'sites/all/libraries/table/js/jquery.dataTables.min.js' => array(),
+      'sites/all/libraries/table/js/dataTables.bootstrap.min.js' => array(),
+      'sites/all/libraries/table/js/dataTables.responsive.min.js' => array(),
+      'sites/all/libraries/table/js/responsive.bootstrap.min.js' => array(),
+      'sites/all/libraries/table/js/dataTables.pageLoadMore.min.js' => array(),
+      'sites/all/libraries/table/js/jquery.blockUI.js' => array()
+
+    ),
+    'css' => array(
+      'sites/all/libraries/table/css/dataTables.bootstrap.min.css' => array('type' => 'file'),
+      'sites/all/libraries/table/css/responsive.bootstrap.min.css' => array('type' => 'file')
+    )
+  );
+  return $libraries;
+}
+
+/**
+ * Implementation of hook_permission().
+ */
+function jsdn_user_requests_permission() {
+  return array(
+    'service_requests_access' => array(
+      'title' => t('View Service Requests'),
+      'description' => t(''),
+    )
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function jsdn_user_requests_menu() {
+    $items = array();       
+    $items['requests'] = array(
+      'title' => t('License Requests'),
+      'page callback' => '_jsdn_user_requests_report',
+      'access callback' => 'user_access',
+      'access arguments' => array('service_requests_access'),
+    );
+    $items['popup/requestaction'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdnapi_popup_request_action',
+        'access callback' => TRUE,
+    );
+    $items['popup/enduseraction'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdnapi_popup_enduser_action',
+        'access callback' => TRUE,
+    );
+  return $items;
+}
+
+function jsdnapi_popup_enduser_action(){
+  $postData = array();
+  parse_str($_POST['data'], $postData['licenserequest']);
+  if($_POST['actionType'] == "reject"){
+    $api_url = JSDN_OAUTH_HOST.'/api/v2/license/rejectLicenseRequest';
+  }else if($_POST['actionType'] == "approve"){
+    $api_url = JSDN_OAUTH_HOST.'/api/v2/license/approveLicenseRequest';
+  }else if($_POST['actionType'] == "cancel"){
+    $api_url = JSDN_OAUTH_HOST.'/api/v2/license/cancelLicenseRequest';
+  }
+  $data = $postData;
+  $method = "POST";
+  $result = jsdn_requests_curl_raw($api_url,$method,$data);
+  $result = json_decode($result, true);
+  if($result['error']){
+    $out['status'] = "error";
+    $out['message'] = $result['error']['message'];
+  }else{
+    if($_POST['actionType'] == "reject"){
+      $out['status'] = "status";
+      $username = $result['DefaultLicenseResponse']['createdBy'];
+      $out['message'] = t('The status of License Request requested by').' '.$username.' '.t('has been updated successfully. A rejection email will be sent to the user');
+    }else if($_POST['actionType'] == "cancel"){
+      $out['status'] = "status";
+      $out['message'] = t('Your cancellation request has been submitted successfully.');
+    }else if($_POST['actionType'] == "approve"){
+      if($postData['licenserequest']['serviceType'] == "IAAS"){
+        $out['status'] = "status";
+        $username = $result['DefaultLicenseResponse']['createdBy'];
+        $out['message'] = t('License Request by').' '.$username.' '.t('has been approved successfully. An approval email will be sent to the user.');
+      }else{
+        $out['status'] = "url";
+        $out['url'] = JSDN_OAUTH_HOST.'/jsdn/endUserService/selfAssign.action?offerId='.$result["DefaultLicenseResponse"]["offerId"].'&userId='.$result["DefaultLicenseResponse"]["userId"].'&from=approve';
+      }
+    }
+    
+  }
+  echo json_encode($out);
+  die();  
+}
+
+function jsdnapi_popup_request_action(){
+  $postData = array();
+  parse_str($_POST['data'], $postData);
+  $offername = $postData['offername'];
+  $offercode = $postData['offercode'];
+  $requestComment = check_plain($postData['requestComment']);
+  $jsonData= json_decode($_SESSION['MenuJSON']);
+  $email = $jsonData->profile->email;
+  $api_url = JSDN_OAUTH_HOST.'/api/v2/license/createLicenseRequest';
+  $data['licenserequest']['email'] = $email;
+  $data['licenserequest']['offerCode'] = $offercode;
+  $data['licenserequest']['requestComments'] = $requestComment;
+  $method = "POST";
+  $result = jsdn_requests_curl_raw($api_url, $method, $data);
+  $result = json_decode($result, true);
+  if($result['error']){
+    $out['status'] = "error";
+    $out['message'] = $result['error']['message'];
+  }else{
+    $out['status'] = "status";
+    $out['message'] = t('You have successfully posted a request to obtain').' "'.$offername.'". '.t('Your request will be reviewed by the administrator, please wait for an email response.');
+  }
+  echo json_encode($out);
+  die();  
+}
+
+function _jsdn_user_requests_report() {
+$cmsMenu = json_decode($_SESSION['MenuJSON']);
+global $user;
+if (in_array('end user', $user->roles)) {
+     return theme('user_requests_enduser', array("server_post" => $_POST));
+}else{
+    return theme('user_requests', array("server_post" => $_POST));
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function jsdn_user_requests_preprocess_page(&$vars) {
+    if($_GET['selectedUserName']){
+	drupal_set_message(t('License Request by').' '. $_GET['selectedUserName'].' '. t('has been approved successfully. An approval email will be sent to the user.'));
+    }
+    if(arg(0) == 'catalog' || arg(0) == 'node'){
+      drupal_add_js(drupal_get_path('module', 'jsdn_user_requests') . '/js/requests.js');
+    }
+    if(arg(0) == 'requests'){
+        drupal_add_library('jsdn_user_requests', 'table');
+        global $base_url;
+        drupal_add_js(drupal_get_path('module', 'jsdn_user_requests') . '/js/requests.js');
+        drupal_add_css(drupal_get_path('module', 'jsdn_user_requests') . '/css/requests.css');        
+        
+    }
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdn_user_requests_theme() {
+  
+  $items = array();
+  $items['user_requests'] = array(
+      'template' => 'templates/user_requests',
+      'arguments' => array(),
+    );
+    $items['user_requests_enduser'] = array(
+      'template' => 'templates/user_requests_enduser',
+      'arguments' => array(),
+    );
+  return $items;
+}
+
+
+
+/**
+ * Implements hook_block_info().
+ */
+function jsdn_user_requests_block_info() {
+  $blocks = array();
+  $blocks['requests'] = array(
+    'info' => t('Requests'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see resources-chart-dashboard-filter.tpl.php
+ */
+
+/**
+ * Implements hook_init().
+ */
+function jsdn_user_requests_api() {
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/unified-resources-provider-with-account';
+    $result = jsdnapi_curl_raw($api_url);
+    $result = json_decode($result, true);
+    $provider = empty($result['DataFeedList']) ? array() : $result['DataFeedList'];
+    $_SESSION['resources_provider'] = $provider;
+    
+    if(!empty($_SESSION['session_provider'])){
+        $provider_value = $_SESSION['session_provider'];
+    }
+    else{
+        $provider_value = 'All';
+    }
+    $api_url_region = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/unified-resources-region?provider='.$provider_value;
+    $result_region = jsdnapi_curl_raw($api_url_region);
+    $result_region = json_decode($result_region, true);
+    $resources_regions = empty($result_region['DataFeedList']) ? array() : $result_region['DataFeedList'];
+    $_SESSION['resources_regions'] = $resources_regions;
+}
+/**
+ * Implements hook_init().
+ */
+
+/**
+ * 
+ * @param $api_url
+ * 
+ * @return
+ *   JSON data.
+ */
+function jsdn_requests_curl_raw ( $url , $method, $data) {
+    $data = json_encode($data);
+    watchdog('jsdn_requests', 'Curl Request URL %exception.', array('%exception' => $url));
+    $cmsMenu = json_decode($_SESSION['MenuJSON']);
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    $compacronym = json_decode($_SESSION['MenuJSON'])->profile->storecompanyacronym;
+    $endcustcompacronym=json_decode($_SESSION['MenuJSON'])->profile->companyacronym;
+
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 500,
+        CURLOPT_USERAGENT      => "CMS", // who am i
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 0,
+    );
+   
+    if ($isProxied){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+            'proxy-store:'.$compacronym,
+            'proxy-end-customer:'.$endcustcompacronym,
+        ));
+    }
+    else{
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+        ));
+
+    }
+    switch ($method){
+        case "DELETE":
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+            break;
+        case "POST":
+           curl_setopt($ch, CURLOPT_POST, 1);
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+           break;
+        case "PUT":
+           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                         
+           break;
+        default:
+           if ($data)
+              $url = sprintf("%s?%s", $url, http_build_query($data));
+    }
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
+    curl_close($ch);
+    watchdog('jsdn_requests', 'Curl Response %exception.', array('%exception' => $result));
+    if ($error) {
+        
+    }
+    else{
+    //$result = '{"status":"success","error-message":"11IMGSMIM0004","success-message":""}';
+    return $result;
+    }
+}

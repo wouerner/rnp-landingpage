@@ -1,0 +1,23 @@
+
+name = Domain Admin User
+description = Enables domain administrators to administer members in their domain.
+dependencies[] = domain
+dependencies[] = domain_admin
+
+package = Domain Access
+core = 7.x
+
+
+; Information added by Drupal.org packaging script on 2013-12-11
+version = "7.x-1.0-alpha4"
+core = "7.x"
+project = "domain_admin"
+datestamp = "1386768210"
+
+
+; Information added by Drupal.org packaging script on 2014-04-04
+version = "7.x-1.0-beta1"
+core = "7.x"
+project = "domain_admin"
+datestamp = "1396609451"
+

@@ -1,0 +1,108 @@
+{
+  "name": "Currency Conversion",
+  "version": "1.0",
+  "description": "This file will define the currency conversion defination for each cloud provider",
+  "author": {
+    "name": "Jamcracker"
+  },
+  "stores": {
+    "predev-portalvivocloud.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "predev-enterprisevivo01.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "uat-enterprisevivo01.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },    
+    "uat-portalvivocloud.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "dev-portalvivocloud.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "dev-enterprisevivo01.com.br": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "telefostore.telefojctestlocal.com": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "R$",
+      "domain_providers": {
+        "aws": "3.75",
+        "azure": "3.75",
+        "google": "3.75",
+        "vivo": "1"
+      }
+    },
+    "store.sourcestore.com": {
+      "currency_conversion_required": true,
+      "domain_currency_symbol": "€",
+      "domain_providers": {
+        "aws": "0.88",
+        "azure": "0.88",
+        "google": "0.88",
+        "vivo": "0.23"
+      }
+    }
+  },
+  "providers": [
+    {
+      "type": "aws",
+      "base_currency": "USD"
+    },
+    {
+      "type": "azure",
+      "base_currency": "USD"
+    },
+    {
+      "type": "google",
+      "base_currency": "USD"
+    },
+    {
+      "type": "vivo",
+      "base_currency": "R$"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+.dt-more-container {
+	text-align:center;
+	margin:15px auto;
+	cursor:pointer;
+}
+.dataTables_filter {
+	float: left !important;
+	width: 100%;
+	text-align: left !important;
+	border:solid 1px #ebebeb;
+	background-color:#f1f7f8;
+	padding:10px;
+}
+.dataTables_wrapper {
+	width:100%!important;
+	margin:auto!important;
+        position:relative;
+}
+div.dataTables_wrapper div.dataTables_filter input, div.dataTables_wrapper div.dataTables_filter label {
+	margin:0px;
+}
+table.dataTable th {
+	background-color:#f1f7f8;
+        color: #666666
+}
+table.dataTable {
+	border:solid 1px #dceaec;
+	border-top:none;
+	color:#666666
+}
+.table-striped > tbody > tr {
+background-color:#fff!important
+}
+.table-bordered > tbody > tr > td {
+	border-right:solid 0px #fff!important;
+}
+.table > thead > tr > th {
+	border:0px!important;
+}
+.dataTables_wrapper .dropdown-menu {
+	font-size:12px;
+	font-weight:normal;
+	padding:5px;
+        right: 0px;left: initial
+}
+.dataTables_wrapper .dropdown-menu a.filterApply{ color: #337ab7}
+.dataTables_wrapper .dropdown-menu input {
+	margin-right:5px;
+}
+.dataTables_wrapper th.select-filter div.dropdown {
+	margin-left:5px;
+	cursor:pointer;
+	display:inline
+}
+table.dataTable.dtr-column > tbody > tr > td.control::before, table.dataTable.dtr-column > tbody > tr > th.control::before {
+left:0px;
+margin-left:0px;
+color:blue;
+border:none;
+box-shadow:none;
+line-height:20px;
+background-color:#fff;
+font-size:16px;
+}
+table.dataTable.dtr-column > tbody > tr.parent td.control::before, table.dataTable.dtr-column > tbody > tr.parent th.control::before {
+background-color:#fff;
+}
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+	border-bottom:none;
+}
+div.dataTables_wrapper div.dataTables_info {
+	float:left;font-size:13px;
+}
+table.dataTable .actions {
+	cursor:pointer;
+	margin-left:15px;
+	padding:2px 5px 0px
+}
+.dataTables_wrapper th.select-filter {
+	white-space: normal !important;
+}
+div.dataTables_wrapper div.dataTables_processing{bottom:5%!important;top:unset;}
+#jctable-load-more{font-size:13px;}
+div.timezone{font-size:13px;;display:block;clear:both}
+table.dataTable span.stopped{
+display:block;
+height:18px;padding-left:20px;
+background: url("../images/stopped.png") no-repeat left 0px;
+}

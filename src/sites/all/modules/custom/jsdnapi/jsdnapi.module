@@ -1,0 +1,951 @@
+<?php
+/**
+ * @file
+ * API functionality for jsdnapi module.
+ */
+module_load_include('php', 'jsdnapi', 'lib/OAuthStore');
+module_load_include('php', 'jsdnapi', 'lib/OAuthRequester');
+module_load_include('inc', 'jsdnapi', 'jsdnapi.admin');
+/**
+ * Implements hook_init().
+ */
+function jsdnapi_init() {
+    global $jsdnURL;
+    $jsdn_consumer_key = variable_get('jsdn_consumer_key', 'test');
+    $jsdn_consumer_secret = variable_get('jsdn_consumer_secret', 'test');
+    define("JSDN_CONSUMER_KEY", $jsdn_consumer_key); 
+    define("JSDN_CONSUMER_SECRET", $jsdn_consumer_secret); 
+    define("JSDN_OAUTH_HOST", $jsdnURL);
+    define('OAUTH_TMP_DIR', function_exists('sys_get_temp_dir') ? sys_get_temp_dir() : realpath($_ENV["TMP"]));
+    drupal_add_js(drupal_get_path('module', 'jsdnapi') . '/jsdnapi.js');
+}
+/**
+ * Implementation of hook_permission().
+ */
+function jsdnapi_permission() {
+  return array(
+    'administer jsdn api' => array(
+      'title' => t('Administer jsdn api'),
+      'description' => t('Administer jsdn api form settings.'),
+    ),
+    'jsdn offer display' => array(
+      'title' => t('jsdn offer display'),
+      'description' => t('Display jsdn offer.'),
+    ),  
+  );
+}
+/**
+ * Implements hook_menu().
+ */
+function jsdnapi_menu() {
+   $items = array();
+   $items['popup/action'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdnapi_popup_action',
+        'access callback' => TRUE,
+	);
+
+	$items['popup/offers'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdnapi_popup_offers',
+        'access callback' => TRUE,
+  );
+  $items['popup/notify'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdnapi_notify_action',
+        'access callback' => TRUE,
+  );  
+   $items['admin/config/jsdn'] = array(
+    'title' => t('JSDN'),
+    'description' => t('JSDN settings.'),
+    'position' => 'right',
+    'weight' => -11,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/config/jsdn/jsdn_configuration'] = array(
+    'title' => t('JSDN API settings'),
+    'description' => t('Administer JSDN api.'),
+    'weight' => -1,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer jsdn api'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jsdnapi_general_settings_form'),
+    'file' => 'jsdnapi.admin.inc',
+  );
+  $items['admin/config/jsdn/getServices'] = array(
+    'title' => t('JSDN Get Services'),
+    'description' => t('Get Services JSDN data.'),
+    'weight' => -2,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer jsdn api'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('get_services_form'),
+  ); 
+  $items['admin/config/jsdn/menusetting'] = array(
+    'title' => t('JSDN Menu settings'),
+    'description' => t('Configure menu position'),
+    'weight' => -3,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer jsdn api'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('menu_settings_form'),
+  );
+   $items['popup/service'] = array(
+    'title' => t('Popup Action'),
+    'page callback' => 'jsdnapi_check_dependency',
+    'access callback' => TRUE,
+    );  
+  return $items;
+}
+
+
+function menu_settings_form(){
+  $form['menu_settings'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#title' => t('Menu Position Settings'),
+    '#description' => t('CMS Menu position Setting'),
+  );
+
+  $form['menu_settings']['menu_position'] = array(
+    '#type' => 'radios',
+    '#title' => t('Menu Position'),
+    '#default_value' => variable_get('menu_position', ''),
+    '#options' => array('horizontal'=>t('Horizontal'),'vertical'=>t('Vertical')),
+  );
+
+  return system_settings_form($form);
+}
+
+function jsdnapi_notify_action(){
+  global $_domain;
+  $offerCode = $_POST['offer'];
+  $provider = $_POST['items'];
+  $offerName = $_POST['name'];
+  $jsonData= json_decode($_SESSION['MenuJSON']);
+  $data['EmailNotification']['params']['%SERVICE_NAME%'] = $offerCode;
+  $data['EmailNotification']['params']['%PROVIDER_NAME%'] = $provider;
+  $method = "POST";
+  $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+  $url = JSDN_OAUTH_HOST."/api/2.0/".$JSDN_TENANT_ORG_ACRONYM."/emailnotification";
+  $result = jsdnapi_curl_call($url,$method,$data);
+  $result = json_decode($result);
+  $domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+  $department = $jsonData->profile->departmentName;
+  $items = explode(",",$provider);
+  $a = 'a';
+  foreach($items as $i => $p){
+    $notConfigured .= '&nbsp;&nbsp;&nbsp;&nbsp;'.$a++.'.&nbsp;'.$p.'<br>';
+  }
+  if($domain_is_store){
+     $third = t('3. Budget for the following department needs to be defined.<br>').'&nbsp;&nbsp;&nbsp;&nbsp;a.&nbsp;'.$department; 
+  }else{
+      $third = "";
+  }
+  $requestComment = t('Request to complete the following configuration/s to facilitate the launch of').' '.$offerName.'. '.t('<br>1. Payment method selection.<br>2. Cloud credentials for the following vendors is/are not configured.<br>').$notConfigured .$third;
+
+  $email = $jsonData->profile->email;
+  $api_url = JSDN_OAUTH_HOST.'/api/v2/license/createLicenseRequest';
+  $reQdata['licenserequest']['email'] = $email;
+  $reQdata['licenserequest']['offerCode'] = $offerCode;
+  $reQdata['licenserequest']['requestComments'] = $requestComment;
+  $request_result = jsdnapi_curl_call($api_url, $method, $reQdata);
+  $request_result = json_decode($request_result, true);
+  if($request_result['error']){
+      $out['status'] = "status";
+      $out['message'] = t('You have successfully notified the administrator. Your License Request already exist, please wait for an email response.');
+  }else{
+      $out['status'] = "status";
+      $out['message'] = t('You have successfully notified the administrator and posted a request to obtain').' '.$offerName.'. '.t('Your request will be reviewed by the administrator, please wait for an email response.');
+  }
+  echo json_encode($out);
+  
+  die();
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function jsdnapi_popup_action(){
+$offer=$_POST['offer'];
+$url=$_POST['url'];
+$type=$_POST['type'];
+$mailto = variable_get('site_mail', '');
+$result = db_query("Select * from variable where name like '%site_mail%'")->fetchAll();
+$explode=explode('"',$result[0]->value);
+$mailfrom = $explode[1];
+$jsonData= $_SESSION['MenuJSON'];
+$companyData=json_decode($jsonData);
+$firstname = $companyData->profile->firstname;
+$lastname = $companyData->profile->lastname;
+$companyname = $companyData->profile->companyname;
+$subject="Request for adding ".$offername." account credentials";
+$timezone = variable_get('date_default_timezone', '');
+$date=date("d/m/Y");
+$message = "<p>Dear Administrator,</p><p>This is to inform you that ".$companyname." attempted to buy ".$offer." service from the store, but could not proceed with the order due to the non-existence of its cloud credentials in the system. Please do the needful.</p><p>The details are given below:</p><p>Customer Company Name: ".$companyname."</p><p>User Attempted to Buy: ".$firstname."&nbsp;".$lastname."</p><p>Service Name: ".$offer."</p><p>Provider: ".trim($_SESSION['inactiveprovider'],", ")."</p><p>Attempted to Buy the Service On:".$date."</p><p>^ All dates and times are in ".$timezone."</p><p>This is an automatically generated email. Please do not reply to this email.</p>";
+if(drupal_mail('jsdnapi', 'reply', $mailto, language_default(), array('body' => $message, 'subject' => $subject), $mailfrom, TRUE)){
+  echo 1;
+}else{
+  echo 2;
+}die();
+}
+function jsdnapi_popup_offers(){
+  $serviceId = $_POST['id'];
+  $nodedetails = node_load($serviceId);
+  $servId=$nodedetails->field_service_id['und'][0]['value'];
+  $servName=$nodedetails->title;
+  $serviceType = taxonomy_term_load($nodedetails->field_service_type['und'][0]['tid']);
+  if ($serviceType !='IaaS' && !empty($servId)){
+    $result = service_details_api_call($servId);
+  }
+
+  $variables['service_details'] = isset($result) ? $result : '';
+  $variables['service_type'] = !empty($serviceType) ? $serviceType->name : 'IaaS';
+  $variables['serviceId'] = !empty($servId) ? $servId : '';
+  $variables['serviceName'] = !empty($servName) ? $servName : '';
+  $variables['jsdn_url'] = JSDN_OAUTH_HOST;
+  $variables['unit']=$nodedetails->field_unit_of_measurement['und'][0]['value'];
+  $variables['message']=$nodedetails->field_message['und'][0]['value'];
+  $offerDetails = theme('offer_details', array('service_details' => $variables['service_details'], 'service_type' => $variables['service_type'], 'serviceId' => $variables['serviceId'],'jsdn_url'=>$variables['jsdn_url'],'serviceName'=>$variables['serviceName'],'message'=>$variables['message'],'unit'=>$variables['unit']));
+  $data = '<div id="offer'.$serviceId.'" class="modal fade" role="dialog">'.$offerDetails.'</div>';
+  echo $data;
+}
+function jsdnapi_entity_view_alter(&$build, $type) {
+  if ($build['#view_mode'] == 'full' && $type == 'node') {
+     if(_jsdnapi_node_check_node_type()){
+        $build['field_product_offer_details']['#theme'] = 'additional_field';
+      }
+      
+      if(_jsdnapi_service_family_check_node_type()){
+        $build['field_service_family_offer_detai']['#theme'] = 'service_family_offer';
+      }
+  }
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdnapi_theme() {
+  return array(
+    'additional_field' => array(
+      'template' => 'additional-field',
+      'variables' => array('service_details' => NULL, 'service_type' => NULL, 'serviceId' => NULL),
+    ),
+    'service_family_offer' => array(
+      'template' => 'service-family-offer',
+      'variables' => array('service_details' => NULL, 'service_type' => NULL, 'serviceId' => NULL),
+    ),
+    'offer_details' => array(
+      'template' => 'offer-details',
+      'variables' => array('service_details' => NULL, 'service_type' => NULL, 'serviceId' => NULL),
+    ),
+  );
+}
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - service_details: Retrives the service details value from an api call.
+ *   - service_type: Type of the service whether SaaS or IaaS.
+ *
+ * @see additional-field.tpl.php
+ */
+function template_preprocess_additional_field(&$variables) {
+    $nodedetails = node_load(arg(1));
+    $servId=$nodedetails->field_service_id['und'][0]['value'];
+    $servName=$nodedetails->title;
+    $serviceType = taxonomy_term_load($nodedetails->field_service_type['und'][0]['tid']);
+    if ($serviceType !='IaaS' && !empty($servId)){
+        $result = service_details_api_call($servId);
+    }
+    $variables['service_details'] = isset($result) ? $result : '';
+    $variables['service_type'] = !empty($serviceType) ? $serviceType->name : 'IaaS';
+    $variables['serviceId'] = !empty($servId) ? $servId : '';
+    $variables['serviceName'] = !empty($servName) ? $servName : '';
+    $variables['jsdn_url'] = JSDN_OAUTH_HOST;
+    $variables['unit']=$nodedetails->field_unit_of_measurement['und'][0]['value'];
+    $variables['message']=$nodedetails->field_message['und'][0]['value'];
+}
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - service_details: Retrives the service details value from an api call.
+ *   - service_type: Type of the service whether SaaS or IaaS.
+ *
+ * @see additional-field.tpl.php
+ */
+function template_preprocess_service_family_offer(&$variables) {
+    $nodedetails = node_load(arg(1));
+    $servId=$nodedetails->field_category_id['und'][0]['value'];
+    $servName=$nodedetails->title;
+    $serviceType = taxonomy_term_load($nodedetails->field_family_service_type['und'][0]['tid']);
+    if (!empty($servId)){
+        $result = service_family_details_api_call($servId);
+    }
+    $variables['service_details'] = isset($result) ? $result : '';
+    $variables['service_type'] = !empty($serviceType) ? $serviceType->name : 'IaaS';
+    $variables['serviceId'] = !empty($servId) ? $servId : '';
+    $variables['serviceName'] = !empty($servName) ? $servName : '';
+    $variables['jsdn_url'] = JSDN_OAUTH_HOST;
+    $variables['unit' ] = '';
+    $variables['message'] = '';
+}
+/**
+ * Checks whether a node type is product page, based on its content type.
+ *
+ * @return
+ *   Boolean.
+ */
+function _jsdnapi_node_check_node_type() {
+  $match = false;
+  $types = array('product_page');
+  if (arg(0) == 'node') {
+    $node = node_load(arg(1));
+    $type = $node->type;
+    if(in_array($type, $types)) {$match=true;}
+  }
+  return $match;
+}
+/**
+ * Checks whether a node type is product page, based on its content type.
+ *
+ * @return
+ *   Boolean.
+ */
+function _jsdnapi_service_family_check_node_type() {
+  $match = false;
+  $types = array('service_family');
+  if (arg(0) == 'node') {
+    $node = node_load(arg(1));
+    $type = $node->type;
+    if(in_array($type, $types)) {$match=true;}
+  }
+  return $match;
+}
+/**
+ * Retrieve service details from jsdn server.
+ * 
+ * @param $serviceId
+ * 
+ * @return
+ *   JSON data.
+ */
+function service_family_details_api_call($serviceId) {
+    $api_url = JSDN_OAUTH_HOST .'/api/1.0/catalog/getServiceDetailsByCategory/'.$serviceId;
+    if(user_is_logged_in()){
+       return jsdnapi_curl_raw($api_url);
+    }
+    else{
+       return jsdnapi_api_call(JSDN_OAUTH_HOST, $_SERVER['HTTP_HOST'], $api_url);
+    }
+}
+/**
+ * Retrieve service details from jsdn server.
+ * 
+ * @param $serviceId
+ * 
+ * @return
+ *   JSON data.
+ */
+function service_details_api_call($serviceId) {
+    $api_url = JSDN_OAUTH_HOST .'/api/1.0/catalog/getServiceDetails/'.$serviceId;
+    if(user_is_logged_in()){
+       return jsdnapi_curl_raw($api_url);
+    }
+    else{
+       return jsdnapi_api_call(JSDN_OAUTH_HOST, $_SERVER['HTTP_HOST'], $api_url);
+    }
+}
+/**
+ * Retrieve offer price from jsdn server.
+ * 
+ * @param $priceurl
+ * 
+ * @return
+ *   JSON data.
+ */
+function service_price_api_call($priceurl) {
+    $api_url = JSDN_OAUTH_HOST .'/api/1.0/catalog/getOfferPrice/'.$priceurl;
+    if(user_is_logged_in()){
+       return jsdnapi_curl_raw($api_url);
+    }
+    else{
+       return jsdnapi_api_call(JSDN_OAUTH_HOST, $_SERVER['HTTP_HOST'], $api_url);
+    }
+}
+/**
+ * Retrieve services from jsdn server.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_services_form($form, $form_state) {
+    $per_page = 15;
+    if(empty($_SESSION['services_data'])){
+        $services_data = json_decode(get_services_api_call(), true);
+        $_SESSION['services_data'] = $services_data['Services']['serviceList'];
+    }
+    $services = isset($_SESSION['services_data']) ? $_SESSION['services_data'] : array();
+    $_SESSION['data'] = '';
+    $_SESSION['data'] = !empty($_SESSION['options']) ? $_SESSION['options'] : jsdnapi_check_service_id($services);
+    $current_page = pager_default_initialize(count($_SESSION['data']), $per_page);
+    $chunks = array_chunk($_SESSION['data'], $per_page, TRUE);
+    $header = array(
+      'service_name' => t('Service Name'),
+      'in_cms' => t('In CMS'),
+      'sync_date' => t('Sync Date'),
+    );
+    $form['options'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Sync Services'),
+      '#attributes' => array('class' => array('container-inline')),
+    );
+    $form['options']['operation'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Service URL'),
+      '#title_display' => 'invisible'
+    );
+    $form['options']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Get Services'),
+      '#submit' => array('get_services_url_form_submit')
+    );
+    $form['keyword'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Search Keyword'),
+      '#attributes' => array('class' => array('container-inline')),
+    );
+    $form['keyword']['serach_key'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Search Keyword'),
+      '#size' => 40,
+      '#title_display' => 'invisible'
+    );
+    $form['keyword']['submit_search'] = array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+      '#submit' => array('get_services_search_keyword_form_submit')
+    );
+    $form['keyword']['reset'] = array(
+      '#type' => 'submit',
+      '#value' => t('Clear'),
+      '#submit' => array('get_services_search_keyword_form_submit')
+    );
+    $form['table'] = array(
+      '#type' => 'tableselect',
+      '#header' => $header,
+      '#options' => $chunks[$current_page],
+      '#empty' => t('No Services found')
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Sync Now')
+    );
+    $form['pager'] = array(
+      '#markup' => theme('pager', array('quantity',count($_SESSION['options'])))
+    ); 
+    return $form;
+}
+/**
+ * Retrieve services from jsdn server from the specified URL.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_services_url_form_submit($form , $form_state) {
+  $_SESSION['services_data'] = '';
+  $_SESSION['options'] = '';
+  $_SESSION['operation'] = $form_state['values']['operation'];
+  drupal_set_message("Services retrieved from the URL : ". print_r($form_state['values']['operation'] , 1));
+}
+/**
+ * Retrieve services from jsdn server from the specified URL.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_services_search_keyword_form_submit($form , $form_state) {
+    if($form_state['values']['op'] == 'Clear'){
+        $_SESSION['options'] = '';
+    }
+    else{
+        drupal_set_message("Data filtered with the keyword : ". print_r($form_state['values']['serach_key'] , 1));
+        $keyword =  $form_state['values']['serach_key'];
+        foreach($_SESSION['data'] as $key =>$option){
+          if (preg_match("/$keyword/i", $option['service_name'])) {
+              $filter_array[$key] =array(
+                  'service_name' => $option['service_name'],
+                  'in_cms' => $option['in_cms'],
+                  'sync_date' => $option['sync_date']
+              );
+          } 
+        }
+        $_SESSION['options'] = $filter_array;
+    }
+}
+/**
+ * SYNC services submit from jsdn server.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_services_form_submit($form , $form_state) {
+  $_SESSION['options'] = '';
+  $complete_form_data = $form_state['complete form']['table']['#options'];
+  $results = array_filter($form_state['values']['table']);
+  foreach ($results as $key => $result) {
+    if($complete_form_data[$key]['in_cms'] == 'Y') {
+        $services = $_SESSION['services_data'][$key-1];
+        $services['nid'] = db_select("field_data_field_service_id", "js")
+                            ->fields("js", array("entity_id"))
+                            ->condition('field_service_id_value', $_SESSION['services_data'][$key-1]['code'])
+                            ->execute()
+                            ->fetchField();
+        $service_data = node_data_object_create($services);
+        drupal_set_message( "Node with nid " . $service_data->nid . " updated!\n");
+    }
+    else{
+        $service_data = node_data_object_create($_SESSION['services_data'][$key-1]);
+        drupal_set_message( "Node with nid " . $service_data->nid . " saved!\n");
+    }
+  }
+  $services_data = json_decode(get_services_api_call(), true);
+  $_SESSION['services_data'] = $services_data['Services']['serviceList'];
+}
+/**
+ * Retrieve services from jsdn server.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_services_api_call() {
+    $JSDN_MARKETPLACE_HOST = trim($_SESSION['operation']);
+    $url = str_replace('http://', '', $JSDN_MARKETPLACE_HOST);
+    $url = str_replace('https://', '', $url);
+    $url = str_replace(':8080', '', $url);
+    $api_url = $JSDN_MARKETPLACE_HOST .'/api/1.0/catalog/getServices';
+    return jsdnapi_api_call($JSDN_MARKETPLACE_HOST, $url, $api_url);
+}
+/**
+ * Retrieve service image from jsdn server.
+ * 
+ * @return
+ *   JSON data.
+ */
+function get_service_image_api_call($api_url, $image_extension = '') {
+    $JSDN_MARKETPLACE_HOST = trim($_SESSION['operation']);
+    $url = str_replace('http://', '', $JSDN_MARKETPLACE_HOST);
+    $url = str_replace('https://', '', $url);
+    $url = str_replace(':8080', '', $url);
+    return jsdnapi_api_call($JSDN_MARKETPLACE_HOST, $url, $api_url, true, $image_extension);
+}
+/**
+ * Api function to fetch a retrive services from a url 
+*/
+function jsdnapi_api_call($JSDN_HOST, $url , $api_url, $entire_response = false, $image_extension = '') {
+    $JSDN_REQUEST_TOKEN_URL = $JSDN_HOST."/api/getRequestToken";
+    $JSDN_AUTHORIZE_URL = $JSDN_HOST. "/api/confirmAccess";
+    $JSDN_ACCESS_TOKEN_URL = $JSDN_HOST. "/api/getAccessToken?xoauth-jsdn-principal=guestuser.jamcracker.com&xoauth-jsdn-credentials=test&loginURL=".$url;
+    	
+   //  Init the OAuthStore
+    $options = array(
+        'consumer_key' => JSDN_CONSUMER_KEY, 
+        'consumer_secret' => JSDN_CONSUMER_SECRET,
+        'server_uri' => $JSDN_HOST,
+        'request_token_uri' => $JSDN_REQUEST_TOKEN_URL,
+        'authorize_uri' => $JSDN_AUTHORIZE_URL,
+        'access_token_uri' => $JSDN_ACCESS_TOKEN_URL
+    );
+    // Note: do not use "Session" storage in production. Prefer a database
+    // storage, such as MySQL.
+    OAuthStore::instance("Session", $options);
+    try
+    {
+	//  STEP 1:  If we do not have an OAuth token yet, go get one
+	if (!isset($_SESSION['state']))
+	{	
+                // get a request token
+		$tokenResultParams = OAuthRequester::requestRequestToken(JSDN_CONSUMER_KEY, 0);
+		//  STEP 2:  Get an access token
+		$oauthToken = $tokenResultParams['token'];
+		$_SESSION['reqtoken'] = $oauthToken;
+		$tokenResultParams = $_GET;
+		try {
+		    OAuthRequester::requestAccessToken(JSDN_CONSUMER_KEY, $oauthToken, 0, 'POST', $_GET);
+		}
+		catch (OAuthException2 $e)
+		{
+                    watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));  
+		    return;
+		}
+		$request = new OAuthRequester($api_url, 'GET', $tokenResultParams, '', '', $image_extension);
+		$result = $request->doRequest(0);
+		watchdog('jsdn_api_curl_response', 'Curl Response %exception.', array('%exception' => $result));
+		if ($result['code'] == 200) {
+                    	$_SESSION['state'] = 1;
+                        if($entire_response){return $result;}
+                        else{return $result['body'];}   
+		}
+		else {
+                    watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));  
+                    return;
+		}	
+	}
+	else 
+        {
+		$request = new OAuthRequester($api_url, 'GET', '', '', '', $image_extension);	
+		$result = $request->doRequest(0);
+		watchdog('jsdn_api_curl_response', 'Curl Response %exception.', array('%exception' => $result));
+		if ($result['code'] == 200) {
+                        if($entire_response){return $result;}
+                        else{return $result['body'];}   
+		}
+		else {
+                        watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));  
+                        return;
+		}
+	}
+    }
+    catch(OAuthException2 $e) {
+            watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));            
+            return;
+    }
+}
+/**
+ * Create or Update the product page data.
+ * 
+ * @return
+ *   NODE data.
+ */
+function node_data_object_create($service_data) {
+  global $user;
+  if(isset($service_data)){
+    $node = new stdClass();
+    $node->title = $service_data['name'];
+    $node->body['und'][0]['value'] = $service_data['description']."<br><p><b>More Information</b></p>".$service_data['moreInfo'];;
+    $node->body['und'][0]['format'] = 'full_html';
+    $node->field_offer_details['und'][0]['value'] = $service_data['requirements'];
+    $node->field_offer_details['und'][0]['format'] = 'full_html';
+    $node->field_case_studies['und'][0]['value'] = $service_data['faqs'];
+    $node->field_case_studies['und'][0]['format'] = 'full_html';
+    if(!empty($service_data['mediaSet']['serviceMedia'][0]['mediaName'])){ 
+        $node->field_features['und'][0]['value'] = jsdnapi_supplymentary_materials($service_data['mediaSet']['serviceMedia']);
+        $node->field_features['und'][0]['format'] = 'full_html';
+    }
+    $node->field_service_id['und'][0]['value'] = $service_data['code'];
+    $image_url = $service_data['mediaSet']['serviceMedia'][0]['logoList'][0]['urn'];
+	$image_extension = $service_data['mediaSet']['serviceMedia'][0]['logoList'][0]['mimeType'];
+    if(!empty($image_url)){ $image_logo = jsdnapi_save_image_local($image_url, $image_extension);}
+    if(isset($image_logo)){$node->field_logo['und'][0] = $image_logo;}
+    $node->type = "product_page";
+    $node->language = 'en'; // Or e.g. 'en' if locale is enabled
+    $node->status = 1; //(1 or 0): published or not
+    $node->promote = 0; //(1 or 0): promoted to front page
+    $node->comment = 2; // 0 = comments disabled, 1 = read only, 2 = read/write
+  // Term reference (taxonomy) field
+    if($service_data['serviceCategories']['categoryList'][0]['name'] == 'IaaS'){
+      $term_array = taxonomy_get_term_by_name('IaaS');
+      $term = reset($term_array);
+      $node->field_service_type['und'][0]['tid'] = $term->tid;
+      $term_name_category = $service_data['serviceCategories']['categoryList'][0][serviceSubCategories][0]['name'];
+      $term_name_category_array = taxonomy_get_term_by_name($term_name_category);
+      $term_category = reset($term_name_category_array);
+      if(!empty($term_category->tid)){
+          $node->field_category['und'][0]['tid'] = $term_category->tid;
+      }
+    }
+    else{
+      $term_array = taxonomy_get_term_by_name('SaaS');
+      $term = reset($term_array);
+      $node->field_service_type['und'][0]['tid'] = $term->tid;
+      for($i=0;$i<count($service_data['serviceCategories']['categoryList']);$i++){
+          $term_name_category = $service_data['serviceCategories']['categoryList'][$i]['name'];
+          $term_name_category_array = taxonomy_get_term_by_name($term_name_category);
+          $term_category = reset($term_name_category_array);
+          if(!empty($term_category->tid)){
+              $node->field_category['und'][$i]['tid'] = $term_category->tid;
+          }
+      }
+    }
+    if(!empty($service_data['nid'])){
+        $node_load = node_load($service_data['nid']);
+        $node->nid = $service_data['nid'];
+        $node->revision = true;
+        $node->domains = $node_load->domains;
+        $node->domain_site = $node_load->domain_site;
+        $node->subdomains = $node_load->subdomains;
+        $node->revision_uid = $user->uid;
+        $node->revision_timestamp = REQUEST_TIME;
+		node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+        $node->uid = 1;
+    }
+    else{
+        node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
+        $node->uid = $user->uid; 
+        $node = node_submit($node); // Prepare node for saving
+    }
+    node_save($node);
+    return $node;
+  }
+}
+/**
+ *  function to construct the supplymentary data
+*/
+function jsdnapi_supplymentary_materials($supplymentary_materials){
+    $html_data = '<ul>';
+    foreach($supplymentary_materials as $supplymentary){
+        if($supplymentary['mediaUrn'] == null){
+            $html_data .= '<li><a href="'.$supplymentary['mediaName'].'" name="'.$supplymentary['mediaName'].'" target="_blank">'.$supplymentary['mediaName'].'</a></li>';
+        }
+        else{
+            $html_data .= '<li><a href="/jsdn'.$supplymentary['mediaUrn'].'" name="'.$supplymentary['mediaName'].'" target="_blank">'.$supplymentary['mediaName'].'</a></li>';
+        }  
+    }
+    $html_data .= '</ul>';
+    return $html_data;
+}
+/**
+ * Api function to fetch a url and save image locally
+*/
+function jsdnapi_save_image_local($url = '', $image_extension = '') {
+  $data = get_service_image_api_call($url, $image_extension);
+  $filename = jsdnapi_fetch_filename($data);
+  if(isset($data) && !empty($filename)) {
+    $file = file_save_data($data['body'], 'public://'.$filename,FILE_EXISTS_REPLACE);
+    return (array)$file;
+  }
+  else{
+    return;
+  }
+}
+/**
+ * Api function to retrive the filename
+*/
+function jsdnapi_fetch_filename($data) {
+    if(isset($data['headers']['content-dispostion']))
+    {
+        // this catches filenames between Quotes
+        if(preg_match('/.*filename=[\'\"]([^\'\"]+)/', $data['headers']['content-dispostion'], $matches))
+        { $filename = $matches[1]; }
+        // if filename is not quoted, we take all until the next space
+        else if(preg_match("/.*filename=([^ ]+)/", $data['headers']['content-dispostion'], $matches))
+        { $filename = $matches[1]; }
+        return $filename = preg_replace("/[^a-zA-Z0-9_#\(\)\[\]\.+-=]/", "",$filename);
+    }
+}
+/**
+ * Api function to check whether service id exits or not
+*/
+function jsdnapi_check_service_id($services) {
+    $options = array();
+    foreach ($services as $key => $service) {
+        $is_available = db_select('field_data_field_service_id', 'n')
+                ->fields('n')
+              ->condition('field_service_id_value', $service['code'], '=')
+              ->execute()
+              ->fetchAssoc();
+        $node_data = node_load($is_available['entity_id']);
+        $sync_date = isset($node_data->revision_timestamp) ? date('m/d/Y - H:i:s', $node_data->revision_timestamp) : '';
+        if($is_available){$in_cms = 'Y';} else { $in_cms = 'N';}
+        $options[$key+1] =array(
+          'service_name' => $service['name'],
+          'in_cms' => $in_cms,
+          'sync_date' => $sync_date,
+        );
+    }
+    return $options;
+}
+function jsdnapi_mail($key, &$message, $params){
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['body'];
+  $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+  );
+  $message['headers']=$headers;
+}
+
+
+
+/**
+ * Retrieve services data from jsdn server to display dependencies.
+ * 
+ * @param $offer
+ * 
+ * @return
+ *   JSON data.
+ */
+function jsdnapi_check_dependency(){
+    $offer = $_POST['offer'];  
+    $name = $_POST['name'];
+    $serviceId = $_POST['serviceId'];
+	$istrial = $_POST['trialService'];
+    $api_url = JSDN_OAUTH_HOST .'/api/1.0/catalog/checkServiceDependency/'.$serviceId;
+    watchdog('jsdnapi', 'JSDN Dependency API URL %exception.', array('%exception' => $api_url));
+    if(user_is_logged_in()){
+       $JSON = jsdnapi_curl_raw($api_url);
+    }
+    else{
+       $JSON = jsdnapi_api_call(JSDN_OAUTH_HOST, $_SERVER['HTTP_HOST'], $api_url);
+    }
+    watchdog('jsdnapi', 'JSDN Dependency Response %exception.', array('%exception' => $JSON));
+    $result = json_decode($JSON);
+    if($result->CatalogDependencyDTO->dependencies[0]->dependencyType == "OFFERS_NOT_RESOLD"){
+        $out = '<div style="width:100%;float:left;text-align:center"><p style="text-align:left;width:100%;">'.t("You cannot proceed with the order as the dependent service is not orderable. Please contact your administrator.").'</p><button class="btn btn-cancel btn-primary" style="margin-top:35px;">'.t("OK").'</button></div>';
+    }
+    else if($result->CatalogDependencyDTO->dependencies[0]->dependencyType == "HIDDEN_OFFERS_IN_CATALOG"){
+        $out = '<div style="width:100%;float:left;text-align:center"><p style="text-align:left;width:100%;">'.t("You cannot proceed with the order as the dependent service is not orderable. Please contact your administrator.").'</p><button class="btn btn-cancel btn-primary" style="margin-top:35px;">'.t("OK").'</button></div>';
+    }
+	else if($result->CatalogDependencyDTO->dependencies[0]->dependencyType == "displayMessage"){
+        $out = "<div style='width:100%;float:left;text-align:center'><p style='text-align:left;width:100%;'>".$result->CatalogDependencyDTO->dependencies[0]->dependencyInfo[0]."</p><button class='btn btn-cancel btn-primary' style='margin-top:35px;'>".t('OK')."</button></div>";
+    }
+    else if($result->CatalogDependencyDTO->dependencies[0]->dependencyType == "MANDATORY"){
+        $out = "<div style='width:100%;float:left;text-align:center'><p style='text-align:left;width:100%;margin-bottom:0px;'>".t('If you wish to purchase the')." <strong>".$name."</strong> ".t('service you must purchase one of the following service(s)').":</p>";
+        foreach($result->CatalogDependencyDTO->dependencies[0]->dependencyInfo as $dependencyInfo){
+            $list = "<ul style='list-style: none;text-align: left;padding: 0;margin: 0;'>";
+            foreach($dependencyInfo as $key=>$dependency){
+                foreach($dependency as $info){
+                    $list .= "<li><input type='checkbox' value='".$info->offerCode."' style='margin-right:10px'>".$info->offerName." ".t('price') ." <strong>".$info->offerPrice."</strong></li>";
+                }
+            }
+            $list .= "</ul>";
+            $out .= "<p style='text-align:left;width:100%;margin-top:10px;margin-bottom:5px;'><b>".t('Select one of the options of')." ". $key.":</b></p>".$list."";
+        }
+        $out .= "<br><a class='popupproceed btn btn-primary' href='#' trial='".$istrial."' rel='".$offer."' onclick='validate();return false;' style='margin-right:15px'>".t('Continue')."</a><button class='btn btn-cancel'>".t('Cancel')."</button>";
+    }
+    echo $out;
+    die();
+}
+
+
+/**
+ * Retrieve services data from jsdn server.
+ * 
+ * @param $api_url
+ * 
+ * @return
+ *   JSON data.
+ */
+function jsdnapi_curl_raw ( $url ) {
+    $cmsMenu = json_decode($_SESSION['MenuJSON']);
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    $compacronym = json_decode($_SESSION['MenuJSON'])->profile->storecompanyacronym;
+    $endcustcompacronym=json_decode($_SESSION['MenuJSON'])->profile->companyacronym;
+
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 500,
+        CURLOPT_USERAGENT      => "CMS", // who am i
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 0,
+        CURLOPT_HTTPGET        => 1
+    );
+    if ($isProxied){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+            'proxy-store:'.$compacronym,
+            'proxy-end-customer:'.$endcustcompacronym,
+        ));
+    }
+    else{
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+        ));
+
+    }
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+	watchdog('jsdnapi', 'Curl Request %exception.', array('%exception' => $result));
+    if ($result === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        watchdog('jsdnapi', 'Curl Request %exception.', array('%exception' => $error));
+    } 
+    curl_close($ch);
+    return $result;
+}
+
+function jsdnapi_curl_call ( $url , $method, $data) {
+    $data = json_encode($data);
+    watchdog('jsdn_api_curl', 'Curl Request URL %exception.', array('%exception' => $url));
+    $cmsMenu = json_decode($_SESSION['MenuJSON']);
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    $compacronym = json_decode($_SESSION['MenuJSON'])->profile->storecompanyacronym;
+    $endcustcompacronym=json_decode($_SESSION['MenuJSON'])->profile->companyacronym;
+
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 500,
+        CURLOPT_USERAGENT      => "CMS", // who am i
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 0,
+    );
+   
+    if ($isProxied){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+            'proxy-store:'.$compacronym,
+            'proxy-end-customer:'.$endcustcompacronym,
+        ));
+    }
+    else{
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+        ));
+
+    }
+    switch ($method){
+        case "DELETE":
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+            break;
+        case "POST":
+           curl_setopt($ch, CURLOPT_POST, 1);
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+           break;
+        case "PUT":
+           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                         
+           break;
+        default:
+           if ($data)
+              $url = sprintf("%s?%s", $url, http_build_query($data));
+    }
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
+    curl_close($ch);
+    watchdog('jsdn_api_curl_response', 'Curl Response %exception.', array('%exception' => $result));
+    if ($error) {
+        
+    }
+    else{
+    //$result = '{"status":"success","error-message":"11IMGSMIM0004","success-message":""}';
+    return $result;
+    }
+}

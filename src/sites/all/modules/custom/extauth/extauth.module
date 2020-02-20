@@ -1,0 +1,379 @@
+<?php
+/**
+ * @file
+ * API functionality for external authentication module.
+ */
+/**
+ * Implements hook_init().
+ */
+function extauth_init() {
+    global $jsdnURL;
+    global $base_root;
+    if (!empty($_SERVER['HTTPS'])) {
+            $jsdnURL=$base_root;
+    }
+    else {
+            $jsdnURL=$base_root.":8080";
+    }
+    $login_query = $_GET['loginError'];
+    $session_query = $_GET['sessionexpired'];
+	$dependency_query = $_GET['dependencyErrorMessage'];
+	
+
+    if($login_query == 'auto.login.url.expired'){
+            drupal_set_message(t('This link has expired. Please contact Support.'), 'warning');
+    }
+
+    if($login_query == 'auto.login.invalid.info'){
+            drupal_set_message(t('This link has expired as you have already changed your password. Please discard this link and use your credentials to login.'), 'warning');
+    }
+
+    if($session_query == 'true'){
+            drupal_set_message(t('Sorry! Your session has expired. Please login again to continue.'), 'warning');
+    }
+	if($dependency_query){
+            drupal_set_message($dependency_query, 'error');
+    }
+}
+/**
+ * Implements hook_help().
+ */
+function extauth_help( $path, $arg )
+{
+    switch ( $path )
+    {
+        case 'admin/help#extauth':
+        {
+            return( '<p>' . t('This module allows users who login with e-mail addresses to authenticate off an external system.') . '</p>' );
+        }
+    }
+}
+/**
+   * Implement hook_form_alter() to change the behaviour of the login form.
+   *
+   * Login validators are set in the user_login_default_validators() function in user.module.
+   * They are normally set to array('user_login_name_validate',
+   * 'user_login_authenticate_validate', 'user_login_final_validate').
+   * We simply replace 'user_login_authenticate_validate' with 'extauth_login_validate'.
+   */
+function extauth_form_user_login_alter( &$form, $form_state )
+{
+    unset($form['links']);
+    $form['actions']['submit']['#attributes']['class'][] = 'form-submitajax';
+    $form['#attached']['js'][] = array(
+       'type' => 'file',
+       'data' => drupal_get_path('module', 'extauth') . '/js/extauth.js',
+    );
+    $form['#attached']['css'][] = array(
+       'type' => 'file',
+       'data' => drupal_get_path('module', 'extauth') . '/css/extauth.css',
+    );
+    //$form['#validate'] = array( 'user_login_name_validate', 'extauth_login_validate', 'user_login_final_validate' );
+}
+
+function extauth_form_user_login_block_alter( &$form, $form_state )
+{
+    return extauth_form_user_login_alter( $form, $form_state );
+}
+/**
+* Implement hook_user_profile_form_alter() to disable the ability to change email address and
+* password for externally authenticated users.
+*/
+function extauth_form_user_profile_form_alter( &$form, $form_state )
+{
+    if ( strpos( $form['#user']->name, '@' ) !== false )
+    {
+        $form['account']['name']['#disabled'] = TRUE;
+        $form['account']['name']['#description'] = t('The username for this account cannot be changed');
+        $form['account']['mail']['#disabled'] = TRUE;
+        $form['account']['mail']['#description'] = t('This e-mail address for this account cannot be changed.');
+        $form['account']['current_pass']['#disabled'] = TRUE;
+        $form['account']['current_pass']['#description'] = t('Neither the email address or password for this account can be changed.');
+        $form['account']['pass']['#disabled'] = TRUE;
+        $form['account']['pass']['#description'] = t('The password for this account cannot be changed.');
+    }
+}
+/**
+* The extauth_login_validate() function attempts to authenticate a user off the external system
+* using their e-mail address.
+*/
+function extauth_login_validate( $form, &$form_state )
+{
+    global $user;
+    global $fname;
+    global $lname;	
+    global $role;
+	global $rolecode;
+    global $language;
+    $username = $form_state['values']['name'];
+    // In our case we're assuming that any username with an '@' sign is an e-mail address,
+    // hence we're going to check the credentials against our external system.
+    if ( strpos( $username, '@' ) !== false ) {
+        // Looks like we found them - now we need to check if the password is correct
+        if ( validateExternalUser( $username, $form_state['values']['pass'] )) {
+               
+			if ( $rolecode == 'End User' ){
+				$roleval = user_role_load_by_name('end user')->rid;
+			}
+			elseif($rolecode == 'Enterprise Admin' ){
+				$roleval = user_role_load_by_name('Enterprise Admin')->rid;
+			}
+            else {
+                $roleval = user_role_load_by_name('customer admin')->rid;
+            }
+                $account = user_external_load($username);
+                $userlanguage=$account->language;
+                if (!$account) {
+                // Register this new user.
+                    $userinfo = array(
+                        'name' => $username,
+                        'pass' => user_password(),
+                        'mail' => $username,
+                        'init' => $username,
+                        'language'=>$language,
+                        'roles'=>array(
+                              $roleval => 'authenticated user',
+                            ),
+                        'status' => 1,
+                        'access' => REQUEST_TIME,
+                        'field_first_name' => array(
+                            'und' => array(
+                                0 => array(
+                                    'value' => $fname,
+                                ),
+                            )),
+                        'field_last_name' => array(
+                               'und' => array(
+                                    0 => array(
+                                    'value' => $lname,
+                                ),
+                            ))
+                    );
+                    $account = user_save('', $userinfo);
+                    // Terminate if an error occurred during user_save().
+                    if (!$account) {
+                      drupal_set_message(t("Error saving user account."), 'error');
+                      return;
+                    }
+                    user_set_authmaps($account, array("authname_extauth" => $username));
+		}
+                elseif (!($userlanguage==$language)) {
+                      $userinfo = array('language'=>$language);
+                      user_save($account, $userinfo);
+                }
+                // Log user in.
+                $form_state['uid'] = $account->uid;
+                user_login_submit(array(), $form_state);
+                $form_state['uid'] = $user->uid;	
+                $_SESSION['justlogin']='Yes';	
+        } // else drop through to the end and return nothing - Drupal will handle the rejection
+    }
+    else {
+        // Username is not an e-mail address, so use standard Drupal authentication function
+        user_login_authenticate_validate( $form, $form_state );
+    }
+}
+/**
+* This is the helper function that you will need to modify in order to invoke your external
+* authentication mechanism.
+*/
+function validateExternalUser( $username, $password )
+{
+    global $fname;
+	global $lname;
+	global $authToken;
+	global $companyID;
+	global $role;
+	global $language;
+        global $jsdnURL;
+	global $cAcronym;
+        $ch = curl_init();
+        $curlConfig = array(
+            CURLOPT_URL            => $jsdnURL."/jsdn/login/doCMSLogin.action",
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 500,
+            CURLOPT_USERAGENT      => "CMS", // who am i
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_POSTFIELDS     => array(
+                'loginEmail' => $username,
+                'password' => $password,
+            )
+	);
+	
+	curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+	curl_setopt_array($ch, $curlConfig);
+	$result = curl_exec($ch);
+	curl_close($ch);
+        $array = json_decode($result, true);
+	$loginStatus=$array["status"];
+        $errorMsg=$array["errorMsg"];
+	if ( $loginStatus == 1 ){
+	
+		$fname=$array["profile"]["firstname"];
+		$lname=$array["profile"]["lastname"];
+		$role=$array["profile"]["roleName"];
+		$rolecode=$array["profile"]["roleCode"];
+		$currencySymbol=$array["profile"]["currencySymbol"];
+		$cAcronym=$array["profile"]["companyacronym"];
+		$departmentName=$array["profile"]["departmentName"];
+		if(!empty($departmentName)){
+			$serviceIds=$array["servicesList"];
+			$_SESSION['serviceIds'] = $serviceIds;
+		}
+		$languagecode=$array["profile"]["language"];
+		list($language, $b) = explode('_', $languagecode);
+		$jsdnHelpLink=$array["HelpLink"];
+		$companyID=$array["profile"]["compId"];
+		$_SESSION['companyID']=$companyID;
+		$_SESSION['firsttimelogin']=$array["firsttimelogin"];
+		$authToken=$array["authToken"];
+		$_SESSION['authToken']=$authToken;
+		$_SESSION['companyacronym'] = rawurlencode($cAcronym);
+		$_SESSION['currencySymbol'] = $currencySymbol;
+		$_SESSION['departmentName'] = $departmentName;
+		$_SESSION['username'] = $fname.' '.$lname ;
+		$_SESSION['companyname'] = $array["profile"]["companyname"];
+		$_SESSION['useremail'] = $array["profile"]["email"];
+                
+		if(isset($array["cartItemCount"])){
+                    $cartCount=$array["cartItemCount"];
+                    $_SESSION['cartCount']=$cartCount;
+		}		
+		$_SESSION['MenuJSON']=json_encode($array);
+		$_SESSION['jsdnHelpURL']=$jsdnHelpLink;
+		return true;
+	}
+	else{
+		header("Location:" .$jsdnURL."/jsdn/login/commonLogin.action?isFromCMS=true&errorMsg=".urlencode($errorMsg));
+		die();
+	}
+}
+/**
+* Below Implementation is for handling reverse login. Initiate login from JSDN.
+* JSDN will send the JSON to the below menu, once it's authenticated.
+*/
+function extauth_menu() {
+    $items['jsdnLogin'] = array(
+        'page callback' => 'extauth_jsdnlogin_from_jsdn',
+        'access arguments' => array('access content'),
+    );
+    $items['updateCart'] = array(
+        'page callback' => 'extauth_jsdn_update_cart',
+        'access arguments' => array('access content'),
+    );
+    return $items;
+}
+
+function extauth_jsdnlogin_from_jsdn() 
+{
+    $string = $_POST["cmsJSON"];
+    $data = json_decode($string, true);
+    $username=$data["profile"]['email'];
+    $fname=$data["profile"]['firstname'];
+    $lname=$data["profile"]["lastname"];
+    $role=$data["profile"]["roleName"];
+	$rolecode=$data["profile"]["roleCode"];
+    $currencySymbol=$data["profile"]["currencySymbol"];
+    $cAcronym=$data["profile"]["companyacronym"];
+    $languagecode=$data["profile"]["language"];
+    list($language, $b) = explode('_', $languagecode);
+    $jsdnHelpLink=$data["HelpLink"];
+    $departmentName=$data["profile"]["departmentName"];
+    if(!empty($departmentName)){
+        $serviceIds=$data["servicesList"];
+        $_SESSION['serviceIds'] = $serviceIds;
+    }
+    $_SESSION['MenuJSON']=json_encode($data);
+    $_SESSION['jsdnHelpURL']=$jsdnHelpLink;
+    $_SESSION['companyacronym'] = rawurlencode($cAcronym);
+    $_SESSION['currencySymbol'] = $currencySymbol;
+	$_SESSION['departmentName'] = $departmentName;
+	$_SESSION['username'] = $fname.' '.$lname ;
+	$_SESSION['companyname'] = $array["profile"]["companyname"];
+	$_SESSION['useremail'] = $array["profile"]["email"];	
+    if(isset($data["cartItemCount"])){
+        $cartCount=$data["cartItemCount"];
+        $_SESSION['cartCount']=$cartCount;
+    }
+    if(isset($data["authToken"])){
+        $authToken=$data["authToken"];
+        $_SESSION['authToken']=$authToken;
+    } 
+    if(isset($data["profile"]["compId"])){
+        $companyID=$data["profile"]["compId"];
+        $_SESSION['companyID']=$companyID;
+    }
+   
+    if ( $rolecode == 'End User' ) {
+        $roleval = user_role_load_by_name('end user')->rid;
+    }
+    elseif($rolecode == 'Enterprise Admin' ){
+        $roleval = user_role_load_by_name('Enterprise Admin')->rid;
+    }	
+    else {
+        $roleval = user_role_load_by_name('customer admin')->rid;
+    }
+    $account = user_external_load($username);
+    if (!$account) {    
+		$userinfo = array(
+				'name' => $username,
+				'pass' => user_password(),
+				'mail' => $username,
+				'init' => $username,
+				'language'=> $language,
+				'roles'=> array(
+						$roleval => 'authenticated user',
+						),
+				'status' => 1,
+				'access' => REQUEST_TIME,
+				'field_first_name' => array(
+						'und' => array(
+							0 => array(
+								'value' => $fname,
+							 ),
+						)),
+				'field_last_name' => array(
+						'und' => array(
+							0 => array(
+								'value' => $lname,
+							),
+						))
+		);
+		$account = user_save('', $userinfo);
+		// Terminate if an error occurred during user_save().
+		if (!$account) {
+            drupal_set_message(t("Error saving user account."), 'error');
+            return;
+		}
+            user_set_authmaps($account, array("authname_extauth" => $username));
+    }
+	else {
+		  $userinfo = array(
+		  'language'=>$language,
+		  'roles'=>array(
+				  $roleval => 'authenticated user',
+				),
+		  );
+		  user_save($account, $userinfo);
+	}		
+	$form_state['uid'] = $account->uid;
+	user_login_submit(array(), $form_state);
+	$form_state['uid'] = $user->uid;	  
+}
+/**
+* JSDN will update cart.
+*/
+function extauth_jsdn_update_cart() {
+    $string = $_POST["cmsJSON"];
+    $data = json_decode($string, true);
+    if(isset($data["cartCount"])){
+        $cartCount=$data["cartCount"];
+        drupal_session_start();
+        $_SESSION['cartCount']=$cartCount;
+        echo 'success';
+    }
+}

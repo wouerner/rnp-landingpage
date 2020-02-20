@@ -1,0 +1,83 @@
+<?php
+/**
+ * @file
+ * API functionality for jsdnapi module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_language_init() {
+  global $language;
+  global $previouselanguage;
+  $previouselanguage = isset($_SESSION['previouselanguage']) ? $_SESSION['previouselanguage'] : $language->language;
+  $_SESSION['previouselanguage'] = $language->language;
+}
+/**
+ * Implements hook_page_build().
+ *
+ * Setting up language in jsdn
+ */
+function jsdn_page_build(&$page) {
+    global $jsdnURL;
+    global $language; 
+    global $previouselanguage;
+    $logout = variable_get("logout", '');
+    if(!user_is_logged_in() && $language->language != $previouselanguage){
+        $lancode=$language->language;
+        if ($lancode== 'en' ){$lancode='en_US';}
+        else{$lancode=$lancode.'_'.strtoupper($lancode);}
+        $url=$jsdnURL."/jsdn/store/saveSelectedLanguageForStore.action?langCode=".$lancode;
+        $page['page_top'] = array('#markup' => '<iframe id="languageSwitch" width="0" height="0" style="display:none;" src="'.$url.'"></iframe>'); 
+    }
+    if(user_is_logged_in() && $_SESSION['justlogin']){
+        $url_jsdn=$jsdnURL."/jsdn/login/doCMSPostLogin.action";
+		$url_dashboard=$jsdnURL."/jsdn/dashboard/dashboardHome.action";
+		$firsttimelogin=$_SESSION['firsttimelogin'];
+		
+drupal_add_js('
+var dashboardURL="'.$url_dashboard.'";
+var firsttimelogin="'.$firsttimelogin.'";
+', 'inline');
+
+    $page['page_top'] = array('#markup' => '<div class="resetpass" style="background: #fff;bottom: 0;height: 16px;left: 0;margin: auto;padding:20px 10px;position: absolute;right: 0;text-align: center;top: 0;width:650px;z-index:99999;display:none">Your password has expired. You will be redirected to the reset password page to change your password.</div><form id="logintoJSDN" action="'.$url_jsdn.'" method="POST" target="jsdnSession"><input type="hidden" name="authToken" value="'.$_SESSION['authToken'].'"><input type="hidden" name="aaa" value="'.$_SESSION['jsdnrole'].'"></form><div class="sessionLoading"></div><iframe id="jsdnSession" name="jsdnSession" src=""></iframe>'); 
+		
+drupal_add_js('
+jQuery(document).ready(function () {
+localStorage.clear();
+	if(firsttimelogin){
+		jQuery(".resetpass").show();
+		}
+		jQuery("#logintoJSDN").submit(); 
+		jQuery("#jsdnSession").load(function(){
+			if(firsttimelogin){
+				window.location.replace(dashboardURL);
+				}
+			else{
+				jQuery("div.sessionLoading").remove();
+				}
+				});
+});', 'inline');
+        unset($_SESSION['justlogin']);
+    }
+    
+    if ($logout) {
+      drupal_add_js('jQuery(document).ready(function () {localStorage.clear(); sessionStorage.clear();});', 'inline');
+      variable_del('logout');
+    }
+}
+
+function jsdn_menu_alter(&$items) {
+  $items['user']['type'] = MENU_CALLBACK;
+  $items['user/register']['type'] = MENU_CALLBACK;
+  $items['user/password']['type'] = MENU_CALLBACK;
+}
+/**
+ * Implements hook_user_logout().
+ */
+function jsdn_user_logout($account){
+    variable_set("logout", 'logout');
+}
+function jsdn_preprocess_username(&$vars) {
+    //putting back what drupal core messed with
+    $vars['name'] = check_plain($vars['name_raw']);
+}

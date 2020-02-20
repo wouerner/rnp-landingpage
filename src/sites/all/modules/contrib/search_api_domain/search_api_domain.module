@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Search API Domain Access filter
+ */
+
+/**
+* Implements hook_entity_property_info_alter().
+*
+* Adds an entity property for the domain access of the node.
+*/
+
+function search_api_domain_entity_property_info_alter(&$info) {
+  foreach ($info as &$entity_type) {
+    $properties = &$entity_type['properties'];
+
+    $properties['custom_domain_access'] = array(
+      'label' => t('Domain Access Information'),
+      'description' => t('The domains to which the node is published.'),
+      'type' => 'list<integer>',
+      'getter callback' => 'search_api_domain_get_domain_info',
+    );
+  }
+}
+
+function search_api_domain_get_domain_info($data, array $options, $name, $type, $info) {
+  return (!empty($data->domains) ? $data->domains : NULL);
+}
+
+/**
+* Implements hook_search_api_query_alter().
+*
+* Adds a filter for the current domain.
+*/
+
+function search_api_domain_search_api_query_alter(SearchApiQueryInterface $query) {
+  $domain = domain_get_domain();
+  $query->condition('custom_domain_access', $domain['domain_id']);
+}

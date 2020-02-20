@@ -1,0 +1,345 @@
+<?php
+/**
+ * @file
+ * Utility jsdn_google_chart module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_resources_summary_init() {
+    if(arg(0) == 'resource-summary'){
+        jsdn_resources_summary_api($provider_value);
+    }
+}
+/**
+ * Implementation of hook_permission().
+ */
+function jsdn_resources_summary_permission() {
+  return array(
+    'resources summary' => array(
+      'title' => t('Resources Summary'),
+      'description' => t('Administer Resources Summary page.'),
+    )
+  );
+}
+/**
+ * Implements hook_menu().
+ */
+function jsdn_resources_summary_menu() {
+    $items = array();       
+    $items['resource/details'] = array(
+      'title' => t('Resources Details'),
+      'page callback' => '_jsdn_resources_summary_report',
+      'access callback' => 'user_access',
+      'access arguments' => array('resources summary'),
+    );
+    $items['resource-action'] = array(
+        'access arguments' => array('resources summary'),
+        'page callback' => 'jsdn_resource_action',
+        'type' => MENU_CALLBACK,
+    );
+  return $items;
+}
+/**
+ * Implements jsdn_resource_action().
+ */
+function jsdn_resource_action(){
+    $resource_action = $_POST;
+    $url = $resource_action['url'];
+    $method = $resource_action['method'];
+    $data = $resource_action['data'];
+    $result = jsdn_resources_details_action( $url , $method, $data);
+    if(($resource_action['actiontype'] == true) && ($result['status'] == "success")){
+        drupal_set_message($result['success-message']);
+    }
+    print json_encode($result);
+    drupal_exit();
+    /*if($result['status'] == 'success'){
+        print json_encode('success');
+        drupal_exit();
+    }
+    else{
+        print json_encode('error');
+        drupal_exit();
+    }*/
+}
+/**
+ * CallBack Method().
+ */
+function _jsdn_resources_summary_report() {
+  return theme('resources_details', array("server_post" => $_POST));
+}
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see resources-chart-dashboard-filter.tpl.php
+ */
+function template_preprocess_resources_details(&$variables) {
+    if(!empty($_POST)){
+        $_SESSION['resourceData'] = $_POST;
+    }
+    $url = $_SESSION['resourceData']['resourceUrl'];
+    $api_url = JSDN_OAUTH_HOST .'/api'.$url;
+    $result = jsdnapi_curl_raw($api_url);
+    $variables['server_post'] = $result;
+}
+/**
+ * Implements hook_preprocess_page().
+ */
+function jsdn_resources_summary_preprocess_page(&$vars) {
+    if(arg(0) == 'resource-summary'){
+        global $base_url; 
+        $provider = t('All');
+        $regions = t('All');
+        $page_type = arg(1);
+        $empty_message = t('No data available for the selected criteria');
+        $error_message = t('Error retrieving information from server. Please try again.');
+        if(empty($_SESSION['resources_provider'])){
+            $provider_account = true;
+        }
+        else{
+            $provider_account = false;
+        }
+        
+        drupal_add_js(array('jsdn_resources_summary' => array('pageType' => $page_type, 'provider' => $provider, 'regions' => $regions , 'baseUrl' => $base_url, 'empty_message' => $empty_message, 'error_message' => $error_message, 'provider_account' => $provider_account, 'currencySymbol' => html_entity_decode($_SESSION['currencySymbol']))), 'setting');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/jsdn_resources_summary.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/jquery.dataTables.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/dataTables.bootstrap.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/dataTables.responsive.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/responsive.bootstrap.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/dataTables.pageLoadMore.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/jquery.multiselect.js');
+        //Included resources specific css files().
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/dataTables.bootstrap.min.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/responsive.bootstrap.min.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/resourcesDataTable.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/jquery.multiselect.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/jquery.ui.theme.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/jquery.ui.core.css');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/resourcesDashboard.css');        
+        
+    }
+    elseif(arg(0) == 'resource'){
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/resourcesDashboardSummary.css');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/validator.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/bootstrap.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/bootstrap-dialog.min.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/resources_details.js');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/bootstrap-dialog.min.css');
+        drupal_add_js(drupal_get_path('module', 'jsdn_resources_summary') . '/js/bootstrap-multiselect.js');
+        drupal_add_css(drupal_get_path('module', 'jsdn_resources_summary') . '/css/bootstrap-multiselect.css');
+    }
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdn_resources_summary_theme() {
+  return array(
+    'resources_details' => array(
+      'template' => 'templates/resources_details',
+      'arguments' => array(),
+    ),
+    'resources_filter' => array(
+        'template' => 'resources-chart-dashboard-filter',
+        'variables' => array('provider_type' => NULL, 'regions_type' => NULL),
+    ),
+    'resources_summary_provider' => array(
+        'template' => 'resources/resources-summary-provider',
+    ),
+    'resources_by_provider' => array(
+        'template' => 'resources/resources-by-provider'
+    ),
+    'resources_by_region' => array(
+        'template' => 'resources/resources-by-region'
+    ),
+    'resources_iaas' => array(
+        'template' => 'resources/resources-iaas'
+    ),
+  );
+}
+/**
+ * Implements hook_block_info().
+ */
+function jsdn_resources_summary_block_info() {
+  $blocks = array();
+  $blocks['resources_filter'] = array(
+    'info' => t('Resources Filter'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resources_summary_provider'] = array(
+    'info' => t('Resources Summary'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resources_by_provider'] = array(
+    'info' => t('Resources by Provider'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resources_by_region'] = array(
+    'info' => t('Resources by Region'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resources_iaas'] = array(
+    'info' => t('IaaS Resources'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+/**
+ * Implements hook_block_view().
+ */
+function jsdn_resources_summary_block_view($delta = '') {
+  $block = array();
+  switch ($delta) { 
+    case 'resources_filter':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resources_filter');      
+        }
+        return $block; 
+        
+    case 'resources_summary_provider':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resources_summary_provider');      
+        }
+        return $block;
+    
+    case 'resources_by_provider':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resources_by_provider');      
+        }
+        return $block;
+        
+    case 'resources_by_region':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resources_by_region');      
+        }
+        return $block;
+        
+    case 'resources_iaas':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resources_iaas');      
+        }
+        return $block;
+    }
+}
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see resources-chart-dashboard-filter.tpl.php
+ */
+function template_preprocess_resources_filter(&$variables) {
+    $variables['provider_type'] = $_SESSION['resources_provider'];
+    $variables['resources_regions'] = $_SESSION['resources_regions'];
+}
+/**
+ * Implements hook_init().
+ */
+function jsdn_resources_summary_api() {
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/unified-resources-provider-with-account';
+    $result = jsdnapi_curl_raw($api_url);
+    $result = json_decode($result, true);
+    $provider = empty($result['DataFeedList']) ? array() : $result['DataFeedList'];
+    $_SESSION['resources_provider'] = $provider;
+    
+    if(!empty($_SESSION['session_provider'])){
+        $provider_value = $_SESSION['session_provider'];
+    }
+    else{
+        $provider_value = 'All';
+    }
+    $api_url_region = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/unified-resources-region?provider='.$provider_value;
+    $result_region = jsdnapi_curl_raw($api_url_region);
+    $result_region = json_decode($result_region, true);
+    $resources_regions = empty($result_region['DataFeedList']) ? array() : $result_region['DataFeedList'];
+    $_SESSION['resources_regions'] = $resources_regions;
+}
+/**
+ * Implements hook_init().
+ */
+function jsdn_resources_details_action( $url , $method, $data) {
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url = JSDN_OAUTH_HOST .''.$url;
+    $result = jsdn_resources_curl_raw($api_url, $method, $data);
+    $result = json_decode($result, true);
+    return $result;
+}
+/**
+ * 
+ * @param $api_url
+ * 
+ * @return
+ *   JSON data.
+ */
+function jsdn_resources_curl_raw ( $url , $method, $data) {
+    watchdog('jsdn_resources', 'Curl Request URL %exception.', array('%exception' => $url));
+    $cmsMenu = json_decode($_SESSION['MenuJSON']);
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    $compacronym = json_decode($_SESSION['MenuJSON'])->profile->storecompanyacronym;
+    $endcustcompacronym=json_decode($_SESSION['MenuJSON'])->profile->companyacronym;
+
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 500,
+        CURLOPT_USERAGENT      => "CMS", // who am i
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 0,
+    );
+   
+    if ($isProxied){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+            'proxy-store:'.$compacronym,
+            'proxy-end-customer:'.$endcustcompacronym,
+        ));
+    }
+    else{
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'X-Auth-Token:'.$_SESSION['authToken'],
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'xoauth-jsdn-loginUrl:'.$_SERVER['HTTP_HOST'],
+        ));
+
+    }
+    switch ($method){
+        case "DELETE":
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+            break;
+        case "POST":
+           curl_setopt($ch, CURLOPT_POST, 1);
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+           break;
+        case "PUT":
+           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+           if ($data)
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                         
+           break;
+        default:
+           if ($data)
+              $url = sprintf("%s?%s", $url, http_build_query($data));
+    }
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
+    curl_close($ch);
+    watchdog('jsdn_resources', 'Curl Response %exception.', array('%exception' => $result));
+    if ($error) {
+        
+    }
+    else{
+    //$result = '{"status":"success","error-message":"11IMGSMIM0004","success-message":""}';
+    return $result;
+    }
+}

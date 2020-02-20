@@ -1,0 +1,377 @@
+<?php
+/**
+ * @file
+ * Utility jsdn_common module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_common_init() {
+    $logo = theme_get_setting('logo');
+    $_SESSION['logo_path'] = $logo;
+    $block = module_invoke('block', 'block_view', 3);
+    $_SESSION['footer_content'] = $block['content'];
+}
+
+/**
+ * Implements hook_menu().
+ */
+function jsdn_common_menu() {
+    $items['admin/structure/homebox/dashboard_block'] = array(
+        'title' => 'Manage Widgets',
+        'description' => 'Configure dashboard widgets',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('dashboard_admin_new_page'),
+        'access arguments' => array('administer blocks')
+    );
+    $items['cloud_compare'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdn_bannerlink_action',
+        'access callback' => TRUE,
+    );
+    $items['productdeeplink/%'] = array(
+        'title' => 'Popup Action',
+        'page callback' => 'jsdn_productdeeplink_action',
+        'access callback' => TRUE,
+    );
+    $items['search/autocomplete'] = array(
+        'title' => 'Auto Complete',
+        'page callback' => 'jsdn_common_auto_complete',
+        'access callback' => TRUE,
+    );
+    return $items;
+}
+/**
+ * Implements hook_permission().
+ */
+function jsdn_common_permission() {
+  return array(
+    'view jsdn menu' => array(
+      'title' => t('View JSDN Menu'),
+	  'description' => t('Access JSDN menu in CMS'),
+    ),
+	'view cms dashboard' => array(
+      'title' => t('View CMS Dashboard'),
+	  'description' => t('Access CMS dashboard instead of JSDN IaaS Dashboard'),
+    )
+  );
+}
+/**
+ * Theme the new-page form.
+ *
+ * @ingroup themeable
+ */
+function theme_dashboard_admin_new_page($variables) {
+  module_load_include('inc', 'homebox', 'homebox.admin');
+  $blocks = _block_homebox();
+  $output = drupal_render_children($form);
+  $header = array(t('Widgets'), array(
+      'data' => t('Operations'),
+      'colspan' => 2,
+    ));
+  if (is_array($blocks) && !empty($blocks)) {
+    foreach ($blocks as $block) {
+      $link = $block['info'];
+      $edit = l(t('Edit'), 'admin/structure/block/manage/' . $block['module'] .'/' . $block['delta'] .'/configure', array('query' => drupal_get_destination()));
+      $block_delete = false;
+      if ($block['module'] == 'block') {
+          $block_delete = true;
+      }
+      $delete = !empty($block_delete) ? l(t('Delete'), 'admin/structure/block/manage/' . $block['module'] .'/' . $block['delta'] .'/delete', array('query' => drupal_get_destination())) : '';
+      $rows[] = array($link, $edit, $delete);
+    }
+    
+    $output .= '<p>' . l(t('Add Dashboard Widget'),  'admin/structure/block/add',  array('query' => drupal_get_destination() )) . '</p>';
+    $output .= theme('table', array('header' => $header, 'rows' => $rows));
+  }
+  return $output;
+}
+/**
+ * Implements hook_preprocess_page().
+ */
+function jsdn_common_preprocess_page(&$vars)
+{
+    global $jsdnURL;
+	global $language; 
+	global $logged;
+	if(user_is_logged_in()){ $logged="true"; }
+    drupal_add_js(array('jsdn_common' => array('jsdnURL' => $jsdnURL, 'cmsLanCode' => $language->language, 'isCmsloggedin' => $logged)), 'setting');
+    drupal_add_js(drupal_get_path('module', 'jsdn_common') . '/jsdn_common.js');
+    drupal_add_css(drupal_get_path('module', 'jsdn_common') . '/jsdn_common.css');
+    $vars['scripts'] = drupal_get_js();
+	drupal_add_js(array('jsdn_common' => array('dashboardAccess' => user_access('view cms dashboard'))), 'setting');
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdn_common_theme() {
+  return array(
+    'render_jsdn_menu' => array(
+      'template' => 'jsdn-common-render-jsdn-menu'
+    ),
+    'global_search' => array(
+      'template' => 'jsdn-common-render-global-search'
+    ),
+    'catalog_search' => array(
+      'template' => 'jsdn-common-render-catalog-search'
+    ),	
+    'dashboard_admin_new_page' => array(
+      'render element' => 'form',
+    ),
+  );
+}
+/**
+ * Implements hook_block_info().
+ */
+function jsdn_common_block_info() {
+  $blocks = array();
+  $blocks['global_search'] = array(
+    'info' => t('Global Search'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['catalog_search'] = array(
+    'info' => t('Catalog Search'),
+    'cache' => DRUPAL_NO_CACHE,
+  );  
+  $blocks['render_menu'] = array(
+    'info' => t('Render JSDN menu based on the JSON'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+/**
+ * Implements hook_block_view().
+ */
+function jsdn_common_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    
+    case 'render_menu':
+      if (user_access('view jsdn menu')) {
+        $block['content'] = array('#theme' => 'render_jsdn_menu');      
+      }
+      return $block;
+
+    case 'global_search':
+      if (user_access('access content')) {
+       $block['content'] = array('#theme' => 'global_search');      
+      }
+    case 'catalog_search':
+      if (user_access('access content')) {
+       $block['content'] = array('#theme' => 'catalog_search');      
+      }	  
+      return $block;
+  }
+}
+/**
+ * Implements block hook_form_FORM_ID_alter().
+ *
+ * Remove block title for multilingual blocks.
+ */
+function jsdn_common_form_block_add_block_form_alter(&$form, &$form_state, $form_id) {
+  jsdn_common_form_block_admin_configure_alter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements block hook_form_FORM_ID_alter().
+ *
+ * Remove block title for multilingual blocks.
+ */
+function jsdn_common_form_block_admin_configure_alter(&$form, &$form_state, $form_id) {
+  $default_type_options = db_query("SELECT status FROM {block_homebox} WHERE module = :module AND delta = :delta", array(
+    ':module' => $form['module']['#value'],
+    ':delta' => $form['delta']['#value'],
+  ))->fetchCol();
+    
+  $form['jsdn_common_block']['pages'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Dashboard'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#group' => 'visibility',
+    '#weight' => 22,
+  );
+  $form['jsdn_common_block']['pages']['common_pages'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Show this widget in Dashboard'),
+    '#options' => array(1 => 'Make this widget available in Dashboard'),
+    '#default_value' => $default_type_options,
+  );
+  $form['#submit'][] = 'jsdn_common_form_block_admin_configure_submit';
+}
+
+/**
+ * Form submit handler for block configuration form.
+ *
+ * @see jsdn_common_form_block_admin_configure_alter()
+ */
+function jsdn_common_form_block_admin_configure_submit(&$form, &$form_state) {
+  $module = $form_state['values']['module'];
+  $delta = $form_state['values']['delta'];
+  $is_available_homebox = !empty($form_state['values']['common_pages'][1]) ? 1 : 0;
+
+  // Update block settings
+    db_delete('block_homebox')
+      ->condition('module', $module)
+      ->condition('delta', $delta)
+      ->execute();
+    if($is_available_homebox){
+        $query = db_insert('block_homebox')->fields(array('status', 'module', 'delta'));
+        $query->values(array(
+          'status' => $is_available_homebox,
+          'module' => $module,
+          'delta' => $delta,
+        ));
+        $query->execute(); 
+    }
+}
+/**
+ * Implements hook_form_FORMID_alter().
+ *
+ * Adds node specific submit handler to delete custom block form.
+ *
+ * @see block_custom_block_delete()
+ */
+function jsdn_common_form_block_custom_block_delete_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'jsdn_common_form_block_custom_block_delete_submit';
+}
+/**
+ * Form submission handler for node_form_block_custom_block_delete_alter().
+ *
+ * @see node_form_block_custom_block_delete_alter()
+ */
+function jsdn_common_form_block_custom_block_delete_submit($form, &$form_state) {
+    db_delete('block_homebox')
+        ->condition('module', 'block')
+        ->condition('delta', $form_state['values']['bid'])
+        ->execute();
+}
+/**
+* Allow domain assignment to be made from the default content form.
+*/
+function jsdn_common_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
+    $form['admin']['options']['submit']['#submit'][] = 'jsdn_common_process_nodes';
+}
+/**
+* Process the form submission.
+*
+* This callback works for the normal operations callback.
+*/
+function jsdn_common_process_nodes($form, &$form_state) {
+    $nids = array_filter($form_state['values']['nodes']);
+     // Clear the cache.
+    cache_clear_all();
+    // Reindex the node.
+    search_api_track_item_change('node', $nids);
+}
+
+
+/**
+ * Implements hook_page_delivery_callback_alter().
+ */
+function jsdn_common_page_delivery_callback_alter(&$callback) {
+  // Swap out the page callback for our own.
+  if ($callback == 'drupal_deliver_html_page') {
+    $callback = 'jsdn_common_deliver_html_page';
+  }
+}
+
+/**
+ * Attempts to log in anonymous users before throwing an access denied message.
+ */
+function jsdn_common_deliver_html_page($page_callback_result) {
+  if ($page_callback_result == MENU_ACCESS_DENIED && user_is_anonymous()) {
+    drupal_goto("https://".$_SERVER['SERVER_NAME']."/jsdn");
+  }
+  else {
+    drupal_deliver_html_page($page_callback_result);
+  }
+}
+/**
+ * Implements jsdn_bannerlink_action().
+ */
+function jsdn_bannerlink_action(){
+    /* Redirect to a different page in the current directory that was requested */
+    $host  = $_SERVER['HTTP_HOST'];
+    $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    $extra = 'cloudcompare';
+    header("Location: http://$host$uri/$extra");
+    exit;
+}
+/**
+ * Implements jsdn_bannerlink_action().
+ */
+function jsdn_productdeeplink_action(){
+    /* Redirect to a different page in the current directory that was requested */
+    global $jsdnURL;
+    $services_name = arg(1);
+    $nid = jsdn_common_get_service_name($services_name);
+    $node_url = url(drupal_get_path_alias('node/' . $nid));
+    drupal_goto($jsdnURL."".$node_url);
+}
+/**
+*/
+function jsdn_common_auto_complete(){
+    global $_domain;
+    $key = $_POST['key'];
+    $output = '<ul id="serviceList">';
+    $domain_is_store = domain_conf_variable_get($_domain['domain_id'], 'domain_is_store');
+    $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
+    if ($domain_is_store && !$isProxied) {
+        $serviceIds = $_SESSION['serviceIds'];
+        if(empty($serviceIds)){
+            $serviceIds = array('nothing');
+        }
+        $query = db_select('node', 'n');
+        $query->join('field_data_field_service_id', 'field_data_field_service_id', 'n.nid = field_data_field_service_id.entity_id');
+        $query
+        ->fields('n', array('nid'))
+        ->condition('n.title', '%' . db_like($key) . '%', 'LIKE')
+        ->condition('n.type', 'product_page')
+        ->condition('n.status', '1');
+
+        $db_or = db_or(); 
+        foreach($serviceIds as $serviceId){
+            $db_or->condition('field_data_field_service_id.field_service_id_value',$serviceId,'='); 
+        }
+        $query->condition($db_or);
+
+        $query
+        ->orderBy('n.created', 'DESC')
+        ->addTag('node_access');
+        $result = $query->execute()->fetchCol();
+        $nodes = node_load_multiple(array_values($result));
+    }
+    else{
+        $query = new EntityFieldQuery();
+        $query->entityCondition('entity_type', 'node')
+        ->propertyCondition('status', 1)
+        ->propertyCondition('type', array('product_page'))
+        ->propertyCondition('title', "%".$key."%","LIKE")
+        ->addTag('node_access');
+        $result = $query->execute();
+        $nodes = node_load_multiple(array_keys($result['node']));
+    }
+    foreach($nodes as $node){
+      $options = array('absolute' => TRUE);
+      $nid = $node->nid; 
+      $url = url('node/' . $nid, $options);
+      if(stripos(strtolower($node->title) , strtolower($key)) !== false){
+        $output .= "<li><a href=\"".$url."\">".$node->title."</a></li>";
+      }
+    }
+    $output .= "</ul>";
+    echo $output;
+}
+/**
+ * Api function to check whether service id exits or not
+*/
+function jsdn_common_get_service_name($services_name) {
+    $is_available = db_select('field_data_field_service_id', 'n')
+          ->fields('n')
+          ->condition('field_service_id_value', $services_name, '=')
+          ->execute()
+          ->fetchAssoc();
+    return $is_available['entity_id'];
+}

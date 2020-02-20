@@ -1,0 +1,12 @@
+name = Blank Theme
+description = Blank theme for standalone page.
+package = Core
+version = VERSION
+core = 7.x
+
+regions[content] = Content
+
+; Information added by Drupal.org packaging script on 2014-07-24
+version = "7.30"
+project = "drupal"
+datestamp = "1406239730"

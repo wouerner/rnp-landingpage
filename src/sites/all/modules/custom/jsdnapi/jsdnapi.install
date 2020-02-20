@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Install hooks for jsdnapi.
+ */
+/**
+ * Implementation of hook_install().
+ */
+function jsdnapi_install() {
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('jsdn offer display'));
+}
+/**
+ * Remove variables on uninstall.
+ */
+function jsdnapi_uninstall() {
+  user_role_revoke_permissions(DRUPAL_AUTHENTICATED_RID, array('jsdn offer display'));
+  db_query("DELETE FROM {variable} WHERE name LIKE 'jsdn_consumer_%'");
+  cache_clear_all('variables', 'cache_bootstrap');
+}

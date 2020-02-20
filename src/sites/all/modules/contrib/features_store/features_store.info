@@ -1,0 +1,5 @@
+name = features_store
+description = features_store
+core = 7.x
+package = Features
+

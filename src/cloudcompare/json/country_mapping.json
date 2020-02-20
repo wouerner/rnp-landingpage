@@ -1,0 +1,277 @@
+{
+    "comment": "This is the JSON data used by Jamcracker pricing calculator to map Provider Regions",
+    "version": "v1.0",
+    "updated": "28-February-2019",
+    "country_mapping": {
+        "Brazil": {
+            "AWS": "sa-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "brazil-south",
+            "Vivo": "price-brazil-brl"
+        },
+        "Mexico": {
+            "AWS": "us-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "us-east",
+            "Vivo": "price-mx-brl"
+        },
+        "Chile": {
+            "AWS": "sa-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "brazil-south",
+            "Vivo": "price-cl-brl"
+        },
+        "Argentina": {
+            "AWS": "sa-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "brazil-south",
+            "Vivo": "price-ar-brl"
+        },
+        "Peru": {
+            "AWS": "sa-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "brazil-south",
+            "Vivo": "price-pu-brl"
+        },
+        "US East 1": {
+            "AWS": "us-east-1",
+            "Google_Cloud": "us-east1",
+            "Azure": "us-east",
+            "Vivo": "price-usa-brl"
+        },
+        "US East 2": {
+            "AWS": "us-east-2",
+            "Google_Cloud": "",
+            "Azure": "us-east2",
+            "Vivo": ""
+        },
+        "US East 4": {
+            "AWS": "",
+            "Google_Cloud": "us-east4",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "US West 1": {
+            "AWS": "us-west-1",
+            "Google_Cloud": "us-west1",
+            "Azure": "us-west",
+            "Vivo": ""
+        },
+        "US West 2": {
+            "AWS": "us-west-2",
+            "Google_Cloud": "",
+            "Azure": "us-west2",
+            "Vivo": ""
+        },
+        "US Central": {
+            "AWS": "",
+            "Google_Cloud": "us-central1",
+            "Azure": "us-central",
+            "Vivo": ""
+        },
+        "US West Central": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "us-west-central",
+            "Vivo": ""
+        },
+        "US North Central": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "us-north-central",
+            "Vivo": ""
+        },
+        "US South Central": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "us-south-central",
+            "Vivo": ""
+        },
+        "US Gov West 1": {
+            "AWS": "us-gov-west-1",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "US Gov Arizona": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "usgov-arizona",
+            "Vivo": ""
+        },
+        "US Gov Iowa": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "usgov-iowa",
+            "Vivo": ""
+        },
+        "US Gov Texas": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "usgov-texas",
+            "Vivo": ""
+        },
+        "US Gov Virginia": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "usgov-virginia",
+            "Vivo": ""
+        },
+        "EU West 1": {
+            "AWS": "eu-west-1",
+            "Google_Cloud": "europe-west1",
+            "Azure": "europe-west",
+            "Vivo": ""
+        },
+        "EU West 2": {
+            "AWS": "eu-west-2",
+            "Google_Cloud": "europe-west2",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "EU West 3": {
+            "AWS": "us-west-1",
+            "Google_Cloud": "us-west1",
+            "Azure": "us-west",
+            "Vivo": ""
+        },
+        "EU North": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "europe-north",
+            "Vivo": ""
+        },
+        "UK West": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "united-kingdom-west",
+            "Vivo": ""
+        },
+        "UK South": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "united-kingdom-south",
+            "Vivo": ""
+        },
+        "EU Central 1": {
+            "AWS": "eu-central-1",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "CA Central": {
+            "AWS": "ca-central-1",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "CA East": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "canada-east",
+            "Vivo": ""
+        },
+        "Central Germany": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "germany-central",
+            "Vivo": ""
+        },
+        "Northeast Germany": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "germany-northeast",
+            "Vivo": ""
+        },
+        "South America East 1": {
+            "AWS": "sa-east-1",
+            "Google_Cloud": "southamerica-east1",
+            "Azure": "",
+            "Vivo": "price-brazil-brl"
+        },
+        "Asia Pacefic Southeast 1": {
+            "AWS": "ap-southeast-1",
+            "Google_Cloud": "asia-southeast",
+            "Azure": "asia-pacific-southeast",
+            "Vivo": ""
+        },
+        "Asia Pacefic Southeast 2": {
+            "AWS": "ap-southeast-2",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "Asia Pacefic South 1": {
+            "AWS": "ap-south-1",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "Asia Pacefic Northeast 1": {
+            "AWS": "ap-northeast-1",
+            "Google_Cloud": "asia-northeast",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "Asia Pacefic Northeast 2": {
+            "AWS": "ap-northeast-2",
+            "Google_Cloud": "",
+            "Azure": "",
+            "Vivo": ""
+        },
+        "Korea Central": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "korea-central",
+            "Vivo": ""
+        },
+        "Korea South": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "korea-south",
+            "Vivo": ""
+        },
+        "Japan East": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "japan-east",
+            "Vivo": ""
+        },
+        "Japan West": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "japan-west",
+            "Vivo": ""
+        },
+        "Australia Southeast": {
+            "AWS": "",
+            "Google_Cloud": "australia-southeast1",
+            "Azure": "australia-southeast",
+            "Vivo": ""
+        },
+        "Australia East": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "australia-east",
+            "Vivo": ""
+        },
+        "East Asia": {
+            "AWS": "",
+            "Google_Cloud": "asia-east",
+            "Azure": "asia-pacific-east",
+            "Vivo": ""
+        },
+        "Central India": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "central-india",
+            "Vivo": ""
+        },
+        "West India": {
+            "AWS": "",
+            "Google_Cloud": "",
+            "Azure": "south-india",
+            "Vivo": ""
+        }
+    }
+}

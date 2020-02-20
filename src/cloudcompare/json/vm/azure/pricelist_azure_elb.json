@@ -1,0 +1,15 @@
+{
+  "comment": "Azure Price details for Load Balancer",
+  "version": "v0.1",
+  "updated": "23-March-2018",
+  "azure_price_list": {
+    "ELB": {
+      "Standard Load Balancer": {
+        "Data_Processed": 5.000,
+		"Data_processed_Unit": "1000 GB",
+        "First_5_rules": 0.025,
+        "Additional_rule": 0.01
+      }
+    }
+  }
+}

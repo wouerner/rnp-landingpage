@@ -1,0 +1,4 @@
+#user-login-form .form-actions{ position: relative}
+.AjaxLoading{ float: left; width: 17px;height: 17px; position: absolute; right: -25px;top: 30%;}
+.AjaxLoading img{ width: 100%;height: 100%}
+.no-action{position: fixed;background: transparent; width: 100%;height: 100%; z-index: 10003; top: 0;}

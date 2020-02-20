@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  rnp-drupal:
+    container_name: rnp-drupal
+    volumes:
+      - ../docker/apache/:/etc/apache2/sites-enabled/
+      - ../docker/certs/:/etc/apache2/ssl/
+      - ../src:/var/www/html/cms
+    build:
+      context: ../
+      dockerfile: docker/Drupal.Dockerfile
+    depends_on:
+      - rnp-drupal-postgres
+    ports:
+      - 443:443
+    environment:
+      DRUPAL_DB_DATABASE: postgres
+      DRUPAL_DB_USERNAME: postgres
+      DRUPAL_DB_PASSWORD: postgres
+      DRUPAL_DB_HOST: gbw-drupal-postgres
+      DRUPAL_DB_PORT': 5432
+      DRUPAL_DB_DRIVER: pgsql
+      DRUPAL_DB_PREFIX: ''
+
+  rnp-drupal-postgres:
+    container_name: rnp-db-drupal
+    build:
+      context: ../
+      dockerfile: docker/Postgres.Dockerfile
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    restart: always
+    volumes:
+      - ../data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

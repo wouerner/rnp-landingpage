@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function jsdn_cloud_comparator_schema() {
+  $schema['wishlist_cloud_comparator'] = array(
+    'description' => 'Stores wishlist information for cloud comparator.',
+    'fields' => array(
+      'wid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique wishlist ID.',
+      ),
+      'wishlist_data' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'Referrer wishlist data.',
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => 0,
+        'description' => 'User {users}.uid that visited the page.',
+      ),
+      'timestamp' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp of when the page was visited.',
+      ),
+    ),
+    'indexes' => array(
+      'jsdn_cloud_comparator_timestamp' => array('timestamp'),
+      'wishlist_cloud_comparator_uid' => array('uid'),
+    ),
+    'primary key' => array('wid'),
+    'foreign keys' => array(
+      'visitor' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}

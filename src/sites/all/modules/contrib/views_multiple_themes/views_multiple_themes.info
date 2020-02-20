@@ -1,0 +1,13 @@
+name = Views multiple themes
+description = 'Views support for multiple themes'
+package = Views
+dependencies[] = views
+files[] = views_multiple_themes_plugin_display_extender_themes.inc
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2017-07-31
+version = "7.x-1.0"
+core = "7.x"
+project = "views_multiple_themes"
+datestamp = "1501508045"
+

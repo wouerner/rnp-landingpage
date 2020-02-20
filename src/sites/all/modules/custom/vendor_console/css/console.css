@@ -1,0 +1,10 @@
+.sso_wrapper{position: fixed;top: 277px;float: left;width: 445px;z-index: 9999;right: -445px;transition: 1s;}
+.sso_wrapper.open{ transition: all 0.5s;right:0px}
+.sso_wrapper .sso_img {margin-left: -85px;padding: 0px 4px 0px 17px;position: relative; cursor: pointer;float: left;}
+.sso_wrapper .sso_img .vendor_title{-webkit-transform: rotate(-90deg);-moz-transform: rotate(-90deg);-ms-transform: rotate(-90deg);-o-transform: rotate(-90deg);transform: rotate(-90deg);    background: #46b4c0;padding: 5px 10px;color: #fff;border-radius: 5px 5px 0px 0px;font-size: 13px }
+.sso_wrapper .sso_content{float: right;width: 447px;  margin-top: -130px; padding: 0px}
+.sso_text_wrapper {background: url("../images/sso_text_bg.png") no-repeat scroll 1px 3px transparent;background-size:cover;font-size: 12px;padding: 22px 5px 17px 26px;}
+.slider_wrapper{background: #FFFFFF;border: 1px solid #CCC;border-right: none;border-top: 1px solid #D3D3D3;border-radius: 0 0 0 5px;width: 445px;height: 293px;float: right;margin: 0;padding: 10px 9px;position: relative;z-index: 99999999; overflow: hidden}
+.slider_wrapper .anythingSlider,.slider_wrapper .anythingSlider iframe{ width: 100% !important;border:none !important}
+.slider_wrapper .anythingSlider iframe{ height: 340px;overflow: hidden }
+.slider_wrapper ul li{ display: inline}

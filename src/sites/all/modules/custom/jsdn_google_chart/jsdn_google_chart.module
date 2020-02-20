@@ -1,0 +1,1408 @@
+<?php
+/**
+ * @file
+ * Utility jsdn_google_chart module.
+ */
+/**
+ * Implements hook_init().
+ */
+function jsdn_google_chart_init() {
+    global $jsdnURL;
+    define("JSDN_OAUTH_HOST", $jsdnURL);
+    
+    if((arg(1) == 'inventory') && (($_SESSION['aws_account'] != 'false'))){
+        jsdn_google_chart_aws_api();
+    }elseif(arg(1) == 'inventory'){
+        jsdn_google_chart_provider_accounts_api();
+    }
+    if(((arg(1) == 'recommendation') && ($_SESSION['aws_recommendation_account'] != 'false'))){
+        jsdn_google_chart_aws_api();
+    }elseif(arg(1) == 'recommendation'){
+        jsdn_google_chart_provider_accounts_api();
+    }
+
+    if(!empty($_SESSION['clientid']) && !empty($_SESSION['clientsecret']) && !empty($_SESSION['msSubDomain'])){
+        jsdn_google_chart_get_azure_token();
+    }
+}
+/**
+ * Implementation of hook_menu().
+ */
+function jsdn_google_chart_menu() {
+    $items['jsdnDashboard/azure/data'] = array(
+        'title' => t('Dashboard data'),
+        'page callback' => 'jsdn_google_chart_get_azure_data',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['jsdnDashboard/googlecloud/data'] = array(
+        'title' => t('Dashboard data'),
+        'page callback' => 'jsdn_google_chart_get_googlecloud_data',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+/**
+ * Implements hook_preprocess_page().
+ */
+function jsdn_google_chart_preprocess_page(&$vars) {
+    if(arg(0) == 'dashboard'){
+        $provider = t('All');
+        global $base_url; 
+        $page_type = arg(1);
+        $empty_message = t('No data available for the selected criteria');
+        $error_message = t('Error retrieving information from server. Please try again.');
+        $tag_key_label = t('Tag Key:');
+        if(empty($_SESSION['provider'])){
+            $provider_account = true;
+        }
+        else{
+            $provider_account = false;
+        }
+        $private_cloud_array  = $_SESSION['private_cloud'];
+        $public_cloud_array   = $_SESSION['public_cloud'];
+        
+        $private_cloud  = $private_cloud_array[0]['key'].' - '.$private_cloud_array[0]['value'];
+        $public_cloud   = $public_cloud_array[0]['key'];
+        $currencyLocale = json_decode($_SESSION['MenuJSON'])->profile->currencyLocale;
+		$currencyPattern = json_decode($_SESSION['MenuJSON'])->profile->currencyPattern;
+		$currencyFraction = strlen(substr(strrchr($currencyPattern, "."), 1));
+        drupal_add_js(array('jsdn_google_chart' => array('pageType' => $page_type, 'provider' => $provider, 'currencySymbol' => html_entity_decode($_SESSION['currencySymbol']), 'currencyLocale' => $currencyLocale, 'currencyPattern' => $currencyPattern, 'currencyFraction' => $currencyFraction, 'baseUrl' => $base_url, 'empty_message' => $empty_message, 'error_message' => $error_message, 'tag_key_label' => $tag_key_label, 'provider_account' => $provider_account, 'private_cloud' => $private_cloud,  'public_cloud' => $public_cloud)), 'setting');
+        drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/jsdn_google_chart.js');
+        drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/material-menu.js');
+        drupal_add_css(drupal_get_path('module', 'jsdn_google_chart') . '/css/executiveDashboard.css');
+        if(($page_type == 'inventory') || ($page_type == 'recommendation')){
+            drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/moment.min.js');
+            drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/tablefilter_all_min.js');
+            drupal_add_css(drupal_get_path('module', 'jsdn_google_chart') . '/css/inventory.css');
+            drupal_add_css(drupal_get_path('module', 'jsdn_google_chart') . '/css/recommendation.css');
+        }
+        else{
+            drupal_add_js('https://www.gstatic.com/charts/loader.js', 'external');
+            drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/moment.min.js');
+            drupal_add_js(drupal_get_path('module', 'jsdn_google_chart') . '/js/daterangepicker.min.js');
+            drupal_add_css(drupal_get_path('module', 'jsdn_google_chart') . '/css/daterangepicker.min.css');
+        }
+    }
+}
+/**
+ * Implements hook_theme().
+ */
+function jsdn_google_chart_theme() {
+  return array(
+    'total_cost' => array(
+        'template' => 'customer/customer-total-cost',
+    ),
+    'daily_trend' => array(
+        'template' => 'customer/customer-daily-trend-graph'
+    ),
+    'daily_trend_provider' => array(
+        'template' => 'customer/customer-daily-trend-provider-graph'
+    ),
+    'spend_provider' => array(
+        'template' => 'customer/customer-daily-spend-providers',
+    ),
+    'spend_products' => array(
+        'template' => 'customer/customer-daily-spend-products',
+    ),
+    'spend_region' => array(
+        'template' => 'customer/customer-daily-spend-region',
+    ),
+    'dashboard_filter' => array(
+        'template' => 'google-chart-dashboard-filter',
+        'variables' => array('filter_type' => NULL),
+    ),
+    'product_trend' => array(
+        'template' => 'customer/customer-product-trend',
+    ),
+    'vm_count_by_instance_type' => array(
+        'template' => 'customer/vm-cost-count-instance-type',
+    ),
+    'resource_count' => array(
+        'template' => 'customer/resource-cost-count',
+    ),
+    'vm_count_by_source' => array(
+        'template' => 'customer/vm-cost-count-source',
+    ),
+    'cost_by_iaas_usage' => array(
+        'template' => 'customer/cost-iaas-usage',
+    ),
+    'cost_by_platform' => array(
+        'template' => 'customer/cost-platform',
+    ),
+    'cost_resources' => array(
+        'template' => 'customer/cost-by-resources',
+    ),
+    'cost_by_tags' => array(
+        'template' => 'customer/resource-cost-count-by-tags',
+    ),
+    'top_untagged_resource_by_cost' => array(
+        'template' => 'customer/top-untagged-resource-by-cost',
+    ),
+    'product_associated_to_tags' => array(
+        'template' => 'customer/product-associated-to-tags',
+    ),
+    'vm_count_tag_key' => array(
+        'template' => 'customer/vm-cost-count-tag-key',
+    ),
+    'tag_cost_trend' => array(
+        'template' => 'customer/tag-cost-trend',
+    ),
+    'instance_type_tags' => array(
+        'template' => 'customer/instance-type-tags',
+    ),
+    'inventory_status' => array(
+        'template' => 'inventory/inventory-status',
+    ),
+    'inventory_status_filter' => array(
+        'template' => 'inventory/inventory-status-virtual-machines',
+    ),
+    'inventory_status_azure' => array(
+        'template' => 'inventory/inventory-status-azure',
+    ),
+    'inventory_status_ibmSoftlayer' => array(
+        'template' => 'inventory/inventory-status-ibmSoftlayer',
+    ),
+    'inventory_status_virtual_googlecloud' => array(
+        'template' => 'inventory/inventory-status-virtual-machines-googlecloud',
+    ),
+    'inventory_status_googlecloud' => array(
+        'template' => 'inventory/inventory-status-googlecloud',
+    ),
+    'inventory_status_virtual_azure' => array(
+        'template' => 'inventory/inventory-status-virtual-machines-azure',
+    ),
+    'inventory_status_virtual_ibmSoftlayer' => array(
+        'template' => 'inventory/inventory-status-virtual-machines-ibmSoftlayer',
+    ),
+    'inventory_reserved_status' => array(
+        'template' => 'inventory/inventory-reserved-status',
+    ),
+    'inventory_reserved_instances' => array(
+        'template' => 'inventory/inventory-reserved-instances',
+    ),
+    'orders_at_glance' => array(
+        'template' => 'saas/saas-orders-at-glance',
+    ),
+    'saas_cost_provider' => array(
+        'template' => 'saas/saas-cost-by-provider',
+    ),
+    'saas_cost_service_offers' => array(
+        'template' => 'saas/saas-cost-by-service-offers',
+    ),
+    'saas_cost_trend_offer' => array(
+        'template' => 'saas/saas-cost-trend-by-offer',
+    ),
+    'saas_cost_trend_provider' => array(
+        'template' => 'saas/saas-cost-trend-by-provider',
+    ),
+    'saas_licence_status' => array(
+        'template' => 'saas/saas-licence-status',
+    ),
+    'storage_details' => array(
+        'template' => 'customer/customer-daily-storage',
+    ),
+    'cost_departments' => array(
+        'template' => 'customer/customer-cost-by-department',
+    ),
+    'cost_account' => array(
+        'template' => 'customer/customer-cost-by-account',
+    ),
+    'cost_subscriptions' => array(
+        'template' => 'customer/customer-cost-by-subscriptions',
+    ),
+    'recommendation_aws' => array(
+        'template' => 'recommendation/recommendation-aws',
+    ),
+    'recommendation_azure' => array(
+        'template' => 'recommendation/recommendation-azure',
+    ),
+    'resource_configuration_summary_private' => array(
+        'template' => 'migration/resource-configuration-summary-private',
+    ),
+    'resource_configuration_summary_public' => array(
+        'template' => 'migration/resource-configuration-summary-public',
+    ),
+    'data_center_insights' => array(
+        'template' => 'migration/data-center-insights',
+    ),
+    'cloud_insights' => array(
+        'template' => 'migration/cloud-insights',
+    ),
+    'physical_machine_count' => array(
+        'template' => 'migration/physical-machine-count',
+    ),
+    'private_cloud' => array(
+        'template' => 'google-chart-private-cloud-filter',
+        'variables' => array('filter_type' => NULL),
+    ),
+    'public_cloud' => array(
+        'template' => 'google-chart-public-cloud-filter',
+        'variables' => array('filter_type' => NULL),
+    ),
+    'instance_types_covered_reservation' => array(
+        'template' => 'reservation/instance-types-covered-reservation',
+    ),
+    'instance_types_zero_reservation' => array(
+        'template' => 'reservation/instance-types-zero-reservation',
+    ),
+    'owned_burn_down_hours' => array(
+        'template' => 'reservation/owned-burn-down-hours',
+    ),
+    'reserved_hours_on_demand' => array(
+        'template' => 'reservation/reserved-hours-on-demand',
+    ),
+    'reserved_instances_on_demand' => array(
+        'template' => 'reservation/reserved-instances-on-demand',
+    ),
+  );
+}
+/**
+ * Implements hook_block_info().
+ */
+function jsdn_google_chart_block_info() {
+  $blocks = array();
+  $blocks['total_cost'] = array(
+    'info' => t('Total cost'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['daily_trend'] = array(
+    'info' => t('Cost Trend'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['daily_trend_provider'] = array(
+    'info' => t('Cost Trend by Provider'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['spend_provider'] = array(
+    'info' => t('Cost by Provider'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_resources'] = array(
+    'info' => t('Cost by Resources'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['spend_products'] = array(
+    'info' => t('Cost by Services'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['spend_region'] = array(
+    'info' => t('Spend by Region'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['dashboard_filter'] = array(
+    'info' => t('Dashboard Filter'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['product_trend'] = array(
+    'info' => t('Product Cost Trend'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['vm_count_by_instance_type'] = array(
+    'info' => t('Instance Cost/Count by Type'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resource_count'] = array(
+    'info' => t('Resource Cost/Count by Region'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['vm_count_by_source'] = array(
+    'info' => t('VM Cost/Count by Source of Creation'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_by_iaas_usage'] = array(
+    'info' => t('Cost by IaaS Usage Type'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_by_platform'] = array(
+    'info' => t('Cost by Platform (VM Cost)'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_by_tags'] = array(
+    'info' => t('Resource Cost/Count by Tags'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['top_untagged_resource_by_cost'] = array(
+    'info' => t('Cost of Un-Tagged Resources'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['product_associated_to_tags'] = array(
+    'info' => t('Product Cost by Tags'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['vm_count_tag_key'] = array(
+    'info' => t('VM Cost/Count by Tag Key'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['tag_cost_trend'] = array(
+    'info' => t('Tag Cost Trend'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['instance_type_tags'] = array(
+    'info' => t('Instance Cost Type / Size by Tags'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['inventory_status'] = array(
+    'info' => t('Resource Summary'),
+    'cache' => DRUPAL_NO_CACHE,
+  );  
+  $blocks['inventory_status_filter'] = array(
+    'info' => t('Instances'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['inventory_block_search'] = array(
+    'info' => t('Inventory Block Search'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['inventory_reserved_status'] = array(
+    'info' => t('Reserved Instance Utilization'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['inventory_reserved_instances'] = array(
+    'info' => t('Reserved Instances'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['orders_at_glance'] = array(
+    'info' => t('Order/Request Status'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['saas_cost_provider'] = array(
+    'info' => t('Cost By Provider'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['saas_cost_service_offers'] = array(
+    'info' => t('Cost by Service Offer'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['saas_cost_trend_offer'] = array(
+    'info' => t('Cost Trend by Offer'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['saas_cost_trend_provider'] = array(
+    'info' => t('Cost Trend by Provider'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['saas_licence_status'] = array(
+    'info' => t('License Status'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['storage_details'] = array(
+    'info' => t('Cost by Storage Type'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_departments'] = array(
+    'info' => t('Cost by Departments'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_account'] = array(
+    'info' => t('Cost by Account'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cost_subscriptions'] = array(
+    'info' => t('Cost by Subscriptions'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['recommendation'] = array(
+    'info' => t('Recommendation'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resource_conf_summary_private'] = array(
+    'info' => t('Resource Configuration Summary'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['resource_conf_summary_public'] = array(
+    'info' => t('Resource Configuration Summary'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['data_center_insights'] = array(
+    'info' => t('Data Center Insights'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['cloud_insights'] = array(
+    'info' => t('Cloud Insights'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['physical_machine_count'] = array(
+    'info' => t('Physical Machine Count by CPU'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['private_cloud'] = array(
+    'info' => t('Private Cloud'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['public_cloud'] = array(
+    'info' => t('Public Cloud'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['instance_types_reservation'] = array(
+    'info' => t('Instance Types Covered by Reservation'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['instance_types_zero_reservation'] = array(
+    'info' => t('Instance Types with Zero Reservation Coverage'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['owned_burn_down_hours'] = array(
+    'info' => t('RI Owed Vs. Burndown Hours'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['reserved_hours_on_demand'] = array(
+    'info' => t('Instances - On Demand Vs. Reserved Hours'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  $blocks['reserved_instances_on_demand'] = array(
+    'info' => t('On Demand Vs. Reserved Instances'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  
+  return $blocks;
+}
+/**
+ * Implements hook_block_view().
+ */
+function jsdn_google_chart_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {      
+    case 'daily_trend':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'daily_trend');      
+        }
+        return $block;
+    
+    case 'daily_trend_provider':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'daily_trend_provider');      
+        }
+        return $block;
+        
+    case 'total_cost':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'total_cost');      
+        }
+        return $block;
+      
+    case 'spend_provider':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'spend_provider');      
+        }
+        return $block;  
+      
+    case 'spend_products':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'spend_products');      
+        }
+        return $block;
+        
+    case 'cost_resources':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'cost_resources');      
+        }
+        return $block;
+      
+    case 'spend_region':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'spend_region');      
+        }
+        return $block; 
+      
+    case 'dashboard_filter':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'dashboard_filter');      
+        }
+        return $block; 
+
+    case 'product_trend':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'product_trend');      
+        }
+        return $block; 
+        
+    case 'vm_count_by_instance_type':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'vm_count_by_instance_type');      
+        }
+        return $block; 
+        
+    case 'resource_count':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'resource_count');      
+        }
+        return $block; 
+        
+    case 'vm_count_by_source':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'vm_count_by_source');      
+        }
+        return $block; 
+        
+    case 'cost_by_iaas_usage':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'cost_by_iaas_usage');      
+        }
+        return $block;
+        
+    case 'cost_by_platform':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'cost_by_platform');      
+        }              
+        return $block; 
+        
+    case 'cost_by_tags':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'cost_by_tags');      
+        }
+        return $block; 
+
+    case 'top_untagged_resource_by_cost':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'top_untagged_resource_by_cost');      
+        }
+        return $block; 
+        
+    case 'product_associated_to_tags':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'product_associated_to_tags');      
+        }
+        return $block; 
+        
+    case 'vm_count_tag_key':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'vm_count_tag_key');      
+        }
+        return $block; 
+        
+    case 'tag_cost_trend':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'tag_cost_trend');      
+        }
+        return $block;
+        
+    case 'instance_type_tags':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'instance_type_tags');      
+        }              
+        return $block; 
+    
+    case 'inventory_status':
+        if (user_access('access content')) {
+            if($_SESSION['providers_type'] == 'aws') {
+                $block['content'] = array('#theme' => 'inventory_status'); 
+            }
+            elseif($_SESSION['providers_type'] == 'googlecloud') {
+                $block['content'] = array('#theme' => 'inventory_status_googlecloud'); 
+            }
+            elseif($_SESSION['providers_type'] == 'ibmsoftlayer') {
+                $block['content'] = array('#theme' => 'inventory_status_ibmSoftlayer'); 
+            }
+            else{
+                $block['content'] = array('#theme' => 'inventory_status_azure'); 
+            }
+        }              
+        return $block; 
+        
+    case 'inventory_status_filter':
+        if (user_access('access content')) {
+            if($_SESSION['providers_type'] == 'aws') {
+                $block['content'] = array('#theme' => 'inventory_status_filter'); 
+            }
+            elseif($_SESSION['providers_type'] == 'googlecloud') {
+                $block['content'] = array('#theme' => 'inventory_status_virtual_googlecloud'); 
+            }
+            elseif($_SESSION['providers_type'] == 'ibmsoftlayer') {
+                $block['content'] = array('#theme' => 'inventory_status_virtual_ibmSoftlayer'); 
+            }
+            else{
+                $block['content'] = array('#theme' => 'inventory_status_virtual_azure'); 
+            }
+        }              
+        return $block;
+    
+    case 'inventory_block_search':
+        if (user_access('access content')) {
+            $block['content'] = drupal_get_form('inventory_block_search_form');      
+        }              
+        return $block;
+        
+    case 'inventory_reserved_status':
+        if (user_access('access content')) {
+          $block['content'] = array('#theme' => 'inventory_reserved_status');      
+        }              
+        return $block;
+        
+    case 'inventory_reserved_instances':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'inventory_reserved_instances');            
+        }              
+        return $block;
+    
+    case 'orders_at_glance':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'orders_at_glance');            
+        }              
+        return $block;
+    
+    case 'saas_cost_provider':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'saas_cost_provider');            
+        }              
+        return $block;
+        
+    case 'saas_cost_service_offers':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'saas_cost_service_offers');            
+        }              
+        return $block;
+        
+    case 'saas_cost_trend_offer':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'saas_cost_trend_offer');            
+        }              
+        return $block;
+        
+    case 'saas_cost_trend_provider':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'saas_cost_trend_provider');            
+        }              
+        return $block;
+    
+    case 'saas_licence_status':
+        if (user_access('access content')) {
+            $block['content'] = array('#theme' => 'saas_licence_status');            
+        }              
+        return $block;
+    
+    case 'storage_details':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'storage_details');      
+        }
+        return $block;
+        
+    case 'cost_departments':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'cost_departments');      
+        }
+        return $block;
+        
+    case 'cost_account':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'cost_account');      
+        }
+        return $block;
+        
+    case 'cost_subscriptions':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'cost_subscriptions');      
+        }
+        return $block;
+    
+    case 'recommendation':
+        if (user_access('access content')) {
+            if($_SESSION['providers_recommendation_type'] == 'aws') {
+                $block['content'] = array('#theme' => 'recommendation_aws'); 
+            }
+            elseif(($_SESSION['providers_recommendation_type'] == 'MicrosoftAzureCsp') || ($_SESSION['providers_recommendation_type'] == 'MicrosoftAzurePayg')) {
+                $block['content'] = array('#theme' => 'recommendation_azure'); 
+            }
+            else{
+                $block['content'] = t("No account associated with this user.");
+            }
+        }              
+        return $block;
+        
+    case 'resource_conf_summary_private':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resource_configuration_summary_private');      
+        }
+        return $block;
+		
+    case 'resource_conf_summary_public':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'resource_configuration_summary_public');      
+        }
+        return $block;
+		
+    case 'data_center_insights':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'data_center_insights');      
+        }
+        return $block;
+		
+    case 'cloud_insights':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'cloud_insights');      
+        }
+        return $block;			
+	
+    case 'physical_machine_count':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'physical_machine_count');      
+        }
+        return $block;	
+        
+    case 'private_cloud':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'private_cloud');      
+        }
+        return $block;
+        
+    case 'public_cloud':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'public_cloud');      
+        }
+        return $block;
+    
+    case 'instance_types_reservation':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'instance_types_covered_reservation');      
+        }
+        return $block;
+
+    case 'instance_types_zero_reservation':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'instance_types_zero_reservation');      
+        }
+        return $block;
+
+    case 'owned_burn_down_hours':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'owned_burn_down_hours');      
+        }
+        return $block;
+    
+    case 'reserved_hours_on_demand':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'reserved_hours_on_demand');      
+        }
+        return $block;
+
+    case 'reserved_instances_on_demand':
+        if (user_access('access content')) {
+         $block['content'] = array('#theme' => 'reserved_instances_on_demand');      
+        }
+        return $block;
+    }
+}
+/**
+ * Custom form.
+ */
+function inventory_block_search_form($form, &$form_state, $filters, $region, $resources, $zones){
+    $inventory_type = array();
+    $aws_account = false; 
+    $aws_recommendation_account = false;
+    $inventory_region = isset($region) ? $region : array();
+    $inventory_resources = isset($resources) ? $resources : array();
+    $inventory_zones = isset($zones) ? $zones : array();
+
+    foreach ($filters as $providers){ 
+        if(arg(1) == 'inventory'){
+            if(($providers['key'] == 'aws') || ($providers['key'] == 'MicrosoftAzurePayg') || ($providers['key'] == 'MicrosoftAzureCsp') || ($providers['key'] == 'googlecloud') || ($providers['key'] == 'ibmsoftlayer')) {
+                $type = $providers['key'].' - '.$providers['value'];
+                $inventory_type[$type] = $type;
+                $aws_account= true; 
+                $_SESSION['aws_account'] = 'false';
+            }
+            $inventory_type_selected = $_SESSION['inventory_type'];
+            $inventory_region_selected = $_SESSION['region'];
+        }
+        else{
+            if(($providers['key'] == 'aws') || ($providers['key'] == 'MicrosoftAzurePayg') || ($providers['key'] == 'MicrosoftAzureCsp')) {
+                $type = $providers['key'].' - '.$providers['value'];
+                $inventory_type[$type] = $type;
+                $aws_recommendation_account = true; 
+                $_SESSION['aws_recommendation_account'] = 'false';
+            }
+            $inventory_type_selected = $_SESSION['inventory_recommendation_type'];
+            $inventory_region_selected = $_SESSION['recommendation_region'];
+        }
+    }
+    if(($aws_account) || ($aws_recommendation_account)) {
+        $form['inventory_type'] = array(
+            '#type' => 'select',
+            '#title' => t('Provider - Account: '),
+            '#options' => $inventory_type,
+            '#default_value' => isset($inventory_type_selected) ? $inventory_type_selected : '',
+            "#prefix" => '<div class="container-inline" style="display: inline-flex;">'
+        );
+        $form['inventory_region'] = array(
+          '#type' => 'select',
+          '#title' => t('Region: '),
+          '#options' => $inventory_region,
+          '#default_value' => isset($inventory_region_selected) ? $inventory_region_selected : ''
+        );
+        $form['inventory_resources'] = array(
+          '#type' => 'select',
+          '#title' => t('Resource Group: '),
+          '#options' => $inventory_resources,
+          '#default_value' => isset($_SESSION['inventory_resources']) ? $_SESSION['inventory_resources'] : ''
+        );
+        $form['inventory_zones'] = array(
+          '#type' => 'select',
+          '#title' => t('Zones: '),
+          '#options' => $inventory_zones,
+          '#default_value' => isset($_SESSION['inventory_zones']) ? $_SESSION['inventory_zones'] : ''
+        );
+        if(arg(1) == 'inventory'){
+            if(($_SESSION['providers_type'] != 'aws')){
+                $form['inventory_region']['#attributes']['style'][] = 'display:none;';
+            }
+            if (!in_array($_SESSION['providers_type'], array('MicrosoftAzureCsp', 'MicrosoftAzurePayg'))) {
+                 $form['inventory_resources']['#attributes']['style'][] = 'display:none;';
+            }
+            if(($_SESSION['providers_type'] != 'googlecloud')){
+               $form['inventory_zones']['#attributes']['style'][] = 'display:none;';
+            }
+        }
+        else{
+            if(($_SESSION['providers_recommendation_type'] != 'aws')){
+                $form['inventory_region']['#attributes']['style'][] = 'display:none;';
+            }
+            if (!in_array($_SESSION['providers_recommendation_type'], array('MicrosoftAzureCsp', 'MicrosoftAzurePayg'))) {
+                 $form['inventory_resources']['#attributes']['style'][] = 'display:none;';
+            }
+            if(($_SESSION['providers_recommendation_type'] != 'googlecloud')){
+               $form['inventory_zones']['#attributes']['style'][] = 'display:none;';
+            }
+        }
+        $form['loading_info'] = array(
+            '#markup' => '<div id="loading" style="display:none;" class="loadingDiv"></div>',
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            "#suffix" => '</div>'
+        );
+        if(arg(1) == 'inventory'){
+            $form['submit']['#value'][] = t('Apply');
+            $form['#submit'][] = 'inventory_block_search_form_submit';
+        }
+        else{
+            $form['submit']['#value'][] = t('Apply');
+            $form['#submit'][] = 'recommendation_block_search_form_submit';
+        }
+        $form['submit']['#attributes']['class'][] = 'btn apply-success applyInventoryBtn'; 
+        return $form;
+    }
+}
+/**
+ * Custom form submit function.
+ */
+function inventory_block_search_form_submit($form, &$form_state) {
+    $inventory_type = $form_state['values']['inventory_type'];
+    $inventory = explode(" - ", $inventory_type);
+    $providerCode = $inventory[0];
+    $linkedAccountId = $inventory[1];
+    $_SESSION['inventory_type'] = $inventory_type;
+    $_SESSION['providers_type'] = $inventory[0];
+    if($providerCode == 'aws'){
+        $inventory_region = $form_state['values']['inventory_region']; 
+        $_SESSION['region'] = $inventory_region;
+        $_SESSION['inventory_region'] = $inventory_region;
+        aws_api_call($providerCode, $linkedAccountId);
+    }
+    elseif(($providerCode == 'MicrosoftAzureCsp') || ($providerCode == 'MicrosoftAzurePayg')){
+        $inventory_resources = $form_state['values']['inventory_resources']; 
+        $_SESSION['inventory_resources'] = $inventory_resources;
+        azure_api_call($providerCode, $linkedAccountId);
+    }
+    elseif($providerCode == 'ibmsoftlayer'){
+        $inventory_resources = $form_state['values']['inventory_resources']; 
+        $_SESSION['inventory_resources'] = $inventory_resources;
+        ibmsoftlayer_api_call($providerCode, $linkedAccountId);
+    }
+    elseif($providerCode == 'googlecloud'){
+        $inventory_zones = $form_state['values']['inventory_zones']; 
+        $_SESSION['inventory_zones'] = $inventory_zones;
+        googlecloud_api_call($providerCode, $linkedAccountId);
+    }
+    unset($_SESSION['Volumes']);
+    unset($_SESSION['instances']);
+    unset($_SESSION['ipaddresses']);
+    unset($_SESSION['snapshots']);
+    unset($_SESSION['images']);
+}
+/**
+ * Custom form submit function.
+ */
+function recommendation_block_search_form_submit($form, &$form_state) {
+    $inventory_type = $form_state['values']['inventory_type'];
+    $inventory = explode(" - ", $inventory_type);
+    $providerCode = $inventory[0];
+    $linkedAccountId = $inventory[1];
+    $_SESSION['inventory_recommendation_type'] = $inventory_type;
+    $_SESSION['providers_recommendation_type'] = $inventory[0];
+    if($providerCode == 'aws'){
+        $inventory_region = $form_state['values']['inventory_region']; 
+        $_SESSION['recommendation_region'] = $inventory_region;
+        $_SESSION['inventory_recommendation_region'] = $inventory_region;
+        aws_api_call($providerCode, $linkedAccountId);
+    }
+    elseif(($providerCode == 'MicrosoftAzureCsp') || ($providerCode == 'MicrosoftAzurePayg')){
+        $inventory_resources = $form_state['values']['inventory_resources']; 
+        $_SESSION['inventory_recommendation_resources'] = $inventory_resources;
+        azure_api_call($providerCode, $linkedAccountId);
+    }
+    elseif($providerCode == 'ibmsoftlayer'){
+        $inventory_resources = $form_state['values']['inventory_resources']; 
+        $_SESSION['inventory_recommendation_resources'] = $inventory_resources;
+        ibmsoftlayer_api_call($providerCode, $linkedAccountId);
+    }
+    elseif($providerCode == 'googlecloud'){
+        $inventory_zones = $form_state['values']['inventory_zones']; 
+        $_SESSION['inventory_recommendation_zones'] = $inventory_zones;
+        googlecloud_api_call($providerCode, $linkedAccountId);
+    }
+    unset($_SESSION['Volumes']);
+    unset($_SESSION['instances']);
+    unset($_SESSION['ipaddresses']);
+    unset($_SESSION['snapshots']);
+    unset($_SESSION['images']);
+}
+/**
+ * Preprocesses variables for google-chart-public-cloud-filter.tpl.php
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see google-chart-public-cloud-filter.tpl.php
+ */
+function template_preprocess_private_cloud(&$variables) {
+     if((arg(1) == 'migration')){
+        $startdate = $_SESSION['start_date_migration'];
+        $enddate = date('Ymd');
+        $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+        $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/report/migration_vendor_list?startdate='.$startdate.'&enddate='.$enddate;
+        $result = jsdnapi_curl_raw($api_url);
+        $result = json_decode($result, true);
+        $variables['filter_type'] = empty($result['DataFeedList'][0]['datafeedData']) ? array() : $result['DataFeedList'][0]['datafeedData'];
+        $_SESSION['private_cloud'] = $variables['filter_type'];
+        $_SESSION['LastUpdatedDate'] = $result['LastUpdatedDate'];
+    }
+}
+/**
+ * Preprocesses variables for google-chart-private-cloud-filter.tpl.php
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see google-chart-private-cloud-filter.tpl.php
+ */
+function template_preprocess_public_cloud(&$variables) {
+    if((arg(1) == 'migration')){
+        $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+        $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/report/providers?cstype=IAAS';
+        //$api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/provider-accounts?cstype=IAAS&provider=All&fetchCount=5';
+        $result = jsdnapi_curl_raw($api_url);
+        $result = json_decode($result, true);
+        $variables['filter_type'] = empty($result['DataFeedList'][0]['datafeedData']) ? array() : $result['DataFeedList'][0]['datafeedData'];
+        $_SESSION['public_cloud'] = $variables['filter_type'];
+        $_SESSION['LastUpdatedDate'] = $result['LastUpdatedDate'];
+    }
+}
+/**
+ * Preprocesses variables for additional-field.tpl.php.
+ *
+ * @param $variables
+ *   An array containing the following elements:
+ *   - filter_type: Retrives the service details value from an api call.
+ * @see additional-field.tpl.php
+ */
+function template_preprocess_dashboard_filter(&$variables) {
+    if(empty($_SESSION['changed_acronym'])){
+        $showAll = true;
+        $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    }
+    else{
+        $JSDN_TENANT_ORG_ACRONYM = $_SESSION['changed_acronym'];
+    }
+    if(arg(1) === 'migration'){
+        $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/report/org_migration_start_date';
+        $result_migration = jsdnapi_curl_raw($api_url);
+        $result_migration = json_decode($result_migration, true);
+        $_SESSION['start_date_migration']  = isset($result_migration['DataFeedList'][0]['datafeedData']) ? $result_migration['DataFeedList'][0]['datafeedData'][0]['value'] : '';
+    }
+    if((arg(1) != 'inventory') && (arg(1) != 'recommendation')){
+        $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/report/providers?cstype=IAAS';
+        if($showAll){
+            $api_url .= "&showAll=All"; 
+        }
+        $result = jsdnapi_curl_raw($api_url);
+        $result = json_decode($result, true);
+        $variables['filter_type'] = isset($result['DataFeedList'][0]['datafeedData']) ? $result['DataFeedList'][0]['datafeedData'] : '';
+        drupal_session_start();
+        $_SESSION['LastUpdatedDate'] = $result['LastUpdatedDate'];
+        if((arg(1) != 'saas')){
+            $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$_SESSION['companyacronym'].'/datafeed/report/store-customers?cstype=IAAS';
+        }
+        else{
+            $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$_SESSION['companyacronym'].'/datafeed/report/store-customers?cstype=SAAS';
+        }
+        $result_company_acronym = jsdnapi_curl_raw($api_url);
+        $result_company_acronym = json_decode($result_company_acronym, true);
+        $_SESSION['company_acronym']  = isset($result_company_acronym['DataFeedList'][0]['datafeedData']) ? $result_company_acronym['DataFeedList'][0]['datafeedData'] : '';
+        $variables['company_acronym'] = $_SESSION['company_acronym'];
+    }
+    else{
+        $variables['filter_type'] = $_SESSION['provider'];
+        $variables['regions'] = $_SESSION['regions'];
+        $variables['resource_group'] = $_SESSION['resource_group'];
+        $variables['resource_zones'] = $_SESSION['resource_zones'];
+    }
+}
+/**
+ * Implements hook_init().
+ */
+function jsdn_google_chart_aws_api() {
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/provider-accounts?cstype=IAAS&provider=All&fetchCount=5';
+    $result = jsdnapi_curl_raw($api_url);
+    $result = json_decode($result, true);
+    $provider = empty($result['DataFeedList'][0]['datafeedData']) ? array() : $result['DataFeedList'][0]['datafeedData'];
+	$providers = array();
+	foreach ($provider as $cloudprovider) {
+		if(isset($cloudprovider['key']) && isset($cloudprovider['value'])){
+			$providers[] = $cloudprovider;	
+		}
+	}
+	$_SESSION['provider'] = $providers;
+    $api_call_processed = false;
+    $api_call_processed_recommend = false;
+    $_SESSION['regions'] = array('us-east-1' => t('US East (N. Virginia)'), 
+                                'us-east-2' => t('US East (Ohio)'), 
+                                'us-west-1' => t('US West (N. California)'), 
+                                'us-west-2' => t('US West (Oregon)'), 
+                                'ca-central-1' => t('Canada (Central)'),
+                                'eu-west-1' => t('EU (Ireland)'), 
+                                'eu-central-1' => t('EU (Frankfurt)'), 
+                                'eu-west-2' => t('EU (LONDON)'), 
+                                'ap-southeast-1' => t('Asia Pacific (Singapore)'), 
+                                'ap-southeast-2' => t('Asia Pacific (Sydney)'),
+                                'ap-northeast-2' => t('Asia Pacific (Seoul)'), 
+                                'ap-northeast-1' => t('Asia Pacific (Tokyo)'),
+                                'ap-south-1' => t('Asia Pacific (Mumbai)'), 
+                                'sa-east-1' => t('South America (Sao Paulo)')
+                            );
+    foreach ($providers as $cloudprovider) {
+        if(($cloudprovider['key'] == 'aws') && (!$api_call_processed) && (!$api_call_processed_recommend)){
+            $providerCode = $cloudprovider['key'];
+            $linkedAccountId = $cloudprovider['value'];
+            aws_api_call($providerCode, $linkedAccountId);
+            if(arg(1) == 'inventory'){
+                $api_call_processed = true;
+                $_SESSION['providers_type'] = $providerCode;
+                $_SESSION['inventory_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+            else{
+                $api_call_processed_recommend = true;
+                $_SESSION['providers_recommendation_type'] = $providerCode;
+                $_SESSION['inventory_recommendation_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+        }
+        elseif((($cloudprovider['key'] == 'MicrosoftAzureCsp') || ($cloudprovider['key'] == 'MicrosoftAzurePayg')) && (!$api_call_processed) && (!$api_call_processed_recommend)){
+            $providerCode = $cloudprovider['key'];
+            $linkedAccountId = $cloudprovider['value'];
+            azure_api_call($providerCode, $linkedAccountId);
+            if(arg(1) == 'inventory'){
+                $api_call_processed = true;
+                $_SESSION['providers_type'] = $providerCode;
+                $_SESSION['inventory_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+            else{
+                $api_call_processed_recommend = true;
+                $_SESSION['providers_recommendation_type'] = $providerCode;
+                $_SESSION['inventory_recommendation_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+        }
+        elseif(($cloudprovider['key'] == 'googlecloud') && (!$api_call_processed) && (!$api_call_processed_recommend)){
+            $providerCode = $cloudprovider['key'];
+            $linkedAccountId = $cloudprovider['value'];
+            googlecloud_api_call($providerCode, $linkedAccountId);
+            if(arg(1) == 'inventory'){
+                $api_call_processed = true;
+                $_SESSION['providers_type'] = $providerCode;
+                $_SESSION['inventory_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+        }
+        elseif(($cloudprovider['key'] == 'ibmsoftlayer') && (!$api_call_processed) && (!$api_call_processed_recommend)){
+            $providerCode = $cloudprovider['key'];
+            $linkedAccountId = $cloudprovider['value'];
+            ibmsoftlayer_api_call($providerCode, $linkedAccountId);
+            if(arg(1) == 'inventory'){
+                $api_call_processed = true;
+                $_SESSION['providers_type'] = $providerCode;
+                $_SESSION['inventory_type'] = $providerCode.' - '.$linkedAccountId;
+            }
+        }
+    }
+}
+/**
+ * Implements aws_api_call().
+ */
+function aws_api_call($providerCode, $linkedAccountId) {
+    unset($_SESSION['accessKey']);
+    unset($_SESSION['secretKey']); 
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url_account = JSDN_OAUTH_HOST."/api/2.0/".$JSDN_TENANT_ORG_ACRONYM."/datafeed/jsdn/provider-account-credentials?cstype=IAAS&provider=All&fetchCount=5&providerCode=".$providerCode."&linkedAccountId=".$linkedAccountId; 
+    $result_account = jsdnapi_curl_raw($api_url_account);
+    $result_account = json_decode($result_account, true);
+    $provider_details = empty($result_account['DataFeedList'][0]['datafeedData']) ? array() : $result_account['DataFeedList'][0]['datafeedData'];
+    $access_details = json_decode($provider_details[0]['value']);
+    $accessKey = $access_details->accessKey;
+    $secretKey = $access_details->secretKey; 
+    if(!empty($accessKey) && !empty($secretKey)){
+        $_SESSION['accessKey'] = $accessKey;
+        $_SESSION['secretKey'] = $secretKey; 
+        $_SESSION['inventory_region'] = !empty($_SESSION['inventory_region']) ? $_SESSION['inventory_region'] : 'us-east-1';
+        $_SESSION['inventory_recommendation_region'] = !empty($_SESSION['inventory_recommendation_region']) ? $_SESSION['inventory_recommendation_region'] : 'us-east-1'; 
+        
+    }
+}
+/**
+ * Implements azure_api_call().
+ */
+function azure_api_call($providerCode, $linkedAccountId) {
+    unset($_SESSION['subscriptionId']);
+	unset($_SESSION['clientid']);
+	unset($_SESSION['subscriptionId']);
+	unset($_SESSION['msSubDomain']);
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url_account = JSDN_OAUTH_HOST."/api/2.0/".$JSDN_TENANT_ORG_ACRONYM."/datafeed/jsdn/provider-account-credentials?cstype=IAAS&provider=All&fetchCount=5&providerCode=".$providerCode."&linkedAccountId=".$linkedAccountId; 
+    $result_account = jsdnapi_curl_raw($api_url_account);
+    $result_account = json_decode($result_account, true);
+    $provider_details = empty($result_account['DataFeedList'][0]['datafeedData']) ? array() : $result_account['DataFeedList'][0]['datafeedData'];
+    $access_details = json_decode($provider_details[0]['value'], true);
+    if($providerCode == 'MicrosoftAzureCsp'){
+        $clientId = $access_details['graphID'];
+        $clientSecret = $access_details['graphappKey'];
+    }
+    else{
+        $clientId = $access_details['graphAppID'];
+        $clientSecret = $access_details['graphKey'];
+    }
+	$clientSecret = urlencode($clientSecret);
+    if( isset( $access_details['azureIAASSubscriptionID'] ) ){
+        $subscriptionId = $access_details['azureIAASSubscriptionID']; 
+    }else{
+        $subscriptionId = $linkedAccountId; 
+    } 
+    $msSubDomain = $access_details['msSubDomain']; 
+
+    if(!empty($clientId) && !empty($clientSecret) && !empty($subscriptionId) && !empty($msSubDomain)){
+        $_SESSION['clientid'] = $clientId;
+        $_SESSION['clientsecret'] = $clientSecret; 
+        $_SESSION['subscriptionId'] = $subscriptionId;
+        $_SESSION['msSubDomain'] = $msSubDomain;
+    }
+    if(!empty($clientId) && !empty($clientSecret) && !empty($msSubDomain)){
+        $windowsazure_body = 'grant_type=client_credentials&client_id='.$clientId.'&client_secret='.$clientSecret.'&resource=https://management.azure.com/';
+        $ch = curl_init();
+        $curlConfig = array(
+            CURLOPT_URL            => "https://login.windows.net/".$msSubDomain.".onmicrosoft.com/oauth2/token",
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 500,
+            CURLOPT_POSTFIELDS     => $windowsazure_body
+        );
+        curl_setopt_array($ch, $curlConfig);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $arraytocken = json_decode($result, true);
+        $_SESSION['azure_Token'] = $arraytocken["access_token"];
+    }
+    
+    // Implementation to get the Resource Group - Dropdown instead of Regions in AWS implementation
+    if(!empty($_SESSION['azure_Token'])){
+        if((arg(1) == 'inventory') || (arg(1) == 'azure')){
+            $ch = curl_init();
+            $curlConfig = array(
+                CURLOPT_URL            => "https://management.azure.com/subscriptions/".$_SESSION['subscriptionId']."/resourcegroups?api-version=2014-04-01-preview",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 500,
+            );
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer '.$_SESSION['azure_Token'],
+            ));
+            curl_setopt_array($ch, $curlConfig);
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            curl_close($ch);
+            $resources = $result['value'];
+            $resource_group = array();
+            foreach ($resources as $resource) {
+                $resource_group[$resource['name']] = $resource['name'];
+            }
+            if(empty($_SESSION['inventory_resources'])){
+                $_SESSION['inventory_resources'] = $resources[0]['name'];
+            }
+            $_SESSION['resource_group'] =  $resource_group;
+        }
+        else{
+            // generate recommendation
+            if(empty($_SESSION['generate_recommendation'])){
+                $url_recommendation = "https://management.azure.com/subscriptions/".$subscriptionId."/providers/Microsoft.Advisor/generateRecommendations?api-version=2017-03-31";
+                $generate_recommendation = jsdn_google_chart_get_azure_resource_call($url_recommendation);
+                $_SESSION['generate_recommendation'] = 'true';
+            }
+        }
+    }
+}
+/**
+ * Implements azure_api_call().
+ */
+function jsdn_google_chart_get_azure_data() {
+    $providerCode = $_POST["providerCode"];
+    $linkedAccountId = $_POST["linkedAccountId"];
+    azure_api_call($providerCode, $linkedAccountId);
+    print json_encode($_SESSION['resource_group']);
+    exit;
+}
+
+/**
+ * Implements azure_api_call().
+ */
+function jsdn_google_chart_get_azure_resource_call($url) {
+    $ch = curl_init();
+    $curlConfig = array(
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 500,
+    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer '.$_SESSION['azure_Token'],
+    ));
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    if ($result === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        watchdog('jsdn_google_chart', 'Curl Request %exception.', array('%exception' => $error));
+    } 
+    curl_close($ch);
+    return json_decode($result, true);
+}
+/**
+ * Implements azure_api_call().
+ */
+function jsdn_google_chart_get_azure_token() {
+    $windowsazure_body = 'grant_type=client_credentials&client_id='.$_SESSION['clientid'].'&client_secret='.$_SESSION['clientsecret'].'&resource=https://management.azure.com/';
+    $ch = curl_init();
+    $curlConfig = array(
+        CURLOPT_URL            => "https://login.windows.net/".$_SESSION['msSubDomain'].".onmicrosoft.com/oauth2/token",
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 500,
+        CURLOPT_POSTFIELDS     => $windowsazure_body
+    );
+    curl_setopt_array($ch, $curlConfig);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $arraytocken = json_decode($result, true);
+    $_SESSION['azure_Token'] = $arraytocken["access_token"];
+}
+/**
+ * Implements azure_api_call().
+ */
+function jsdn_google_chart_get_googlecloud_data() {
+    $providerCode = $_POST["providerCode"];
+    $linkedAccountId = $_POST["linkedAccountId"];
+    googlecloud_api_call($providerCode, $linkedAccountId);
+    print json_encode($_SESSION['resource_zones']);
+    exit;
+}
+/**
+ * Implements googlecloud_api_call().
+ */
+function googlecloud_api_call($providerCode, $linkedAccountId) {
+    $path = drupal_get_path('module', 'jsdn_google_chart'). '/lib/googlecloud/autoload.php';
+    include ($path);
+    unset($_SESSION['config_googlecloud']);
+    unset($_SESSION['project_id']);
+    
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url_account = JSDN_OAUTH_HOST."/api/2.0/".$JSDN_TENANT_ORG_ACRONYM."/datafeed/jsdn/provider-account-credentials?cstype=IAAS&provider=All&fetchCount=5&providerCode=".$providerCode."&linkedAccountId=".$linkedAccountId; 
+    $result_account = jsdnapi_curl_raw($api_url_account);
+    $result_account = json_decode($result_account, true);
+    $provider_details = empty($result_account['DataFeedList'][0]['datafeedData']) ? array() : $result_account['DataFeedList'][0]['datafeedData'];
+    $access_details = json_decode($provider_details[0]['value']);
+    $access_details = $access_details->credentials;
+
+    if(($access_details != 'null')) {
+		if(!empty($access_details)){
+			$_SESSION['config_googlecloud'] = $access_details;
+			$access_detail = json_decode($access_details);
+			$project_id = $access_detail->project_id;
+			$_SESSION['project_id'] = $project_id;
+			$client = new Google_Client();
+			$client->setApplicationName('Client Sample Application');
+			$client->setScopes(['https://www.googleapis.com/auth/cloud-platform']);
+			$client->useApplicationDefaultCredentials();
+			$client->setAuthConfig($_SESSION['config_googlecloud'] ,'');
+			// Create a new Compute service.
+			$service = new Google_Service_Compute($client);
+			// To Get the Zones to display as the second filter Zone:
+			$response = $service->zones->listZones($project_id);
+			$response = $response->toSimpleObject();
+			$resource_zone = $response->items;
+			foreach($resource_zone as $zones){
+				$resource_zones[$zones['name']] = $zones['description'];
+			}
+			$_SESSION['inventory_zones'] = !empty($_SESSION['inventory_zones']) ? $_SESSION['inventory_zones'] : $response->items[0]['name'];
+			$_SESSION['resource_zones'] =  $resource_zones;
+		}
+	}
+}
+/**
+ * Implements ibmsoftlayer_api_call().
+ */
+function ibmsoftlayer_api_call($providerCode, $linkedAccountId) {    
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url_account = JSDN_OAUTH_HOST."/api/2.0/".$JSDN_TENANT_ORG_ACRONYM."/datafeed/jsdn/provider-account-credentials?cstype=IAAS&provider=All&fetchCount=5&providerCode=".$providerCode."&linkedAccountId=".$linkedAccountId; 
+    $result_account = jsdnapi_curl_raw($api_url_account);
+    $result_account = json_decode($result_account, true);
+    $provider_details = empty($result_account['DataFeedList'][0]['datafeedData']) ? array() : $result_account['DataFeedList'][0]['datafeedData'];
+    $access_details = json_decode($provider_details[0]['value'], true);
+    $ibm_apiUsername = $access_details['username'];
+    $ibm_apiKey = $access_details['password'];
+    if(!empty($ibm_apiUsername) && !empty($ibm_apiKey)){
+        $_SESSION['ibm_apiUsername'] = $ibm_apiUsername;
+        $_SESSION['ibm_apiKey'] =  $ibm_apiKey;
+    }
+}
+/**
+ * Implements provider_accounts_api().
+ */
+function jsdn_google_chart_provider_accounts_api() {
+    $JSDN_TENANT_ORG_ACRONYM = $_SESSION['companyacronym'];
+    $api_url = JSDN_OAUTH_HOST .'/api/2.0/'.$JSDN_TENANT_ORG_ACRONYM.'/datafeed/jsdn/provider-accounts?cstype=IAAS&provider=All&fetchCount=5';
+    $result = jsdnapi_curl_raw($api_url);
+    $result = json_decode($result, true);
+    $provider = empty($result['DataFeedList'][0]['datafeedData']) ? array() : $result['DataFeedList'][0]['datafeedData'];
+	$providers = array();
+	foreach ($provider as $cloudprovider) {
+		if(isset($cloudprovider['key']) && isset($cloudprovider['value'])){
+			$providers[] = $cloudprovider;	
+		}
+	}
+	$_SESSION['provider'] = $providers;
+    if(arg(1) == 'recommendation'){
+        $inventory_type = $_SESSION['inventory_recommendation_type']; 
+        $inventory = explode(" - ", $inventory_type);
+        $providerCode = $inventory[0];
+        $linkedAccountId = $inventory[1];
+        $_SESSION['providers_recommendation_type'] = $inventory[0];
+        if(($providerCode == 'MicrosoftAzureCsp') || ($providerCode == 'MicrosoftAzurePayg')){
+            azure_api_call($providerCode, $linkedAccountId);
+        }
+        $_SESSION['inventory_page'] = true;
+    }
+    if(arg(1) == 'inventory' && $_SESSION['inventory_page'] == true){
+        $inventory_type = $_SESSION['inventory_type']; 
+        $inventory = explode(" - ", $inventory_type);
+        $providerCode = $inventory[0];
+        $linkedAccountId = $inventory[1];
+        $_SESSION['providers_type'] = $inventory[0];
+        if(($providerCode == 'MicrosoftAzureCsp') || ($providerCode == 'MicrosoftAzurePayg')){
+            azure_api_call($providerCode, $linkedAccountId);
+        }
+        $_SESSION['inventory_page'] = false;
+    }
+}

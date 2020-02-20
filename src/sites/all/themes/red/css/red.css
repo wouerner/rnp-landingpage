@@ -1,0 +1,22 @@
+.main-menu{background:#f23838!important}
+.top > a{background:none!important;border-right:solid 1px #d21818 !important}
+.top:first-child > a {border-left: none!important;}
+#mainWrapper .content-section .search-section button{background:#f23838;border:1px solid #f23838}
+.main-menu ul li:hover{background:#f23838;}
+.apply-success{background-color:#3b3b3b!important}
+.apply-success:hover{background-color:#141414!important}
+.bootstrap-dialog.type-primary .modal-header{background-color: #141414!important;}
+.page-resource-details .resource-tabs{background: #efe4b2!important;}
+.resource-detail a.backbutton{border:solid 1px #f8d013!important;color: #f8d013!important;}
+.btn-primary {background-color: #3b3b3b!important;border-color:#3b3b3b!important;}
+.btn-default{border:solid 1px #3b3b3b!important;color: #fff!important;}
+.btn-primary:hover, .btn-primary.disabled.focus,.btn-primary.disabled:focus,.btn-primary.disabled:hover,.btn-primary[disabled].focus,.btn-primary[disabled]:focus,.btn-primary[disabled]:hover,fieldset[disabled] .btn-primary.focus,fieldset[disabled] .btn-primary:focus,fieldset[disabled] .btn-primary:hover{background-color: #141414!important;border-color:#141414!important;}
+.btn-default:hover{border:solid 1px #141414!important;color: #e8c003!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton{background-color: #141414!important;border-color:#141414!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton:hover {background-color: #D9AF00!important;border-color:#D9AF00!important;}
+.page-resource-details .tab-content .tab-pane .section .action-list .actionButton a:hover{text-decoration:none!important}
+#footer div.block:first-child {border-bottom: 1px solid #0e1010;}
+#footer {border-left: 1px solid #0e1010;}
+.offer-popup .modal-header, .modal-header{background: #141414;}
+.comment-wrapper .comment-form .form-actions{background: #141414;}
+#footer-wrapper{background:#191919}

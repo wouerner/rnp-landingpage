@@ -1,0 +1,15 @@
+﻿<?php
+
+/**
+ * @file
+ * Installation functions for views_multiple_themes module.
+ */
+
+/**
+ * Implements hook_disable().
+ */
+function views_multiple_themes_disable() {
+  // Clear the Views caches to avoid the now-missing views_multiple_themes integration from
+  // borking the system.
+  views_invalidate_cache();
+}

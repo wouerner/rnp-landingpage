@@ -1,0 +1,12 @@
+name = JSDN Enterprise Store
+description = JSDN Enterprise Store.
+core = 7.x
+package = JSDN
+files[] = jsdn_enterprise_store.module
+
+; Information added by Himangshu Dutta packaging script on 2015-03-24
+version = "7.x-1.1"
+core = "7.x"
+project = "jsdn_enterprise_store"
+datestamp = "1426747691"
+

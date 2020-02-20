@@ -1,0 +1,15 @@
+name = JSDN API call
+description = Call various JSDN APIs.
+core = 7.x
+package = JSDN
+files[] = jsdnapi.module
+dependencies[] = field_hidden
+
+configure = admin/config/jsdn/jsdn_configuration
+
+; Information added by Himangshu Dutta packaging script on 2015-03-24
+version = "7.x-1.1"
+core = "7.x"
+project = "jsdnapi"
+datestamp = "1426747691"
+

@@ -1,0 +1,24 @@
+div.view div.ajax-progress {
+  background: rgba(0,0,0,0.3);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9998;
+}
+
+div.view div.throbber {
+  background: url("/cms/sites/default/files/views_sexy_throbber/loading.gif") no-repeat scroll 50% 50%;
+  background-color: transparent;
+  border-radius: 16px;
+  height: 16px;
+  left: 50%;
+  margin-left: -24.5px;
+  margin-top: -8px;
+  padding: 10px;
+  position: fixed;
+  top: 50%;
+  width: 49px;
+  z-index: 9999;
+}

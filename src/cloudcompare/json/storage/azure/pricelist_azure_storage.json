@@ -1,0 +1,4041 @@
+{
+  "formatVersion": "v1.0",
+  "disclaimer": "This pricing list is for informational purposes only. All prices are subject to the additional terms included in the pricing pages on https://azure.microsoft.com/en-in/pricing/details/bandwidth/ and https://azure.microsoft.com/en-in/pricing/details/storage/blobs/",
+  "offerCode": "Microsoft Azure - Blob Storage",
+  "version": "1.0",
+  "publicationDate": "2018-05-30T16:53:11Z",
+  "products": {
+    "us-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0177 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.017 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 10,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+    "us-east": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.02 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0208 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0208000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 10,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"us-east2": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0177 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.017 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 10,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"us-north-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.02 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0208 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0208000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"us-south-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0177 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.017 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"us-west-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0177 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.017 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"us-west": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.02 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0208 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0208000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"us-west2": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0177 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.017 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"europe-north": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0212 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0212000000"
+            }
+          },
+          {
+            "description": "$0.0203 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0203000000"
+            }
+          },
+          {
+            "description": "$0.022 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0220000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"europe-west": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0189 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0189000000"
+            }
+          },
+          {
+            "description": "$0.0181 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0181000000"
+            }
+          },
+          {
+            "description": "$0.0196 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0196000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.054 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000054000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0043 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004300"
+            }
+          }
+        ]
+      }
+    ],
+	"asia-pacific-east": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0231 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0231000000"
+            }
+          },
+          {
+            "description": "$0.0221 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0221000000"
+            }
+          },
+          {
+            "description": "$0.024 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0240000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	 "asia-pacific-southeast": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	 "japan-east": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	 "japan-west": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	 "brazil-south": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.181 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1810000000"
+            }
+          },
+          {
+            "description": "$0.175 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1750000000"
+            }
+          },
+          {
+            "description": "$0.17 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1700000000"
+            }
+          },
+          {
+            "description": "$0.16 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1600000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0315 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0315000000"
+            }
+          },
+          {
+            "description": "$0.0304 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0304000000"
+            }
+          },
+          {
+            "description": "$0.0326 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0326000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.07 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000070000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0056 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000005600"
+            }
+          }
+        ]
+      }
+    ],
+	 "australia-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.000 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.000 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.00 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.00 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.024 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0240000000"
+            }
+          },
+          {
+            "description": "$0.023 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0230000000"
+            }
+          },
+          {
+            "description": "$0.025 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0250000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0688 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000068800"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0055 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000005500"
+            }
+          }
+        ]
+      }
+    ],
+	 "australia-central-2": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.000 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.000 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.00 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.00 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.024 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0240000000"
+            }
+          },
+          {
+            "description": "$0.023 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0230000000"
+            }
+          },
+          {
+            "description": "$0.025 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0250000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0688 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000068800"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0055 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000005500"
+            }
+          }
+        ]
+      }
+    ],
+	"australia-east": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"australia-southeast": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"central-india": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.08200000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0170000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"south-india": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0229 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0229000000"
+            }
+          },
+          {
+            "description": "$0.0219 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0219000000"
+            }
+          },
+          {
+            "description": "$0.0238 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0238000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"west-india": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"canada-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.06 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000060000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0048 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004800"
+            }
+          }
+        ]
+      }
+    ],
+	"canada-east": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.055 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000055000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0044 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004400"
+            }
+          }
+        ]
+      }
+    ],
+	"germany-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.10 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1000000000"
+            }
+          },
+          {
+            "description": "$0.095 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0950000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          },
+          {
+            "description": "$0.057 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0570000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0202 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0202000000"
+            }
+          },
+          {
+            "description": "$0.0194 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0194000000"
+            }
+          },
+          {
+            "description": "$0.021 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0210000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0575 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000057500"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0046 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004600"
+            }
+          }
+        ]
+      }
+    ],
+	"germany-northeast": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.10 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1000000000"
+            }
+          },
+          {
+            "description": "$0.095 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0950000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          },
+          {
+            "description": "$0.057 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0570000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0202 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0202000000"
+            }
+          },
+          {
+            "description": "$0.0194 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0194000000"
+            }
+          },
+          {
+            "description": "$0.021 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0210000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0575 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000057500"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0046 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004600"
+            }
+          }
+        ]
+      }
+    ],
+	"united-kingdom-south": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0185 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0185000000"
+            }
+          },
+          {
+            "description": "$0.0177 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.059 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000059000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0047 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004700"
+            }
+          }
+        ]
+      }
+    ],
+	"united-kingdom-west": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0185 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0185000000"
+            }
+          },
+          {
+            "description": "$0.0177 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.059 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000059000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0047 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004700"
+            }
+          }
+        ]
+      }
+    ],
+	"france-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0185 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0185000000"
+            }
+          },
+          {
+            "description": "$0.0177 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0177000000"
+            }
+          },
+          {
+            "description": "$0.0192 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.059 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000059000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0047 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004700"
+            }
+          }
+        ]
+      }
+    ],
+	"france-south": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.083 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0830000000"
+            }
+          },
+          {
+            "description": "$0.07 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0700000000"
+            }
+          },
+          {
+            "description": "$0.05 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0500000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.024 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0240000000"
+            }
+          },
+          {
+            "description": "$0.023 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0230000000"
+            }
+          },
+          {
+            "description": "$0.025 per GB - first 10 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0250000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0767 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000076700"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.0062 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000006200"
+            }
+          }
+        ]
+      }
+    ],
+	"korea-central": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.08200000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"korea-south": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.12 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1200000000"
+            }
+          },
+          {
+            "description": "$0.085 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0850000000"
+            }
+          },
+          {
+            "description": "$0.082 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0820000000"
+            }
+          },
+          {
+            "description": "$0.08 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0800000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0192 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0192000000"
+            }
+          },
+          {
+            "description": "$0.0184 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0184000000"
+            }
+          },
+          {
+            "description": "$0.02 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0200000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"usgov-arizona": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.109 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1090000000"
+            }
+          },
+          {
+            "description": "$0.103 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1030000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.062 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0620000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0286 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0286000000"
+            }
+          },
+          {
+            "description": "$0.0276 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0276000000"
+            }
+          },
+          {
+            "description": "$0.0296 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0296000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"usgov-iowa": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.109 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1090000000"
+            }
+          },
+          {
+            "description": "$0.103 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1030000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.062 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.062000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0285 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0285000000"
+            }
+          },
+          {
+            "description": "$0.0273 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0273000000"
+            }
+          },
+          {
+            "description": "$0.0296 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0296000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"usgov-texas": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.109 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1090000000"
+            }
+          },
+          {
+            "description": "$0.103 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1030000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.062 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0620000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0286 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0286000000"
+            }
+          },
+          {
+            "description": "$0.0276 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0276000000"
+            }
+          },
+          {
+            "description": "$0.0296 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0296000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ],
+	"usgov-virginia": [
+      {
+        "productFamily": "Data Transfer",
+        "priceDimensions": [
+          {
+            "description": "$0.000 per GB - first 5 GB / month of storage used",
+            "beginRange": "0",
+            "endRange": "5",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0000000000"
+            }
+          },
+          {
+            "description": "$0.109 per GB - next 5 GB - 10 TB  / month of storage used",
+            "beginRange": "5",
+            "endRange": "10240",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1090000000"
+            }
+          },
+          {
+            "description": "$0.103 per GB - next 10 - 50 TB / month over 500 TB",
+            "beginRange": "10240",
+            "endRange": "51200",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.1030000000"
+            }
+          },
+          {
+            "description": "$0.087 per GB - next 50 - 150 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "153600",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0870000000"
+            }
+          },
+          {
+            "description": "$0.062 per GB - next 150 - 500 TB / month of storage used",
+            "beginRange": "153600",
+            "endRange": "512000",
+            "unit": "GB",
+            "pricePerUnit": {
+              "USD": "0.0620000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "Storage",
+        "priceDimensions": [
+          {
+            "description": "$0.0285 per GB - next 450 TB / month of storage used",
+            "beginRange": "51200",
+            "endRange": "512000",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0285000000"
+            }
+          },
+          {
+            "description": "$0.0273 per GB - storage used / month over 500 TB",
+            "beginRange": "512000",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0273000000"
+            }
+          },
+          {
+            "description": "$0.0296 per GB - first 50 TB / month of storage used",
+            "beginRange": "0",
+            "endRange": "51200",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0296000000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "PUT/COPY/POST API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.05 per 1,000 PUT, COPY, POST or LIST requests to One Zone-Infrequent Access",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000050000"
+            }
+          }
+        ]
+      },
+      {
+        "productFamily": "GET and all other requests API Request",
+        "priceDimensions": [
+          {
+            "description": "$0.004 per 10,000 GET and all other requests",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Requests",
+            "pricePerUnit": {
+              "USD": "0.0000004000"
+            }
+          }
+        ]
+      }
+    ]
+}
+}

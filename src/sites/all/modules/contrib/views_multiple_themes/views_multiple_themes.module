@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Provides multiple themes using with Views.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function views_multiple_themes_views_api() {
+  return array(
+    'api' => 3.0,
+  );
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function views_multiple_themes_views_pre_view(&$view, &$display_id, &$args) {
+  global $theme;
+
+  foreach ($view->display as $id => $display) {
+    if ($id != $display_id
+      && isset($display->display_options['vmt_trigger_theme'])
+      && isset($display->display_options['vmt_redirect_display'])
+      && $display->display_options['vmt_trigger_theme'] == $theme
+      && $display->display_options['vmt_redirect_display'] == $display_id) {
+        // Set views to satisfying display and then exit.
+        $view->set_display($id);
+        return;
+    }
+  }
+
+}
