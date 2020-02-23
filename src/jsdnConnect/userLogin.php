@@ -1,7 +1,10 @@
 <?php
 $server_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-define('DRUPAL_ROOT', $_SERVER['DOCUMENT_ROOT'].'cms/');
+#define('DRUPAL_ROOT', $_SERVER['DOCUMENT_ROOT'].'cms/');
+define('DRUPAL_ROOT', $_SERVER['DOCUMENT_ROOT'].'/cms/');
 define("JSDN_OAUTH_HOST", $server_url);
+// echo DRUPAL_ROOT . 'teste';
+// die;
 require_once DRUPAL_ROOT . 'includes/bootstrap.inc';
 
 // Bootstrap Drupal at the phase that you need
@@ -15,14 +18,14 @@ die();
 
 
 function ajax_login_validate( $username, $password )
-{ 
+{
     global $role;
     global $rolecode;
     global $user;
     global $fname;
-    global $lname;	
+    global $lname;
     global $language;
-    
+
     // In our case we're assuming that any username with an '@' sign is an e-mail address,
     // hence we're going to check the credentials against our external system.
     if ( strpos( $username, '@' ) !== false ) {
@@ -151,7 +154,7 @@ function validateExternalUserAjax( $username, $password ){
     );
     curl_setopt($ch, CURLOPT_TIMEOUT, 500);
     curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); 
+    curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt_array($ch, $curlConfig);
     $result = curl_exec($ch);
     curl_close($ch);
@@ -188,7 +191,7 @@ function validateExternalUserAjax( $username, $password ){
             if(isset($array["cartItemCount"])){
                 $cartCount=$array["cartItemCount"];
                 $_SESSION['cartCount']=$cartCount;
-            }		
+            }
             $_SESSION['MenuJSON']=json_encode($array);
             $_SESSION['jsdnHelpURL']=$jsdnHelpLink;
             return 'true';

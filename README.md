@@ -27,3 +27,4 @@ docker-compose up
 * O docker-compose vai criar uma pasta na raiz do projeto chamada "data" essa pasta vai conter os dados Postgres 9.5, ao apagar essa pasta teremos a perda dos dados do banco de dados.
 * Dentro da pasta src/ tem todos os arquivos do Drupal (pois o projeto foi customizado além da pasta sites :( )
 * Todos os **.sql** dentro da pasta `docker/docker-entrypoint-initdb.d` serão executados.
+* pg_restore -h localhost -p 5434 -U postgres -d postgres sql_dump.sql
