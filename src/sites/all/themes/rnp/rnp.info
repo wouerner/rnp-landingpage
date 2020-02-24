@@ -1,0 +1,40 @@
+
+name = RNP
+description = A flexible, recolorable theme with many regions.
+package = Core
+version = 1.0
+core = 7.x
+
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/colors.css
+stylesheets[print][] = css/print.css
+stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/custom.css
+
+scripts[] = js/custom.js
+scripts[] = js/bootstrap.min.js
+
+regions[header] = Header
+regions[page_top] = Page top
+regions[page_bottom] = Page bottom
+
+regions[header_top_left] = Header Top Left
+regions[header_top_right] = Header Top Right
+regions[search_block] = Search Block
+regions[filter_block] = Filter Block
+regions[main_banner] = Main Banner
+
+regions[featured] = Featured
+regions[dashboard_filter] = Dashboard Filter
+regions[resource_details] = Resource Details
+regions[content] = Content
+regions[sidebar_first_head] = Sidebar first head
+regions[sidebar_first] = Sidebar first
+regions[sidebar_second] = Sidebar second
+
+regions[footer_left] = Footer Left
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0
+
