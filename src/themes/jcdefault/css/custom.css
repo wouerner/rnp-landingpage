@@ -166,7 +166,7 @@ input[type="text"] {
 }
 .content-links .linksBread li{
     display:inline-block;
-    
+
 }
 .content-links .linksBread li a{
     color:#0b1026;
@@ -272,7 +272,7 @@ span.selo{
 }
 .content-informative .central-sales .pipe-divisor,.content-informative .copyright .pipe-divisor{
     color:#0b1026;
-    
+
 }
 .content-informative .brand,.content-informative .ssl-validate{
     width:50%;
@@ -512,7 +512,7 @@ border: 1px solid #0662a3;
         color: #fff;
     font-size: 2rem;
     margin-bottom: 15px;
-} 
+}
 
 .banner_footer p {
     margin-bottom: 16px;
@@ -541,12 +541,12 @@ border: 1px solid #0662a3;
     left: 50%;
     width: 960px;
     margin-left: -480px;
-    z-index: 1;    
+    z-index: 1;
 }
 
 .field-name-field-banner-title {
       top: 75px;
-     
+
 }
 
 .field-name-field-banner-title h1 {
@@ -677,7 +677,7 @@ border: 1px solid #0662a3;
         position: absolute;
     left: 0;
     bottom: 0px;
-    
+
     width: 100%;
     padding: 10px 0;
 }
@@ -721,7 +721,7 @@ border: 1px solid #0662a3;
     width: auto;
     min-width: 300px;
 }
-.page-taxonomy .ds-2col > .group-right {    
+.page-taxonomy .ds-2col > .group-right {
     padding: 0 30px;
     width: calc(100% - 300px);
 }
@@ -742,7 +742,7 @@ border: 1px solid #0662a3;
 ul.offer_list_ul {
     list-style: disc !important;
     text-align: left;
-    
+
 }
 .offer_list_ul li.single-item {
     background: #fff;
@@ -851,16 +851,16 @@ a:not([href]):not([tabindex]):hover {
     font-family: "Roboto",Arial, Helvetica-Light
 }
  .jumbotron{
-     background: #fff; 
+     background: #fff;
 }
  .page-requests .innerPage.bg-3{
-     background: #fff 
+     background: #fff
 }
  p,.jumbotron p{
-     font-size: 14px 
+     font-size: 14px
 }
  .nopadding{
-     padding: 0px 
+     padding: 0px
 }
  #jsdnSession{
     display:none;
@@ -940,7 +940,7 @@ a:not([href]):not([tabindex]):hover {
      border-radius:0px;
      display: block;position: absolute;top: -37px;right: 60px;
 }
-.breadcrumb .cartDiv{ padding: 5px 10px !important } 
+.breadcrumb .cartDiv{ padding: 5px 10px !important }
 .helpdeskDiv{
      padding: 5px 10px!important
 }
@@ -962,7 +962,7 @@ a:not([href]):not([tabindex]):hover {
 }
  .tb-megamenu .nav > .active > a, .tb-megamenu .nav > .active > a:hover, .tb-megamenu .nav > .active > a:focus{
      background-color: transparent ;
-    color: #767676; 
+    color: #767676;
 }
  .tb-megamenu .nav > li > a:hover{
     background-color: transparent;
@@ -1031,10 +1031,10 @@ a:not([href]):not([tabindex]):hover {
  #header .section .region-header{
      float: left;
     width: 100%;
-    margin: 0px 
+    margin: 0px
 }
  #header .section .region-header #block-jsdn-common-render-menu{
-     margin: 0px 
+     margin: 0px
 }
  .sessionLoading{
     opacity:0.5;
@@ -1050,12 +1050,12 @@ a:not([href]):not([tabindex]):hover {
 /*---------- Content Section ---------------*/
  #mainWrapper{
      padding: 0px;
-    margin: 0px 
+    margin: 0px
 }
  #mainWrapper .content-section{
      width: 100%;
     padding: 0px;
-    
+
 }
  #mainWrapper .content-section .search-section{
      padding:5px 30px 15px;
@@ -1085,7 +1085,7 @@ a:not([href]):not([tabindex]):hover {
 }
  #mainWrapper #mainBanner{
      position: relative;
-     margin-top: -10px 
+     margin-top: -10px
 }
 
  #mainWrapper #mainBanner .controls{
@@ -1169,13 +1169,13 @@ a:not([href]):not([tabindex]):hover {
 }
 
  .serviceContainer:nth-child(1){
-     margin-left: 0px 
+     margin-left: 0px
 }
  .serviceContainer:nth-child(5){
-     margin-right: 0px 
+     margin-right: 0px
 }
  .serviceGridView{
-     margin-bottom: 2% !important 
+     margin-bottom: 2% !important
 }
  .servicesGrid{
      padding:0px 0px 30px 0px;
@@ -1202,19 +1202,19 @@ a:not([href]):not([tabindex]):hover {
     width:100%;
     margin-top: 0;
      margin-bottom: 10px;
-    
+
 }
  .servicesGrid div.views-field-field-logo .field-content, .view-search-results-page-small .serviceContainer div.views-field-field-logo .field-content, .view-taxonomy-term .serviceContainer div.views-field-field-logo .field-content,.view-related-products .owl-item .views-field-field-logo .field-content{
     display: table-cell;
      vertical-align: middle;
 }
  .view-related-products .owl-item .views-field-field-logo img{
-     max-width: 100% 
+     max-width: 100%
 }
  .servicesGrid h2.servName, .view-search-results-page-small .serviceContainer h2.servName, .view-taxonomy-term .serviceContainer h2.servName {
     margin-top:0px;
     text-align:center;
-    
+
 }
  .servicesGrid .views-field-view-node, .view-search-results-page-small .views-field-view-node, .view-taxonomy-term .views-field-view-node{
     text-align:center;
@@ -1224,9 +1224,9 @@ a:not([href]):not([tabindex]):hover {
     font-weight: 500
 }
  .servicesGrid .views-field-view-node a, .view-search-results-page-small .views-field-view-node a, .view-taxonomy-term .views-field-view-node a{
-   
+
     text-decoration: underline;
-    font-size: 13px 
+    font-size: 13px
 }
 
 .flip-container {
@@ -1368,30 +1368,30 @@ a:not([href]):not([tabindex]):hover {
     color: #fff;
     font-weight: 600;
     text-decoration: underline;
-     font-size: 13px 
+     font-size: 13px
 }
  .back .views-field-nothing-1, .back .views-field-php-1{
     text-align:center;
     display:block;
     color: #fff;
     font-weight: 500;
-  
+
 }
  .back .views-field-nothing-1 a,.back .views-field-php-1 a {
     color: #007AD0
 }
  .back div.serviceBoxCompare{
      text-align: center;
-    margin: 10px 0 0; 
+    margin: 10px 0 0;
 }
  .back div.serviceBoxCompare a{
      color: #007AD0;
     font-weight: 600;
     text-decoration: underline;
-     font-size: 13px 
+     font-size: 13px
 }
  .view-empty{
-     padding: 12% 
+     padding: 12%
 }
  .serviceContainer .views-field-field-logo{
      float: left;
@@ -1420,15 +1420,15 @@ a:not([href]):not([tabindex]):hover {
      display: inline-block;
 }
  .serviceContainer .titleContainer .fivestar-static-item .form-item {
-     margin-bottom: 5px 
+     margin-bottom: 5px
 }
  .servicesGrid .view-header{
-     margin-bottom: 25px 
+     margin-bottom: 25px
 }
  .servicesGrid .view-header .col-md-6 h3{
      text-align: left;
     margin: 0;
-    font-weight: 400 
+    font-weight: 400
 }
  .servicesGrid .view-header .col-md-6 a{
      color: #007AD0;
@@ -1437,24 +1437,24 @@ a:not([href]):not([tabindex]):hover {
 }
  .flip-container .scategory{
      font-size: 12px;
-    font-weight: 400 
+    font-weight: 400
 }
 /*---------- service Block ends---------------*/
  .panels-flexible-region-default_front_page_layout-bottom,.panels-flexible-region-default_front_page_layout-service_view{
-     width: 100% 
+     width: 100%
 }
  .contentWrapper{
      padding: 0px;
     float: left;
-    width: 100% 
+    width: 100%
 }
  .frontPage-section{
     background: url('/cms/sites/default/files/latest/bg-find-products.jpg') no-repeat;
-    
+
     background-size:cover;
     border-bottom: 2px solid #fff;
     float: left;
-    width: 100% 
+    width: 100%
 }
  .grayBg{
      background: #e5e5e5;
@@ -1471,11 +1471,11 @@ a:not([href]):not([tabindex]):hover {
  .frontPage-section h3{
      margin: 0 0 30px 0;
     text-transform: uppercase;
-    font-weight: 400 
+    font-weight: 400
 }
  .frontPage-section ul{
      margin: 0;
-    padding: 0 
+    padding: 0
 }
  .frontPage-section ul li{
      list-style: none;
@@ -1483,17 +1483,17 @@ a:not([href]):not([tabindex]):hover {
     margin-right: 1.25%
 }
  .frontPage-section ul li:nth-child(1){
-     margin-left: 0px 
+     margin-left: 0px
 }
  .frontPage-section ul li:nth-child(5){
-     margin-right: 0px 
+     margin-right: 0px
 }
  .frontPage-section ul li a{
-     color: #000 
+     color: #000
 }
  .frontPage-section ul li h5{
      font-size: 20px;
-    font-weight: 400 
+    font-weight: 400
 }
  .blog-section{
      float: left;
@@ -1501,18 +1501,18 @@ a:not([href]):not([tabindex]):hover {
     /*background: url('/cms/sites/default/files/latest/bg-blog.jpg') no-repeat;*/
     background: #fff;
     background-size:cover;
-     padding: 3% 0 
+     padding: 3% 0
 }
  .blog-section h4{
      color: #333;
     font-size: 22px;
     text-transform: uppercase;
     font-weight: 400;
-    margin-bottom: 2% 
+    margin-bottom: 2%
 }
  .blog-section p{
     font-size: 14px;
-    margin: 2% 
+    margin: 2%
 }
  .blog-section .col-sm-3{
      width: 29%;
@@ -1557,7 +1557,7 @@ a:not([href]):not([tabindex]):hover {
     text-align: left;
     margin: 15px 0 0;
     float: left;
-    width: 100% 
+    width: 100%
 }
 
 .blog-section .col-sm-3 p a:before {
@@ -1604,7 +1604,7 @@ a:not([href]):not([tabindex]):hover {
     border:0;
     padding: 4%;
     background: #f1f1f1;
-    
+
 }
  .why-to-join .join-div .join-item{
      float: left;
@@ -1621,7 +1621,7 @@ a:not([href]):not([tabindex]):hover {
 }
 /*---------- footer ---------------*/
  footer{
-     padding: 0px !important 
+     padding: 0px !important
 }
  #footer{
     -webkit-box-sizing: border-box;
@@ -1634,7 +1634,7 @@ a:not([href]):not([tabindex]):hover {
     padding-left:20px;
 }
  #footer div.block p strong{
-     margin-right: 10px 
+     margin-right: 10px
 }
  #footer div.block:first-child{
     border-bottom:0;
@@ -1683,7 +1683,7 @@ background:#000;
 }
  #footer-wrapper a, #footer-wrapper span{
      color: #fff !important;
-    font-size: 12px 
+    font-size: 12px
 }
  .browsertip h2, .browsertip h4{
     margin-top: 0px;
@@ -1747,7 +1747,7 @@ background:#000;
     border-radius: none
 }
  .forgotLink .mega-inner,#forgetpassPopop{
-     padding: 0px 3px !important 
+     padding: 0px 3px !important
 }
  #block-block-5{
     margin-top: -25px
@@ -1756,7 +1756,7 @@ background:#000;
     color:#000;
 }
  .browsertip{
-     font-size: 12px 
+     font-size: 12px
 }
  .browsertip h2, .browsertip h4{
     margin-top:0px;
@@ -1780,10 +1780,10 @@ background:#000;
     margin: 0 0.7% 1.4%
 }
  .catalogPage .serviceContainer:nth-child(5n+1) {
-     margin-left: 0px 
+     margin-left: 0px
 }
  .catalogPage .serviceContainer:nth-child(5n) {
-     margin-right: 0px 
+     margin-right: 0px
 }
  .catalog-listing{
          background: transparent;
@@ -1793,7 +1793,7 @@ background:#000;
 }
  .catalog-listing .filter-section{
      padding-left: 30px;
-    padding-right: 30px 
+    padding-right: 30px
 }
  .catalog-listing .block-facetapi{
      width: auto;
@@ -1803,7 +1803,7 @@ background:#000;
 }
  .catalog-listing .block-facetapi .content{
      float: left;
-    margin: 0px 
+    margin: 0px
 }
  .catalog-listing .block-facetapi h2,.block-facetapi .facetapi-facet-field-category label,.block-facetapi .facetapi-facet-field-provider label{
      text-align: left;
@@ -1823,14 +1823,14 @@ background:#000;
  .catalog-listing .block-facetapi .facetapi-facet-search-apidefault-node-index-block-field-service-type ul{
      list-style: none;
     margin: 0px;
-    padding: 0px 
+    padding: 0px
 }
  .catalog-listing .block-facetapi .facetapi-facet-search-apidefault-node-index-block-field-service-type ul li div.form-item{
     margin: 3px;
     padding: 0px;
 }
  .block-facetapi .facetapi-facet-field-category .form-item-field-category,.block-facetapi .facetapi-facet-field-provider .form-item-field-provider{
-     margin-top: 16px 
+     margin-top: 16px
 }
  .block-facetapi .facetapi-facet-field-category .form-item-field-category select,.block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
      float:left;
@@ -1850,10 +1850,10 @@ background:#000;
 }
 /*Left Side Filter */
  .facetsBar .region-sidebar-first {
-     
+
      padding-top: 0px;
      overflow: hidden;
-    width:100% 
+    width:100%
 }
 
  .facetsBar .region-sidebar-first:before {
@@ -1891,7 +1891,7 @@ background:#000;
      margin-top: 0px;
      padding-top: 0px;
      padding-bottom: 10px;
-     width:100% 
+     width:100%
 }
  .facetsBar h2 {
      font-weight: bold!important;
@@ -1912,7 +1912,7 @@ background:#000;
      /*background: url("../images/search-icon.png") no-repeat right 2px center;*/
      background-color: rgba(0, 0, 0, 0);
      border: 0;
- 
+
      border-radius: 3px;
      background-color: #fff;
      color: #000;
@@ -1945,13 +1945,13 @@ background:#000;
 /*---------- Catalog Page ends---------------*/
 /*---------- Modal popup Section ---------------*/
  .modal-content{
-     border-radius: 0px 
+     border-radius: 0px
 }
  .modal-header{
     border-bottom: none;
     color: #fff;
 	background:#000;
-	border-radius:0px;	
+	border-radius:0px;
 	display: block;
 }
  .modal-footer .btn.btn-primary{
@@ -1994,7 +1994,7 @@ top: -5px;
     padding: 5%;
 }
  .modal-md{
-     width: 750px 
+     width: 750px
 }
  .modal-body .modal-signin form{
      width: 100%;
@@ -2031,7 +2031,7 @@ top: -5px;
      height: 45px;
 }
  .modal-signin .modal-body {
-     padding: 0px 
+     padding: 0px
 }
  .modal-body h2{
     font-size: 24px;
@@ -2040,7 +2040,7 @@ top: -5px;
 }
  .modal-signin h2{
      text-align: left;
-    padding-bottom: 8% 
+    padding-bottom: 8%
 }
  .modal-body .register-msg p{
      padding: 50px 0 49px;
@@ -2068,7 +2068,7 @@ top: -5px;
 /*---------- Modal popup Section ends---------------*/
 /*---------- offer popup Section ---------------*/
  #loginPopUp{
-     z-index: 10002 
+     z-index: 10002
 }
 #loginPopUp .modal-body {
 	padding: 40px;
@@ -2104,11 +2104,11 @@ top: -5px;
 }
  .offer-popup .modal-body{
      padding: 10px;
-    margin: 0 
+    margin: 0
 }
  .offer-popup .signin-msg{
      text-align: left;
-    padding: 10px 10px 0px 
+    padding: 10px 10px 0px
 }
  .offer-popup .signin-msg a{
      color: #34beff;
@@ -2137,7 +2137,7 @@ top: -5px;
     width: 33%;
 }
  .carousel-inner.single-offer .single-item{
-     width: 100% 
+     width: 100%
 }
 */
 /*.offer-popup .modal-body .single-item:nth-child(1){
@@ -2153,7 +2153,7 @@ top: -5px;
     text-transform: capitalize;
     margin: 0;
     padding-bottom: 20px;
-    border-bottom: 1px solid #4a7a9e 
+    border-bottom: 1px solid #4a7a9e
 }
  .offer-popup .modal-body .single-item.not-loged-in{
      height: 120px;
@@ -2165,7 +2165,7 @@ top: -5px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
-    padding: 0px 
+    padding: 0px
 }
  .offer-popup .modal-body .single-item span{
     color: #fff;
@@ -2227,28 +2227,31 @@ top: -5px;
 /*---------- offer popup Section ends---------------*/
 /*---------- Product Page Section ---------------*/
  .bg-3.product_page{
-     background: #fff 
+     background: #fff
 }
  .innerPage.bg-3{
-     padding: 30px 
+     padding-top: 30px;
+     padding-bottom: 30px;
+     padding-left: 0px;
+     padding-right: 0px;
 }
  .loginPage .innerPage.bg-3{
-     padding: 0px 
+     padding: 0px
 }
  .bg-3.page{
-     min-height: 450px 
+     min-height: 450px
 }
  .bg-3.page h1,.bg-3.page p{
      text-align: left;
 }
  .bg-3.product_page .group-header img{
-     max-width: 100% 
+     max-width: 100%
 }
  .bg-3.product_page .ds-3col-stacked-fluid > .group-left{
-     width: 15% 
+     width: 15%
 }
  .bg-3.product_page .ds-3col-stacked-fluid > .group-middle{
-     margin-left: 1% 
+     margin-left: 1%
 }
  .bg-3.product_page .ds-3col-stacked-fluid > .group-left img{
      max-width: 100%;
@@ -2261,7 +2264,7 @@ top: -5px;
     text-align: left;
 }
  .bg-3.product_page .ds-3col-stacked-fluid > .group-middle .field-type-taxonomy-term-reference{
-     margin: 0px 
+     margin: 0px
 }
  .bg-3.product_page .ds-3col-stacked-fluid > .group-right .addthis_toolbox {
      float: right;
@@ -2275,10 +2278,10 @@ top: -5px;
 }
  .bg-3.product_page .offer-carousel .signin-msg{
      text-align: left;
-    margin: 10px 0px 
+    margin: 10px 0px
 }
  .bg-3.product_page .offer-carousel .item.active{
-     
+
 }
  .bg-3.product_page .offer-carousel .single-item{
     background: #fff;
@@ -2298,7 +2301,7 @@ top: -5px;
 }
 
  .bg-3.product_page .carousel-inner {
-    padding-bottom: 5px;   
+    padding-bottom: 5px;
 }
  .bg-3.product_page .offer-carousel .single-item:nth-child(1){
     margin-left: 0px
@@ -2320,7 +2323,7 @@ top: -5px;
 }
  .bg-3.product_page .offer-carousel .single-item div.term-info{
      margin-top: 10px;
-    color: #333 
+    color: #333
 }
  .bg-3.product_page .offer-carousel .single-item.not-loged-in{
      height: 120px;
@@ -2332,7 +2335,7 @@ top: -5px;
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
-    padding: 0px 
+    padding: 0px
 }
  .bg-3.product_page .offer-carousel .single-item span{
     color: #19aafb;
@@ -2372,7 +2375,7 @@ top: -5px;
     background: #046cb6;text-decoration:none
 }
  .bg-3.product_page .offer-carousel .single-item a:active{
-    background: #0662a3;   
+    background: #0662a3;
 }
  .bg-3.product_page .offer-carousel .single-item a.cart-button, .bg-3.product_page .offer-carousel .single-item a.launch-button{
 
@@ -2388,7 +2391,7 @@ top: -5px;
     background: none;
     font-size: 12px;
     padding: 0;
-	color:#007AD0;	
+	color:#007AD0;
 }
  .bg-3.product_page .offer-carousel .carousel-control{
     width: 6%;
@@ -2405,7 +2408,7 @@ top: -5px;
 }
  .bg-3.product_page .group-footer .field-group-htabs-wrapper{
      float: left;
-    width: 100% 
+    width: 100%
 }
  .bg-3.product_page .group-footer .signin-msg{
      text-align: left;
@@ -2422,14 +2425,14 @@ top: -5px;
     background: #f1f2f3;
     border-bottom: 3px solid #e3e3e3;
     height: 50px;
-    
+
 }
  .horizontal-tabs ul.horizontal-tabs-list li{
-     padding: 0px 20px !important 
+     padding: 0px 20px !important
 }
  .horizontal-tabs ul.horizontal-tabs-list li:hover,.horizontal-tabs ul.horizontal-tabs-list li:hover a{
      background: #5a5a5a;
-    color: #767676 
+    color: #767676
 }
  .horizontal-tabs ul.horizontal-tabs-list li a{
     color: #0C1026;
@@ -2479,7 +2482,7 @@ top: -5px;
 .horizontal-tabs ul.horizontal-tabs-list li.selected a:hover{
 
 }
-    
+
 }
 
  #block-views-related-products-block .owl-carousel{
@@ -2509,7 +2512,7 @@ top: -5px;
     text-align: center;
     display: flex;
     flex-direction: column;
-} 
+}
 
 .view-related-products .list_wrapper * {
     flex-grow: 1;
@@ -2537,10 +2540,10 @@ top: -5px;
      border:1px solid #eee;
     margin: 0px 10px;
     padding: 15px;
-    width: auto !important 
+    width: auto !important
 }
  .view-related-products .owl-item:nth-child(5n){
-     margin-right: 5px 
+     margin-right: 5px
 }
  .view-related-products .owl-item:nth-child(5n+1){
     margin-left: 0px
@@ -2581,7 +2584,7 @@ top: -5px;
     right: 20px;
 }
  .owl-theme .owl-controls .owl-buttons .owl-next{
-     right: 0px 
+     right: 0px
 }
  .ds-2col > .group-right{
      text-align: left;
@@ -2602,7 +2605,7 @@ top: -5px;
 }
  #enquirePopup .modal-body form label{
      float: left;
-     width: 30% 
+     width: 30%
 }
  #enquirePopup .modal-body form .form-textarea-wrapper{
      width: 100%;
@@ -2617,7 +2620,7 @@ top: -5px;
     width: 100%;
 }
  #enquirePopup .modal-body form .form-actions input{
-    
+
     float: right;
     margin: 0;
     width: auto;
@@ -2646,7 +2649,7 @@ top: -5px;
     padding: 8px 20px !important;
     font-weight: 400 !important;
     margin-right: 10px;
-    border: none 
+    border: none
 }
  .button-div span,button.popupproceed{
      float: none !important;
@@ -2654,7 +2657,7 @@ top: -5px;
     background: #3e3c3c;
     font-size: 16px !important;
     padding: 10px 20px !important;
-    font-weight: 400 !important 
+    font-weight: 400 !important
 }
  button.popupproceed{
      line-height: 1;
@@ -2675,7 +2678,7 @@ top: -5px;
  .comment-wrapper h2{
      margin: 0px 0px 20px 0px;
     text-align: left;
-    font-size: 20px 
+    font-size: 20px
 }
  .comment-wrapper .comment-form{
      position: relative;
@@ -2727,7 +2730,7 @@ top: -5px;
      text-align: left;
 }
  .ui-front{
-     z-index: 10003 
+     z-index: 10003
 }
 /*---------- Compare Section ends---------------*/
 /*---------- auto complete Section ---------------*/
@@ -2753,7 +2756,7 @@ top: -5px;
     list-style: none;
     padding: 0;
     margin: 0;
-    border-top: none 
+    border-top: none
 }
  #globalsearchForm #suggesstion-box ul li{
      padding:10px;
@@ -2761,7 +2764,7 @@ top: -5px;
     width: 100%;
 }
  #globalsearchForm #suggesstion-box ul li:hover{
-     background: #f9f9f9 
+     background: #f9f9f9
 }
  #globalsearchForm #suggesstion-box ul li a {
      color: #484848;
@@ -2777,7 +2780,7 @@ top: -5px;
 /*---------- Compare Section ---------------*/
  .page-compare .bg-3 h1.title{
      text-align: left;
-    font-size: 16px 
+    font-size: 16px
 }
  #compare-content-wrapper .form-item {
      text-align: left;
@@ -2789,7 +2792,7 @@ top: -5px;
 }
  .blog h1#page-title{
      text-align: left;
-    margin: 0 
+    margin: 0
 }
  .innerPage h1#page-title {
     margin-top: 0px;
@@ -2844,7 +2847,7 @@ top: -5px;
     font-weight:bold;
     color:#fff;
      float: none;
-    background: none 
+    background: none
 }
  .leftMenu .main-menu ul li a.sublink{
      background: url(../images/menuArrowDown.png) no-repeat 93% 48%;
@@ -2958,20 +2961,20 @@ top: -5px;
     box-shadow: none;
 }
  .hasLeftMenu #sidebar-first{
-     margin: 0px 
+     margin: 0px
 }
  .hasLeftMenu .catalog #content{
      width: 77%
 }
  .hasLeftMenu #sidebar-first div.facetsBar{
      padding: 0px 10px 0px 0px;
-    margin-left: 10px 
+    margin-left: 10px
 }
  .hasLeftMenu .innerPageWrapper div#main{
      float: left;
 }
  .hasLeftMenu #verticalDiv .vertical-right .blog-section .bg-3{
-     width: 970px 
+     width: 970px
 }
  #verticalDiv .vertical-right .why-to-join .join-div .join-item{
      width: 20% !important
@@ -2983,13 +2986,13 @@ top: -5px;
      float: none;
 }
  .hasLeftMenu #verticalDiv .vertical-right .catalog-listing .block-facetapi{
-     width: 22% 
+     width: 22%
 }
  .hasLeftMenu #verticalDiv .vertical-right .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .hasLeftMenu #verticalDiv .vertical-right .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-     width: 270px 
+     width: 270px
 }
  .hasLeftMenu #verticalDiv .vertical-right .ds-3col-stacked-fluid > .group-right{
-     width: 30% 
+     width: 30%
 }
 /*----------------------mobile menu ends------------------*/
 /*-------------------Enterprise Login--------------------*/
@@ -3027,7 +3030,7 @@ top: -5px;
     display: inline-block;
 }
  .login-section .form-submit:hover{
-     background: #046cb6; 
+     background: #046cb6;
 }
  .login-section .user_login_form_reset_password{
      text-align: left;
@@ -3043,13 +3046,13 @@ top: -5px;
     display: block;
 }
  #user-login-form .form-actions{
-     margin-bottom: 0px 
+     margin-bottom: 0px
 }
  .domain-enterprisestore .not-logged-in .tb-megamenu-item{
     display: none;
 }
  .domain-enterprisestore .lang-dropdown-select-element {
-     width:150px 
+     width:150px
 }
 /*----------------modal popup------------*/
  .modal {
@@ -3133,13 +3136,13 @@ top: -5px;
 }
  @media only screen and (max-width : 1200px) {
      .catalog-listing .block-facetapi{
-         width: 25% 
+         width: 25%
     }
      .catalog-listing .block-facetapi .content{
-         width: 100% 
+         width: 100%
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-         width: 95% 
+         width: 95%
     }
 }
  @media only screen and (max-width : 992px) {
@@ -3150,26 +3153,26 @@ top: -5px;
         width: 13%
     }
      .catalog-listing .block-facetapi{
-         width: 30% 
+         width: 30%
     }
      .catalog-listing .block-facetapi .content{
-         width: 100% 
+         width: 100%
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-         width: 98% 
+         width: 98%
     }
      #footerLeft{
-         width: 100% 
+         width: 100%
     }
      .blog-section a.readmore{
-         width: 15% 
+         width: 15%
     }
      .why-to-join .join-div .join-item img{
          float: none;
     }
      .why-to-join .join-div .join-item h3{
          margin-left: 0px;
-        width: 100% 
+        width: 100%
     }
      .navbar-header{
          float: left;
@@ -3187,7 +3190,7 @@ top: -5px;
          background: none;
          margin: 0;
          position: relative;
-        top: 0 
+        top: 0
     }
      .tb-megamenu .nav-collapse .nav > li{
          float: left;
@@ -3239,53 +3242,53 @@ top: -5px;
         float: left;
     }
      .blog-section a.readmore{
-         width: 20% 
+         width: 20%
     }
      .col-xs-5ths{
          width: 31% !important;
-        margin: 1% !important 
+        margin: 1% !important
     }
      .servicesGrid .view-header .col-md-6{
          float: left;
-        width: 50% 
+        width: 50%
     }
      #footerLeft{
          display: none;
     }
      .catalog-listing .block-facetapi:nth-child(1){
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi:nth-child(2),.catalog-listing .block-facetapi:nth-child(3){
          margin-left: 0px;
         width: 48%;
-        margin-right: 2% 
+        margin-right: 2%
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider{
-         margin-top: 0px 
+         margin-top: 0px
     }
      .catalog-listing .block-facetapi .content{
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi .facetapi-facet-search-apidefault-node-index-block-field-service-type ul li{
-         margin-bottom: 0px 
+         margin-bottom: 0px
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-         width: 98% 
+         width: 98%
     }
      .modal-md{
-         width: 90% 
+         width: 90%
     }
      .view-related-products .owl-item{
-         margin: 0px !important 
+         margin: 0px !important
     }
      .bg-3.product_page .ds-3col-stacked-fluid > .group-right {
-         width: 100% 
+         width: 100%
     }
      .bg-3.product_page .ds-3col-stacked-fluid > .group-right .addthis_toolbox {
          float: left;
     }
      .horizontal-tabs ul.horizontal-tabs-list li{
-         width: 100% 
+         width: 100%
     }
      .login-section{
         margin: 9% 3% 6%;
@@ -3293,45 +3296,45 @@ top: -5px;
     }
      .navbar-right{
          float: right;
-        margin: 0px 
+        margin: 0px
     }
 }
  @media only screen and (max-width : 592px) {
      #footer div.block:first-child{
          float: left;
         width: 90%;
-         padding: 0px 20px 
+         padding: 0px 20px
     }
      #footer div.block p{
          float: left;
-        margin-bottom: 10px 
+        margin-bottom: 10px
     }
      #footer .content p strong{
          float: left;
         width: 100%;
-         padding: 10px 0px 
+         padding: 10px 0px
     }
      #footer .content p span{
          width: 100%;
          float: left;
         margin: 0px;
-        padding: 2px 
+        padding: 2px
     }
      #footer .content span{
-         margin-left: 0px 
+         margin-left: 0px
     }
      #footer .content span.nolink{
-         margin-left: 0% 
+         margin-left: 0%
     }
      #footer .block-menu-block{
          float: left;
         border-bottom: 1px solid #172425;
-         width: 100% 
+         width: 100%
     }
      #footer .block-menu-block .content{
          float: left;
          width: 100%;
-         padding-bottom: 10px 
+         padding-bottom: 10px
     }
      #footer .copyRight{
          font-size: 11px;
@@ -3339,12 +3342,12 @@ top: -5px;
     }
      #footer ul{
          float: left;
-        width: 100% 
+        width: 100%
     }
      #footer li{
          float: left;
         width: 32%;
-        padding: 2px 
+        padding: 2px
     }
      #footer li a,#footer li span.nolink{
         border-right: none !important;
@@ -3353,7 +3356,7 @@ top: -5px;
      #jsdnFeedback{
          margin: 0px !important;
         background: none;
-        padding: 2px !important 
+        padding: 2px !important
     }
      #jsdnFeedback span.nolink{
          padding: 0px !important;
@@ -3361,31 +3364,31 @@ top: -5px;
         margin-left:0px;
     }
      .catalog-listing .block-facetapi:nth-child(1){
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi:nth-child(2),.catalog-listing .block-facetapi:nth-child(3){
          margin-left: 0px;
         width: 48%;
-        margin-right: 2% 
+        margin-right: 2%
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider{
-         margin-top: 0px 
+         margin-top: 0px
     }
      .catalog-listing .block-facetapi .content{
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi .facetapi-facet-search-apidefault-node-index-block-field-service-type ul li{
-         margin-bottom: 0px 
+         margin-bottom: 0px
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-         width: 100% 
+         width: 100%
     }
      #compare-content-wrapper{
-         padding: 0 15px 30px 
+         padding: 0 15px 30px
     }
      .bg-3.product_page .offer-carousel .single-item{
          width: 100%;
-        margin: 10px 0px 
+        margin: 10px 0px
     }
      .login-section{
          margin: 9% 2% 6%;
@@ -3395,7 +3398,7 @@ top: -5px;
         margin: -3px 7px 0px 20px
     }
      #block-tb-megamenu-menu-login .content{
-         margin-top: 0px 
+         margin-top: 0px
     }
 }
  @media only screen and (max-width : 480px) {
@@ -3407,60 +3410,60 @@ top: -5px;
     }
      .col-xs-5ths{
          width: 100% !important;
-        margin: 10px 0px !important 
+        margin: 10px 0px !important
     }
      .frontPage-section ul li img{
          display: inline;
     }
      .blog-section .col-sm-3 .img-responsive{
          display: inline;
-         width: 100% 
+         width: 100%
     }
      .blog-section .col-sm-3{
          width: 90%;
-        margin: 5% !important 
+        margin: 5% !important
     }
      .blog-section a.readmore{
-         width: 50% 
+         width: 50%
     }
      .menu-name-menu-footer-menu {
          float: left;
     }
      .catalog-listing .block-facetapi{
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi:nth-child(3){
-         margin-left: 0px 
+         margin-left: 0px
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider{
-         margin-top: 0px 
+         margin-top: 0px
     }
      .catalog-listing .block-facetapi .content{
-         width: 100% 
+         width: 100%
     }
      .catalog-listing .block-facetapi .facetapi-facet-search-apidefault-node-index-block-field-service-type ul li{
-         margin-bottom: 0px 
+         margin-bottom: 0px
     }
      .block-facetapi .facetapi-facet-field-category .form-item-field-category select, .block-facetapi .facetapi-facet-field-provider .form-item-field-provider select{
-         width: 100% 
+         width: 100%
     }
      .modal-md{
-         width: 90% 
+         width: 90%
     }
      .modal-body{
          display: block;
     }
      .modal-body .modal-signin,.modal-body .modal-register{
-         margin: 0px !important 
+         margin: 0px !important
     }
      .bg-3.product_page .offer-carousel .carousel-control,.offer-popup .carousel-control{
-         width: 15% 
+         width: 15%
     }
      .bg-3.product_page .offer-carousel .carousel-control.right{
         right: -50px;
     }
      .bg-3.product_page .offer-carousel .carousel-control.left{
-         left: -50px 
+         left: -50px
     }
      .bg-3.product_page .ds-3col-stacked-fluid > .group-left{
         width: 23%;
@@ -3472,10 +3475,10 @@ top: -5px;
         display: flex;
     }
      .why-to-join .join-div .join-item h3{
-         margin-left: 10px 
+         margin-left: 10px
     }
      .offer-popup .modal-body .single-item{
-         width: 300px 
+         width: 300px
     }
      #header .section .region-header #block-jsdn-common-render-menu{
          display: none;
@@ -3551,7 +3554,7 @@ top: -5px;
         left: 0px;
     }
      .sidr-class-logout{
-         margin: 30px 0px 
+         margin: 30px 0px
     }
      .sidr-class-profile a:hover,.sidr-class-logout a:hover{
          text-decoration: none;
@@ -3587,7 +3590,7 @@ top: -5px;
         padding:0px;
         margin: 0px;
         float: left;
-        width: 100% 
+        width: 100%
     }
      .sidr-inner ul.sidr-class-main-menu-ul li.sidr-class-top{
          float: left;
@@ -3605,7 +3608,7 @@ top: -5px;
         background: url(../images/menuArrowUp.png) no-repeat 235px 12px
     }
      a.sidr-class-no-sublink{
-         background: none !important 
+         background: none !important
     }
      .sidr-inner ul.sidr-class-main-menu-ul li.sidr-class-top ul.sidr-class-subGroup{
          float: left;
@@ -3616,7 +3619,7 @@ top: -5px;
      .sidr-inner ul.sidr-class-main-menu-ul li.sidr-class-top ul.sidr-class-subGroup li {
          float: left;
         width: 100%;
-        margin: 10px 0px 
+        margin: 10px 0px
     }
      .sidr-inner ul.sidr-class-main-menu-ul li.sidr-class-top ul.sidr-class-subGroup li a{
         border-bottom: none;
@@ -3628,14 +3631,14 @@ top: -5px;
          float: left;
         width: 100%;
         font-weight: bold;
-        margin: 0px 0px 5px 0px 
+        margin: 0px 0px 5px 0px
     }
      #sidr-id-profileMenu{
          float: left;
     }
      #enquirePopup .modal-body form label{
          float: none;
-         width: 100% 
+         width: 100%
     }
      #enquirePopup .modal-body form .form-textarea-wrapper,#enquirePopup .modal-body form input.form-text, #enquirePopup .modal-body form textarea.form-textarea, #enquirePopup .modal-body form select.form-select{
          width: 100%;
@@ -3648,7 +3651,7 @@ top: -5px;
          float: none;
     }
      .view-related-products .owl-item{
-         width: 317px !important 
+         width: 317px !important
     }
      .login-section{
         margin: 0 0 8%;
@@ -3659,7 +3662,7 @@ top: -5px;
          display: none;
     }
      .hasLeftMenu #verticalDiv .vertical-right{
-         width: 100% 
+         width: 100%
     }
 }
  @media only screen and (max-width : 320px) {
@@ -3669,10 +3672,10 @@ top: -5px;
     max-width: 125px;
 }
  #requestPopUp label{
-     margin: 15px 0px 5px 
+     margin: 15px 0px 5px
 }
  #requestPopUp .required{
-     color: #8c2e0b 
+     color: #8c2e0b
 }
  #requestPopUp .errorClass{
      border:1px solid #8c2e0b;
@@ -3822,23 +3825,23 @@ div.warning {
 }
 
 .bg-3.service_family .ds-3col-stacked-fluid > .group-right {
-	width: 100% 
+	width: 100%
 }
 .bg-3.service_family .ds-3col-stacked-fluid > .group-right .addthis_toolbox {
 	 float: left;
 }
 .bg-3.service_family .offer-carousel .single-item{
 	width: 100%;
-	margin: 10px 0px 
+	margin: 10px 0px
 }
 .bg-3.service_family .offer-carousel .carousel-control,.offer-popup .carousel-control{
-	 width: 15% 
+	 width: 15%
 }
 .bg-3.service_family .offer-carousel .carousel-control.right{
 	right: -50px;
 }
 .bg-3.service_family .offer-carousel .carousel-control.left{
-	 left: -50px 
+	 left: -50px
 }
 .bg-3.service_family .ds-3col-stacked-fluid > .group-left{
 	width: 23%;
@@ -3848,16 +3851,16 @@ div.warning {
 	margin-bottom: 0;
 }
 .bg-3.service_family{
-	background: #fff 
+	background: #fff
 }
 .bg-3.service_family .group-header img{
-	max-width: 100% 
+	max-width: 100%
 }
 .bg-3.service_family .ds-3col-stacked-fluid > .group-left{
-	width: 15% 
+	width: 15%
 }
 .bg-3.service_family .ds-3col-stacked-fluid > .group-middle{
-	margin-left: 1% 
+	margin-left: 1%
 }
 .bg-3.service_family .ds-3col-stacked-fluid > .group-left img{
 	max-width: 100%;
@@ -3885,7 +3888,7 @@ div.warning {
 }
 .bg-3.service_family .offer-carousel .signin-msg{
 	text-align: left;
-	margin: 10px 0px 
+	margin: 10px 0px
 }
 .bg-3.service_family .offer-carousel .single-item{
 	background: #fff;
@@ -3927,7 +3930,7 @@ div.warning {
 }
 .bg-3.service_family .offer-carousel .single-item div.term-info{
 	margin-top: 10px;
-	color: #333 
+	color: #333
 }
 .bg-3.service_family .offer-carousel .single-item.not-loged-in{
 	height: 120px;
@@ -3938,7 +3941,7 @@ div.warning {
 	display: inline-block;
 	vertical-align: middle;
 	line-height: normal;
-	padding: 0px 
+	padding: 0px
 }
 .bg-3.service_family .offer-carousel .single-item span{
 	color: #007AD0;
@@ -3996,7 +3999,7 @@ div.warning {
 }
 .bg-3.service_family .group-footer .field-group-htabs-wrapper{
 	float: left;
-	width: 100% 
+	width: 100%
 }
 .bg-3.service_family .group-footer .signin-msg{
 	text-align: left;
