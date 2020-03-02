@@ -1,4 +1,5 @@
 <?php
+die('product_page');
 global $_domain;
 $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
 $menuPosition = variable_get('menu_position');?>
@@ -19,22 +20,22 @@ $menuPosition = variable_get('menu_position');?>
       <?php if ($page['header_top_left']): ?>
         <div class="navbar-nav navbar-left">
           <?php print render($page['header_top_left']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
 	  <?php if ($logged_in) : ?>
         <div class="navbar-nav navbar-right padding-0">
          <a href="<?php echo $jsdnURL ?>/jsdn/users/myProfile.action?brdcrm=new" class="profileLink"><div class="lprofile"><span class="uname"><?php echo strlen($_SESSION['username']) > 25 ? substr($_SESSION['username'], 0, 25) . '..' : $_SESSION['username']; ?></span><span class="urole"><?php echo $roleName; ?></span></div></a>
         </div>
-	  <?php endif; ?> 	  
+	  <?php endif; ?>
       <?php if ($page['header_top_right']): ?>
         <div class="navbar-nav navbar-right">
         <?php print render($page['header_top_right']); ?>
         <?php include(drupal_get_path('theme', 'jcdefault').'/templates/inc/cart_icon.tpl.php'); ?>
-        </div> 
+        </div>
       <?php endif; ?>
-    </div> 
+    </div>
   </div>
-</nav> 
+</nav>
 <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
 <div class="jumbotron" id="mainWrapper">
   <?php if ($site_name || $site_slogan): ?>
@@ -100,7 +101,7 @@ $menuPosition = variable_get('menu_position');?>
       <?php if ($page['search_block']): ?>
         <div class="container-fluid text-center search-section">
         <?php print render($page['search_block']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
         <?php if ($page['main_banner']): ?>
         <div id="mainBanner"><div class="section clearfix">
@@ -108,7 +109,7 @@ $menuPosition = variable_get('menu_position');?>
         </div></div> <!-- /.section, /#Main Banner -->
         <?php endif; ?>
   </div>
-  <div class="bg-3 text-center catalog-listing">    
+  <div class="bg-3 text-center catalog-listing">
     <?php if ($page['highlighted']): ?>
       <div id="highlighted"><?php print render($page['highlighted']); ?></div>
     <?php endif; ?>
@@ -136,11 +137,11 @@ $menuPosition = variable_get('menu_position');?>
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -149,4 +150,4 @@ $menuPosition = variable_get('menu_position');?>
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer>  
+</footer>

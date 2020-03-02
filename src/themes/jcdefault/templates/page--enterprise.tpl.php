@@ -1,5 +1,5 @@
 <?php
-
+die('enterprise');
 global $_domain;
 $domain_ad_configure = domain_conf_variable_get($_domain['domain_id'], 'domain_ad_configure');
 $logged_in_classes = ($logged_in) ? 'logged-in' : 'not-logged-in';
@@ -21,14 +21,14 @@ $logged_in_classes = ($logged_in) ? 'logged-in' : 'not-logged-in';
       <?php if ($page['header_top_left']): ?>
         <div class="navbar-nav navbar-left">
           <?php print render($page['header_top_left']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
       <?php if ($page['header_top_right']): ?>
         <div class="navbar-nav navbar-right">
         <?php print render($page['header_top_right']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
-    </div> 
+    </div>
   </div>
 </nav>
  <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
@@ -71,7 +71,7 @@ $logged_in_classes = ($logged_in) ? 'logged-in' : 'not-logged-in';
     </div> <!-- /.section, /#featured -->
   <?php endif; ?>
 
-  <div class="innerPage bg-3 text-center <?php echo $node->type;?> <?php if($node->type =="product" && $node->nid){echo 'product-'.$node->nid;}?>">   
+  <div class="innerPage bg-3 text-center <?php echo $node->type;?> <?php if($node->type =="product" && $node->nid){echo 'product-'.$node->nid;}?>">
     <?php if ($page['highlighted']): ?>
       <div id="highlighted"><?php print render($page['highlighted']); ?></div>
     <?php endif; ?>
@@ -96,11 +96,11 @@ $logged_in_classes = ($logged_in) ? 'logged-in' : 'not-logged-in';
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -109,4 +109,4 @@ $logged_in_classes = ($logged_in) ? 'logged-in' : 'not-logged-in';
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer> 
+</footer>

@@ -1,14 +1,15 @@
 <?php
+die('searchresults');
 global $_domain;
 $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
 ?>
 <div id="page-wrapper"><div id="page">
   <div id="headerTop">
-  
 
-  
-  
-  
+
+
+
+
   <div class="section clearfix">
     <div class="logo">    <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
@@ -19,18 +20,18 @@ $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
 		<?php if ($page['header_top_left']): ?>
 		  <div id="headerTop-Left" class="headerTopLeft region-header">
 			<?php print render($page['header_top_left']); ?>
-		  </div> 
+		  </div>
 		<?php endif; ?>
 	  <?php if ($logged_in) : ?>
         <div class="navbar-nav navbar-right padding-0">
          <a href="<?php echo $jsdnURL ?>/jsdn/users/myProfile.action?brdcrm=new" class="profileLink"><div class="lprofile"><span class="uname"><?php echo strlen($_SESSION['username']) > 25 ? substr($_SESSION['username'], 0, 25) . '..' : $_SESSION['username']; ?></span><span class="urole"><?php echo $roleName; ?></span></div></a>
         </div>
-	  <?php endif; ?> 		
+	  <?php endif; ?>
 		<?php if ($page['header_top_right']): ?>
 		  <div id="headerTop-Right" class="headerTopRight region-header">
 			<?php print render($page['header_top_right']); ?>
       <?php include(drupal_get_path('theme', 'jcdefault').'/templates/inc/cart_icon.tpl.php'); ?>
-		  </div> 
+		  </div>
 		<?php endif; ?>
   </div>
   </div>
@@ -96,7 +97,7 @@ $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
   <?php endif; ?>
 
   <div class="bannerContainer">
-  
+
   <?php if ($page['main_banner']): ?>
     <div id="mainBanner"><div class="section clearfix">
       <?php print render($page['main_banner']); ?>
@@ -104,29 +105,29 @@ $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
   <?php endif; ?>
 
   </div>
-  
+
 
 
     <?php if ($breadcrumb): ?>
       <div id="breadcrumb"><?php print $breadcrumb; ?></div>
     <?php endif; ?>
-	
+
 	  <?php if ($page['featured']): ?>
     <div class="section clearfix">
       <?php print render($page['featured']); ?>
     </div> <!-- /.section, /#featured -->
   <?php endif; ?>
-	
+
   <div id="main-wrapper" class="clearfix innerPageWrapper"><div id="main" class="clearfix">
 
     <?php if ($page['sidebar_first'] or $page['sidebar_first_head']): ?>
       <div id="sidebar-first" class="column sidebar">
-		  
+
 		  <div class="section topBlock">
 			<?php print render($page['sidebar_first_head']); ?>
 		  </div>
 
-		  
+
 		  <div class="section facetsBar">
 			<?php print render($page['sidebar_first']); ?>
 		  </div>
@@ -190,11 +191,11 @@ $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -203,6 +204,6 @@ $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer> 
+</footer>
 
 </div></div> <!-- /#page, /#page-wrapper -->

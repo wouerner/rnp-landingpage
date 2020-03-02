@@ -83,6 +83,7 @@
  * @see bartik_process_page()
  * @see html.tpl.php
  */
+die('homebosresources');
 $menuPosition = variable_get('menu_position');
 ?>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -105,17 +106,17 @@ $menuPosition = variable_get('menu_position');
       <?php if ($page['header_top_left']): ?>
         <div class="navbar-nav navbar-left">
           <?php print render($page['header_top_left']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
       <?php if ($page['header_top_right']): ?>
         <div class="navbar-nav navbar-right">
         <?php print render($page['header_top_right']); ?>
         <?php include(drupal_get_path('theme', 'jcdefault').'/templates/inc/cart_icon.tpl.php'); ?>
-        </div> 
+        </div>
       <?php endif; ?>
-    </div> 
+    </div>
   </div>
-</nav> 
+</nav>
 <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
 <?php if($menuPosition == "vertical"):?>
   <div id="verticalDiv">
@@ -167,7 +168,7 @@ $menuPosition = variable_get('menu_position');
         <?php endif; ?>
 
       </div> <!-- /#name-and-slogan -->
-    <?php endif; ?>   
+    <?php endif; ?>
     <?php if ($messages): ?>
       <div class="container-fluid text-center">
         <div class="section clearfix">
@@ -201,15 +202,15 @@ $menuPosition = variable_get('menu_position');
       <?php endif; ?>
     </div></div> <!-- /.section, /#header -->
   <?php endif;?>
-  <?php if ($logged_in) : ?> 
+  <?php if ($logged_in) : ?>
     <?php print '<div id="breadcrumb"><div class="breadcrumb">' ?>
     <?php print '</div></div>';?>
-  <?php endif; ?>   
+  <?php endif; ?>
   <div class="container-fluid text-center content-section">
       <?php if ($page['search_block']): ?>
         <div class="container-fluid text-center search-section">
         <?php print render($page['search_block']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
         <?php if ($page['main_banner']): ?>
         <div id="mainBanner"><div class="section clearfix">
@@ -217,23 +218,23 @@ $menuPosition = variable_get('menu_position');
         </div></div> <!-- /.section, /#Main Banner -->
         <?php endif; ?>
   </div>
-  <div class="bg-3 clearfix resourcesummary-page <?php if(arg(1) == 'inventory'){?>inventoryPage<?php } elseif(arg(1) == 'migration'){?>migrationPage<?php }?>">    
+  <div class="bg-3 clearfix resourcesummary-page <?php if(arg(1) == 'inventory'){?>inventoryPage<?php } elseif(arg(1) == 'migration'){?>migrationPage<?php }?>">
     <div  class="clearfix jsdndashboard">
-      <div class="dashboard-left-side"> 
+      <div class="dashboard-left-side">
           <div id="sidebar-first" class="column sidebar jsdndashboard-side-menu">
-                <?php 
+                <?php
                  if(arg(1) != 'saas' && arg(0) != 'resource-summary' && arg(0) != 'resource'){
                     $menu = menu_navigation_links('menu-dashboard-overview');
-                    print theme('links__menu_dashboard_overview', array('links' => $menu)); 
+                    print theme('links__menu_dashboard_overview', array('links' => $menu));
                  }
                  elseif(arg(0) != 'resource-summary' && arg(0) != 'resource'){
                     $menu = menu_navigation_links('menu-dashboard-saas');
-                    print theme('links__menu_dashboard_saas', array('links' => $menu)); 
+                    print theme('links__menu_dashboard_saas', array('links' => $menu));
                  }
                 ?>
           </div> <!-- /.section, /#sidebar-first -->
       </div>
-  <div class="dashboard-right-side"> 
+  <div class="dashboard-right-side">
     <div class="column"><div class="section">
       <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
       <a id="main-content"></a>
@@ -241,7 +242,7 @@ $menuPosition = variable_get('menu_position');
 
    <div class="titleDiv">
     <?php if ($title): ?>
-       
+
         <h1 class="title" id="page-title">
           <?php print t($title); ?>
         </h1>
@@ -257,18 +258,18 @@ $menuPosition = variable_get('menu_position');
     <?php if(arg(1) == 'inventory'): ?>
     <div class="section_inventory">
         <?php $menu = menu_navigation_links('menu-dashboard-inventory');
-        print theme('links__menu_dashboard_inventory', array('links' => $menu)); 
+        print theme('links__menu_dashboard_inventory', array('links' => $menu));
         ?>
-    </div> 
+    </div>
     <?php endif; ?>
-      <?php print render($title_suffix); ?>   
+      <?php print render($title_suffix); ?>
       <?php print render($page['help']); ?>
       <?php if ($action_links): ?>
         <ul class="action-links">
           <?php print render($action_links); ?>
         </ul>
       <?php endif; ?>
-   
+
     <?php if ($page['dashboard_left']): ?>
        <div class="dashboardLeft">
     <?php print render($page['dashboard_left']); ?>
@@ -308,11 +309,11 @@ $menuPosition = variable_get('menu_position');
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -321,4 +322,4 @@ $menuPosition = variable_get('menu_position');
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer> 
+</footer>

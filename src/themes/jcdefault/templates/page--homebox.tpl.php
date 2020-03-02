@@ -1,4 +1,5 @@
 <?php
+die('homebox');
 global $_domain;
 $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
 $currencyLocale = json_decode($_SESSION['MenuJSON'])->profile->currencyLocale;
@@ -34,22 +35,22 @@ $menuPosition = variable_get('menu_position');
       <?php if ($page['header_top_left']): ?>
         <div class="navbar-nav navbar-left">
           <?php print render($page['header_top_left']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
 	  <?php if ($logged_in) : ?>
         <div class="navbar-nav navbar-right padding-0">
          <a href="<?php echo $jsdnURL ?>/jsdn/users/myProfile.action?brdcrm=new" class="profileLink"><div class="lprofile"><span class="uname"><?php echo strlen($_SESSION['username']) > 25 ? substr($_SESSION['username'], 0, 25) . '..' : $_SESSION['username']; ?></span><span class="urole"><?php echo $roleName; ?></span></div></a>
         </div>
-	  <?php endif; ?> 	  
+	  <?php endif; ?>
       <?php if ($page['header_top_right']): ?>
         <div class="navbar-nav navbar-right">
         <?php print render($page['header_top_right']); ?>
         <?php include(drupal_get_path('theme', 'jcdefault').'/templates/inc/cart_icon.tpl.php'); ?>
-        </div> 
+        </div>
       <?php endif; ?>
-    </div> 
+    </div>
   </div>
-</nav> 
+</nav>
 <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
 <?php if($menuPosition == "vertical"):?>
   <div id="verticalDiv">
@@ -101,7 +102,7 @@ $menuPosition = variable_get('menu_position');
         <?php endif; ?>
 
       </div> <!-- /#name-and-slogan -->
-    <?php endif; ?>   
+    <?php endif; ?>
     <?php if ($messages): ?>
       <div class="container-fluid text-center">
         <div class="section clearfix">
@@ -139,7 +140,7 @@ $menuPosition = variable_get('menu_position');
       <?php if ($page['search_block']): ?>
         <div class="container-fluid text-center search-section">
         <?php print render($page['search_block']); ?>
-        </div> 
+        </div>
       <?php endif; ?>
         <?php if ($page['main_banner']): ?>
         <div id="mainBanner"><div class="section clearfix">
@@ -147,22 +148,22 @@ $menuPosition = variable_get('menu_position');
         </div></div> <!-- /.section, /#Main Banner -->
         <?php endif; ?>
   </div>
-	<?php if ($logged_in) : ?> 
+	<?php if ($logged_in) : ?>
 		<?php print '<div id="breadcrumb"><div class="breadcrumb"></div></div>' ?>
-	<?php endif; ?> 
-  <div class="bg-3 clearfix jsdndashboard-page <?php if(arg(1) == 'inventory'){?>inventoryPage<?php } elseif(arg(1) == 'migration'){?>migrationPage<?php }?>">    
+	<?php endif; ?>
+  <div class="bg-3 clearfix jsdndashboard-page <?php if(arg(1) == 'inventory'){?>inventoryPage<?php } elseif(arg(1) == 'migration'){?>migrationPage<?php }?>">
     <div  class="clearfix jsdndashboard">
-      <div class="dashboard-left-side"> 
+      <div class="dashboard-left-side">
           <div id="sidebar-first" class="column sidebar jsdndashboard-side-menu">
-                <?php 
+                <?php
                  if(arg(1) != 'saas') {
                     $menu = menu_navigation_links('menu-dashboard-overview');
-                    print theme('links__menu_dashboard_overview', array('links' => $menu)); 
+                    print theme('links__menu_dashboard_overview', array('links' => $menu));
                  }
                 ?>
           </div> <!-- /.section, /#sidebar-first -->
       </div>
-  <div class="dashboard-right-side"> 
+  <div class="dashboard-right-side">
     <div class="column"><div class="section">
       <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
       <a id="main-content"></a>
@@ -170,7 +171,7 @@ $menuPosition = variable_get('menu_position');
 
    <div class="titleDiv">
     <?php if ($title): ?>
-       
+
         <h1 class="title" id="page-title">
           <?php print t($title); ?>
           <img src="/cms/themes/jcdefault/images/info-icon.png" class="info-icon"  />
@@ -190,25 +191,25 @@ $menuPosition = variable_get('menu_position');
     <?php if(arg(1) == 'inventory'): ?>
     <div class="section_inventory">
         <?php $menu = menu_navigation_links('menu-dashboard-inventory');
-        print theme('links__menu_dashboard_inventory', array('links' => $menu)); 
+        print theme('links__menu_dashboard_inventory', array('links' => $menu));
         ?>
-    </div> 
+    </div>
     <?php endif; ?>
-      <?php print render($title_suffix); ?>   
+      <?php print render($title_suffix); ?>
       <?php print render($page['help']); ?>
       <?php if ($action_links): ?>
         <ul class="action-links">
           <?php print render($action_links); ?>
         </ul>
       <?php endif; ?>
-   
+
    <?php if ($page['dashboard_left']): ?>
        <div class="dashboardLeft">
     <?php print render($page['dashboard_left']); ?>
        </div>
      <?php endif; ?>
       <?php print render($page['content']); ?>
-      
+
       <?php print $feed_icons; ?>
     </div></div> <!-- /.section, /#content -->
   <div class="clear"></div>
@@ -237,11 +238,11 @@ $menuPosition = variable_get('menu_position');
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -250,7 +251,7 @@ $menuPosition = variable_get('menu_position');
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer>  
+</footer>
 
 <?php $dateformat = json_decode($_SESSION['MenuJSON'])->locale->dateformat; ?>
 <script type="text/javascript">
@@ -264,7 +265,7 @@ $menuPosition = variable_get('menu_position');
 		sessionUpdateTime=moment.utc(sessionUpdateTime,'ddd MMM DD HH:mm:ss YYYY').utcOffset(timeoffset).format(''+dateformat+', HH:mm:ss');
 		jQuery('.sessionTime').html(sessionUpdateTime);
 	}
-	
+
    var value = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
    if(value=="summary"){
       var infoMsg="<div><?php print t('The Executive Dashboard tracks key cloud trends such as costs and resources in order to help customer oversee all of their cloud costs centrally.');?><br><br><i><?php print t('All costs displayed in this dashboard are excluding taxes (if any).');?></i><br><b><?php print t('For more details, refer to the');?> <a class='jsdnHelp' url='topic/executive-dashboard.html' onclick='openHelp(this);'><?php print t('Help');?></a> <?php print t('section');?></b></div>";
@@ -285,6 +286,6 @@ $menuPosition = variable_get('menu_position');
     }else if(value=="reservation" || value=="reservation#"){
        var infoMsg="<div><?php print t('Reservation is a dashboard with extensive information on utilization of reserved instances. Ample information is represented in a graphical format in terms of cost, count, usage etc. to help you visualize the previous, current utility along with expenses involved with each of the reserved resources.');?><br><b><?php print t('For more details, refer to the');?> <a class='jsdnHelp' url='topic/reservation.html' onclick='openHelp(this);'><?php print t('Help');?></a> <?php print t('section');?></b></div>";
     }
-    
-    jQuery('.info-icon').bt(infoMsg,{ fill: '#fff',strokeStyle:'#B7B7B7',spikeLength: 10,spikeGirth: 10,padding: 8,cornerRadius: 0,trigger: 'click',positions: ['right','bottom'],cssStyles:{width:'500px'},closeWhenOthersOpen:true});    
+
+    jQuery('.info-icon').bt(infoMsg,{ fill: '#fff',strokeStyle:'#B7B7B7',spikeLength: 10,spikeGirth: 10,padding: 8,cornerRadius: 0,trigger: 'click',positions: ['right','bottom'],cssStyles:{width:'500px'},closeWhenOthersOpen:true});
 </script>

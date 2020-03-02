@@ -84,23 +84,24 @@
  * @see bartik_process_page()
  * @see html.tpl.php
  */
+die('page--block');
 ?>
 
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
 <div id="page-wrapper"><div id="page">
   <div id="headerTop">
-  
 
-  
-  
-  
+
+
+
+
   <div class="section clearfix">
     <div>    <?php if ($logo): ?>
       <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
       </a>
     <?php endif; ?></div>
-	
+
   </div>
   <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
   </div>
@@ -125,20 +126,20 @@
           <?php endif; ?>
         <?php endif; ?>
 
-        
+
       </div> <!-- /#name-and-slogan -->
     <?php endif; ?>
 
     <?php print render($page['header']); ?>
 
-   
+
 
 
   </div></div> <!-- /.section, /#header -->
 
   <div id="main-wrapper" class="clearfix innerPageWrapper"><div id="main" class="clearfix jsdndashboard">
 
-  
+
 
     <div id="content" class="column"><div class="section">
       <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
@@ -151,10 +152,10 @@
         </h1>
       <?php endif; ?>
 	  <?php endif; ?>
-	  
-     
+
+
   </div></div> <!-- /#main, /#main-wrapper -->
 
-  
+
 
 </div></div> <!-- /#page, /#page-wrapper -->
