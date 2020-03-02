@@ -1,7 +1,8 @@
 <script>
   var serviceType ='<?php echo $service_type;?>';
 </script>
-    <?php 
+
+<?php
     global $language;
     global $user;
     global $_domain;
@@ -12,11 +13,11 @@
     $isProxied = json_decode($_SESSION['MenuJSON'])->profile->isProxied;
     $userRole = json_decode($_SESSION['MenuJSON'])->profile;
     unset($_SESSION['service_details']);
-    $_SESSION['service_details'] = $service_details;    
+    $_SESSION['service_details'] = $service_details;
     $json = json_decode($service_details);
     $totalCount = count($json->Service->offers->offerList);
     $perPage = 4;
-    $onePage = false;	
+    $onePage = false;
     /*if(!user_access('jsdn offer display') && !empty($json)) {
     ?>
     <div class="signin-msg">
@@ -26,16 +27,16 @@
     if($totalCount <= $perPage) {
         $onePage = true;
       }
-    ?>
+?>
 
-    <div class="col-md-12 carousel-div offer-carousel <?php echo ($onePage === true ? 'p-0' : ''); echo ($listOnly === true ? 'd-none' : '') ?>">
+<div class="col-md-12 carousel-div offer-carousel <?php echo ($onePage === true ? 'p-0' : ''); echo ($listOnly === true ? 'd-none' : '') ?>">
 		<ol class="carousel-indicators">
-			<?php 
+			<?php
 				if(!$onePage):
 				$totalpager = ($totalCount);
 				$pages = round($totalpager / $perPage);
 				for($pagindex=0; $pagindex < ($pages); $pagindex++){
-				?>
+      ?>
 					<li data-target="#myCarousel" data-slide-to="<?php echo $pagindex; ?>" <?php echo ($pagindex === 0 ? 'class="active"' : '' ); ?>></li>
 				<?php
 			}
@@ -43,16 +44,17 @@
 			?>
 		</ol>
 
-  <div class="carousel slide" id="myCarousel" data-ride="carousel">	
+  <div class="carousel slide" id="myCarousel" data-ride="carousel">
     <div class="carousel-inner">
-    <?php if(empty($serviceId)) {?>
-    <div class="item active">
-    <div class="single-item <?php if(!user_is_logged_in()){?>not-loged-in2<?php }?>">
-    <h2><?php print $serviceName; ?></h2>
-    <a href='/cms/<?php echo $language->language;?>/content/enquire?name=<?php echo $serviceName;?>' class="enquireButton"><?php print t('Enquire'); ?></a>
-    </div>
-    </div>
-    <?php }elseif ($service_type=='IaaS'){
+      <?php if(empty($serviceId)) {?>
+        <div class="item active">
+          <div class="single-item <?php if(!user_is_logged_in()){?>not-loged-in2<?php }?>">
+            <h2><?php print $serviceName; ?></h2>
+            <a href='/cms/<?php echo $language->language;?>/content/enquire?name=<?php echo $serviceName;?>' class="enquireButton"><?php print t('Enquire'); ?></a>
+          </div>
+        </div>
+
+      <?php } elseif ($service_type=='IaaS') {
     for($i=0; $i < count($json->Service->offers->offerList); $i++){
     $offname=$json->Service->offers->offerList[$i]->name;
     $offdescription_iaas=$json->Service->offers->offerList[$i]->description;
@@ -60,6 +62,7 @@
     $dataMatrix=$json->Service->offers->offerList[$i]->dataMatrix;
     $serviceAssignedToUser = $json->Service->serviceAssignedToUser;
     $noOfLicenseAvailable = $json->Service->offers->offerList[$i]->noOfLicenseAvailable;
+
     if($dataMatrix){
     foreach ($dataMatrix as $key => $value) {
       $items=$items+1;
@@ -68,7 +71,7 @@
         $notactivated .=$key.', ';
       }else{
         $activated .=$key.', ';
-      } 
+      }
     }
     $_SESSION['inactiveprovider']=$notactivated;
     }
@@ -89,7 +92,7 @@
         $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";
       }
     }else{
-        $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";		
+        $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";
     }
 	if(!user_is_logged_in()){
 		$priceId="<a class='launch-button ordersignin' offercode='".$offercode."' dlink='".$jsdnDeepLink."' href='#'>".t("Launch")."</a>";
@@ -97,16 +100,16 @@
 	/*if(in_array('end user', $user->roles) && $serviceAssignedToUser == false && $noOfLicenseAvailable == 0){
          $priceId = "<a href='#' class='cart-button request' offercode='".$offercode."' offername='".$offname."'>".t("Request")."</a>";
     }*/
-    } ?>
+      } ?>
     <div class="single-item <?php if(!user_is_logged_in()){?>not-loged-in2<?php }?>">
       <h2><?php print $offname; ?></h2>
       <p class="offer_description mb-0"><?php print $offdescription_iaas; ?></p>
       <?php if(user_access('jsdn offer display')){  ?>
         <?php  print $priceId;?>
       <?php } ?>
-    </div> 
+    </div>
     <?php  }  else {
-	
+
         function sort_objects_by_price($a, $b) {
           if($a->newPrice == $b->newPrice){ return 0 ; }
           return ($a->newPrice < $b->newPrice) ? -1 : 1;
@@ -116,8 +119,8 @@
           $json->Service->offers->offerList[$row]->newPrice = $value->priceList[0]->price->charges[0]->scaledPrice;
         }
         usort($json->Service->offers->offerList, 'sort_objects_by_price');
-        //var_dump($json->Service->offers->offerList);	
-	
+        //var_dump($json->Service->offers->offerList);
+
         for($i=0; $i < count($json->Service->offers->offerList); $i++){
           $n= $i+1;
           $priceurl = $json->Service->offers->offerList[$i]->priceList[0]->priceid;
@@ -136,11 +139,11 @@
           $promoURL = $jsdn_url.'/jsdn/deeplink/addItemToCart.action?offerCode='.$offercode;
           $jsdnDeepLink = $jsdn_url.'/jsdn/deeplink/addItemToCart.action?offerCode='.$offercode.'&'.$offercode.'.fromBuy=true';
           $jsdnDeepLinkAssign = $jsdn_url.'/jsdn/endUserService/selfAssign.action?offerCode='.$offercode.'&from=endUser';
-		  
+
             //Below Variables for Add to Prelogin shopping cart
             $path = '/cms/jsdncart/add/nojs/' . arg(1) . '/' . $offercode;
-          $pathtrial = '/cms/jsdncart/add/nojs/' . arg(1) . '/' . $offercode . '/trial';		  
-          
+          $pathtrial = '/cms/jsdncart/add/nojs/' . arg(1) . '/' . $offercode . '/trial';
+
 		  if ($promotionInfo!=null){
             $customTrial=$json->Service->offers->offerList[$i]->promotionInfo->iscustomtrial;
             $trialPeriod=$json->Service->offers->offerList[$i]->promotionInfo->customtrialperiod;
@@ -154,14 +157,14 @@
 				}else{
 				  //$priceId="<a href='".$jsdnDeepLink."'>".t("Buy Now")."</a> <a class='trialButton' href='".$promoURL."'>".$trialPeriod. " Day(s) Trial</a>";
 				  //Service Dependency
-				  
+
 				  if(!user_is_logged_in()){
 					$priceId="<a class='cart-button basic-cart-add-to-cart use-ajax' href='".$path."'>".t("Buy Now")."</a> <a class='trialButton cart-button basic-cart-add-to-cart use-ajax' href='".$pathtrial."'>".$trialPeriod. " ".t("Day(s) Trial")."</a>";
 				  }
 				  else{
 					$priceId="<a class='cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Buy Now")."</a> <a class='trialButton cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".$trialPeriod. " ".t("Day(s) Trial"). "</a>";
 					}
-				}			
+				}
             } else if(empty($customTrial)){
 				if(in_array('end user', $user->roles) && $serviceAssignedToUser == false && $noOfLicenseAvailable > 0){
 				  $priceId = "<a href='".$jsdnDeepLinkAssign."' class='cart-button self-assign' >".t("Self-Assign")."</a>";
@@ -171,19 +174,19 @@
 				  $priceId = "<a href='' class='cart-button unassign' >".t("Self-Assign")."</a>";
 				}else{
 				  if(!user_is_logged_in()){
-					$priceId = "<a class='trialButton cart-button basic-cart-add-to-cart use-ajax' href='".$pathtrial."'>".t("Try Now")."</a>";				
-				  }				  
+					$priceId = "<a class='trialButton cart-button basic-cart-add-to-cart use-ajax' href='".$pathtrial."'>".t("Try Now")."</a>";
+				  }
 				  else{
 				  $priceId = "<a class='trialButton cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Try Now")."</a>";
-					}				  
-				}			
+					}
+				}
             }
           }
           else if($orderPlacedForMultiSubOffer){
             $orderPlacedForMultiSubOfferLink = $jsdn_url.'/jsdn/manageservice/manageServices.action?brdcrm=new&from=catalog&offerName='.urlencode($offname).'&accountconfig=true' ;
             $message= t("Looks like you already have an existing subscription or a saved order. Clicking on 'Proceed' will redirect you to Manage Subscriptions page, where you can add additional licenses to your existing subscription. <br><br>If you already have a saved order, navigate to Manage > Orders page and complete the order.")."";
             $priceId="<a href='#' class='cart-message-popup' title='Alert' rel='width:900;resizable:false;position:[center,60];'>".t("Add to Cart")."</a><div style='display:none' id='cart-message-div'><div class='modal-header' style='text-align:left;background:#46b4c1'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title' style='color:#fff'>Alert</h4></div><div class='modal-body'>".$message."</div><div class='modal-footer'><a class='popupproceed btn btn-default btn-primary' href=".$orderPlacedForMultiSubOfferLink." offer='".$offname."' type='continue' style='background:#46b4c1;color:#fff'>".t('Proceed')."</a><button class='btn btn-default' data-dismiss='modal'>".t('Cancel')."</button></div></div>";
-            }		  
+            }
           else{
             if(in_array('end user', $user->roles) && $serviceAssignedToUser == false && $noOfLicenseAvailable > 0){
               $priceId = "<a href='".$jsdnDeepLinkAssign."' class='cart-button self-assign' >".t("Self-Assign")."</a>";
@@ -193,7 +196,7 @@
               $priceId = "<a href='' class='cart-button unassign' >".t("Self-Assign")."</a>";
             }else{
 				if(!user_is_logged_in()){
-					$priceId = "<a class='cart-button basic-cart-add-to-cart use-ajax' href='".$path."'>".t("Add to Cart")."</a>";				
+					$priceId = "<a class='cart-button basic-cart-add-to-cart use-ajax' href='".$path."'>".t("Add to Cart")."</a>";
 				}
 				else{
 					$priceId = "<a class='cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Add to Cart")."</a>";
@@ -205,13 +208,13 @@
           }
           // Get the price details from json
           if(user_access('jsdn offer display')){
-            if(!empty($price_details)){   
+            if(!empty($price_details)){
               $charge = $price_details->price->charges[0];
               $currency = $price_details->price->currencysymbol;
               $priceid= $price_details->price->id;
               if($charge->tierDescription){
                 $offerPrice = $charge->tierDescription;
-                $priceIddiv = "<span class='tier-price'><a href='javascript:void(0)' style='display:block;' class='opentierwindow' plandiv='tier-".$priceid."'>".t("View Detailed Price Plan")."</a></span><div style='display:none' id='tier-".$priceid."'>".$offerPrice."</div>";                     
+                $priceIddiv = "<span class='tier-price'><a href='javascript:void(0)' style='display:block;' class='opentierwindow' plandiv='tier-".$priceid."'>".t("View Detailed Price Plan")."</a></span><div style='display:none' id='tier-".$priceid."'>".$offerPrice."</div>";
               } else{
                 $offerPrice = $charge->scaledPriceAsStr;
                 $priceIddiv = "<span >".$currency." ".$offerPrice." ".$unit."</span>";
@@ -229,7 +232,7 @@
         ?>
           <?php if($n%4 == 1){?><div class="item <?php if($n==1){?>active<?php }?>"><?php }?>
             <div class="single-item <?php if(!user_is_logged_in()){?>not-loged-in2<?php }?>">
-                <h2><?php echo strlen($offname) > 80 ? substr($offname, 0, 80) . '..' : $offname; ?> 
+                <h2><?php echo strlen($offname) > 80 ? substr($offname, 0, 80) . '..' : $offname; ?>
         </h2>
 		<p class="offer_description mb-0"><?php echo $offdescription; ?></p>
                 <?php if(user_access('jsdn offer display')){ ?>
@@ -239,7 +242,7 @@
                 <?php } ?>
             </div>
           <?php if($n%4 == 0){?></div><?php }?>
-    <?php } 
+    <?php }
     }?>
     <?php if($n%4 == 1 || $n%4 == 2 || $n%4 == 3){?></div><?php }?>
     </div>
@@ -249,8 +252,9 @@
     <?php endif; ?>
   </div>
 </div>
-<script type="text/javascript">  
-  if(jQuery(window).width() < "421"){ 
+
+<script type="text/javascript">
+  if(jQuery(window).width() < "421"){
     jQuery('.signin-msg p').text('You need to Sign In  to view the pricing.');
   }
   jQuery('a.signin').on('click',function(e){
@@ -263,7 +267,7 @@
         jQuery("#orderservice").val(str);
         iaasOfferCode = jQuery(this).attr("offercode");
         jQuery('#loginPopUp').modal('show');
-  })   
+  })
   jQuery('a.cart-message-popup').on('click',function(e){
         e.preventDefault();
         jQuery('#enquirePopup .modal-content').html(jQuery('#cart-message-div').html());
@@ -295,7 +299,7 @@
   jQuery('.unassign').click(function(e){
 	e.preventDefault();
 	jQuery('#unassignPopUp').modal('show');
-  })  
+  })
   jQuery('.request').click(function(e){
     e.preventDefault();
     jQuery('#requestPopUp input.offercode').val(jQuery(this).attr('offercode'));
@@ -303,7 +307,7 @@
   jQuery('#requestPopUp textarea').val("");
     jQuery('#requestPopUp').modal('show');
   })
-  
+
 jQuery('.carousel-indicators li').click(function(e) {
     jQuery('.carousel-indicators li').removeClass('active');
     jQuery(this).addClass('active');
@@ -321,8 +325,9 @@ jQuery('.carousel-indicators li').click(function(e) {
     // select currently active item and add active class
     jQuery('.carousel-indicators li:eq(' + idx + ')').addClass('active');
 
-  });  
+  });
 </script>
+
 <div id="enquirePopup" class="modal fade">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
@@ -334,6 +339,7 @@ jQuery('.carousel-indicators li').click(function(e) {
     </div>
   </div>
 </div>
+
 <div id="tier-modal" class="modal fade">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
@@ -342,15 +348,17 @@ jQuery('.carousel-indicators li').click(function(e) {
         <h4 class='modal-title' style='color:#fff'><?php echo t('Detailed Price Plan');?></h4>
       </div>
       <div class="modal-body">
-        
+
       </div>
     </div>
   </div>
 </div>
+
 <div id="message-div" class="modal fade">
   <div class="modal-dialog modal-md">
   </div>
 </div>
+
 <div id="assignPopUp" class="modal fade">
   <div class="modal-dialog modal-sd">
     <div class="modal-content">
@@ -368,6 +376,7 @@ jQuery('.carousel-indicators li').click(function(e) {
     </div>
   </div>
 </div>
+
 <div id="unassignPopUp" class="modal fade">
   <div class="modal-dialog modal-sd">
     <div class="modal-content">
@@ -384,6 +393,7 @@ jQuery('.carousel-indicators li').click(function(e) {
     </div>
   </div>
 </div>
+
 <div id="requestPopUp" class="modal fade">
   <div class="modal-dialog modal-sd">
     <div class="modal-content">
@@ -398,7 +408,7 @@ jQuery('.carousel-indicators li').click(function(e) {
           <form id="requestAction">
             <input type="hidden" value="" name="offercode" class="offercode" />
             <input type="hidden" value="" name="offername" class="offername" />
-            <textarea name="requestComment" minlength="6" maxlength="1200"></textarea>  
+            <textarea name="requestComment" minlength="6" maxlength="1200"></textarea>
           </form>
         </div>
       </div>
@@ -416,30 +426,29 @@ jQuery('.carousel-indicators li').click(function(e) {
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class='modal-title' style='color:#fff'><?php echo t('Service Dependancy Alert');?></h4>
-      </div>	
+      </div>
       <div class="modal-body">
       </div>
     </div>
   </div>
 </div>
+
 <div style='display:none' id='hservicecode'>
-<input type="text" id='orderservice' value="">
+  <input type="text" id='orderservice' value="">
 </div>
 
-
-
-<script type="text/javascript">  
+<script type="text/javascript">
 jQuery( document ).ready(function() {
-	var maxHeight = 0; 
-	jQuery(".offer-carousel .item p.offer_description").each(function(){ 
-		if (jQuery(this).height() > maxHeight) { maxHeight = jQuery(this).height(); } 
-	}); 
+	var maxHeight = 0;
+	jQuery(".offer-carousel .item p.offer_description").each(function(){
+		if (jQuery(this).height() > maxHeight) { maxHeight = jQuery(this).height(); }
+	});
 	jQuery(".offer-carousel .item p.offer_description").height(maxHeight);
 
-	var maxHeight1 = 0; 
-	jQuery(".offer-carousel .item h2").each(function(){ 
-		if (jQuery(this).height() > maxHeight1) { maxHeight1 = jQuery(this).height(); } 
-	}); 
+	var maxHeight1 = 0;
+	jQuery(".offer-carousel .item h2").each(function(){
+		if (jQuery(this).height() > maxHeight1) { maxHeight1 = jQuery(this).height(); }
+	});
 	jQuery(".offer-carousel .item h2").height(maxHeight1);
 
 });
@@ -455,13 +464,13 @@ function validate(){
           var sCount = 0;
           jQuery(this).find("li input[type=checkbox]").each(function(){
             if(jQuery(this).hasClass('or_dependent')){
-                if(this.checked){ 
+                if(this.checked){
                     orDependent = orDependent+1;
                 }
             }else{
-               orDependent = -1; 
+               orDependent = -1;
             }
-            if(this.checked){ 
+            if(this.checked){
               sCount = sCount+1;
               sItems += "~"+this.value;
               fItems += "&"+this.value+".fromBuy=true";
@@ -471,14 +480,14 @@ function validate(){
             if(sList[i] == 0){
                 jQuery(this).after('<span class="error" style="float: left;width: 100%;text-align: left;"><?php echo t("Please Select Any One Service");?></span>');
             }
-          
+
           i = i+1;
         });
         if(orDependent == 0){
             jQuery('.error').remove();
             jQuery('a.popupproceed').before('<span class="error" style="float: left;width: 100%;text-align: left;margin-bottom:20px"><?php echo t("Please Select Any One Service");?></span>');
         }else if(orDependent > 0){
-           jQuery('.error').remove(); 
+           jQuery('.error').remove();
         }
         if(jQuery(".error").length == 0) {
           var offercode = jQuery('.popupproceed').attr('rel');

@@ -954,26 +954,35 @@ a:not([href]):not([tabindex]):hover {
      display: block;
 
 }
- .tb-megamenu .nav > li > a{
-     color: #007AD0;
-     font-weight: normal;
-     font-size: 15px;
-     padding:7px 10px;
+ .tb-megamenu .nav > li {
+    height: 44px;
 }
+
+.tb-megamenu .nav > li > a{
+  color: white;
+  font-weight: normal;
+  font-size: 15px;
+  padding:7px 10px;
+  font-family: "Roboto", Arial;
+  height: 100%;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 18px;
+}
+
  .tb-megamenu .nav > .active > a, .tb-megamenu .nav > .active > a:hover, .tb-megamenu .nav > .active > a:focus{
-     background-color: transparent ;
-    color: #767676;
+     background-color: #007fb1 ;
+    color: white;
 }
  .tb-megamenu .nav > li > a:hover{
-    background-color: transparent;
-    color: #007AD0;
-	text-decoration:underline;
+    background-color: #007fb1;
+    text-decoration: none;
 }
  .tb-megamenu .nav > li > a:focus{
-    background-color: transparent;
+    background-color: #007fb1;
 }
  .tb-megamenu .nav > li.open a{
-     background: transparent;
+     background-color: #007fb1;
 }
  .cloud_compare{
     display: none!important;

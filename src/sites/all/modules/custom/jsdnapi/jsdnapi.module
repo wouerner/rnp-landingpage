@@ -13,8 +13,8 @@ function jsdnapi_init() {
     global $jsdnURL;
     $jsdn_consumer_key = variable_get('jsdn_consumer_key', 'test');
     $jsdn_consumer_secret = variable_get('jsdn_consumer_secret', 'test');
-    define("JSDN_CONSUMER_KEY", $jsdn_consumer_key); 
-    define("JSDN_CONSUMER_SECRET", $jsdn_consumer_secret); 
+    define("JSDN_CONSUMER_KEY", $jsdn_consumer_key);
+    define("JSDN_CONSUMER_SECRET", $jsdn_consumer_secret);
     define("JSDN_OAUTH_HOST", $jsdnURL);
     define('OAUTH_TMP_DIR', function_exists('sys_get_temp_dir') ? sys_get_temp_dir() : realpath($_ENV["TMP"]));
     drupal_add_js(drupal_get_path('module', 'jsdnapi') . '/jsdnapi.js');
@@ -31,7 +31,7 @@ function jsdnapi_permission() {
     'jsdn offer display' => array(
       'title' => t('jsdn offer display'),
       'description' => t('Display jsdn offer.'),
-    ),  
+    ),
   );
 }
 /**
@@ -54,7 +54,7 @@ function jsdnapi_menu() {
         'title' => 'Popup Action',
         'page callback' => 'jsdnapi_notify_action',
         'access callback' => TRUE,
-  );  
+  );
    $items['admin/config/jsdn'] = array(
     'title' => t('JSDN'),
     'description' => t('JSDN settings.'),
@@ -83,7 +83,7 @@ function jsdnapi_menu() {
     'access arguments' => array('administer jsdn api'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('get_services_form'),
-  ); 
+  );
   $items['admin/config/jsdn/menusetting'] = array(
     'title' => t('JSDN Menu settings'),
     'description' => t('Configure menu position'),
@@ -97,7 +97,7 @@ function jsdnapi_menu() {
     'title' => t('Popup Action'),
     'page callback' => 'jsdnapi_check_dependency',
     'access callback' => TRUE,
-    );  
+    );
   return $items;
 }
 
@@ -142,7 +142,7 @@ function jsdnapi_notify_action(){
     $notConfigured .= '&nbsp;&nbsp;&nbsp;&nbsp;'.$a++.'.&nbsp;'.$p.'<br>';
   }
   if($domain_is_store){
-     $third = t('3. Budget for the following department needs to be defined.<br>').'&nbsp;&nbsp;&nbsp;&nbsp;a.&nbsp;'.$department; 
+     $third = t('3. Budget for the following department needs to be defined.<br>').'&nbsp;&nbsp;&nbsp;&nbsp;a.&nbsp;'.$department;
   }else{
       $third = "";
   }
@@ -163,7 +163,7 @@ function jsdnapi_notify_action(){
       $out['message'] = t('You have successfully notified the administrator and posted a request to obtain').' '.$offerName.'. '.t('Your request will be reviewed by the administrator, please wait for an email response.');
   }
   echo json_encode($out);
-  
+
   die();
 }
 
@@ -219,7 +219,7 @@ function jsdnapi_entity_view_alter(&$build, $type) {
      if(_jsdnapi_node_check_node_type()){
         $build['field_product_offer_details']['#theme'] = 'additional_field';
       }
-      
+
       if(_jsdnapi_service_family_check_node_type()){
         $build['field_service_family_offer_detai']['#theme'] = 'service_family_offer';
       }
@@ -330,9 +330,9 @@ function _jsdnapi_service_family_check_node_type() {
 }
 /**
  * Retrieve service details from jsdn server.
- * 
+ *
  * @param $serviceId
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -347,9 +347,9 @@ function service_family_details_api_call($serviceId) {
 }
 /**
  * Retrieve service details from jsdn server.
- * 
+ *
  * @param $serviceId
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -364,9 +364,9 @@ function service_details_api_call($serviceId) {
 }
 /**
  * Retrieve offer price from jsdn server.
- * 
+ *
  * @param $priceurl
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -381,7 +381,7 @@ function service_price_api_call($priceurl) {
 }
 /**
  * Retrieve services from jsdn server.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -449,12 +449,12 @@ function get_services_form($form, $form_state) {
     );
     $form['pager'] = array(
       '#markup' => theme('pager', array('quantity',count($_SESSION['options'])))
-    ); 
+    );
     return $form;
 }
 /**
  * Retrieve services from jsdn server from the specified URL.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -466,7 +466,7 @@ function get_services_url_form_submit($form , $form_state) {
 }
 /**
  * Retrieve services from jsdn server from the specified URL.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -484,14 +484,14 @@ function get_services_search_keyword_form_submit($form , $form_state) {
                   'in_cms' => $option['in_cms'],
                   'sync_date' => $option['sync_date']
               );
-          } 
+          }
         }
         $_SESSION['options'] = $filter_array;
     }
 }
 /**
  * SYNC services submit from jsdn server.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -520,7 +520,7 @@ function get_services_form_submit($form , $form_state) {
 }
 /**
  * Retrieve services from jsdn server.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -534,7 +534,7 @@ function get_services_api_call() {
 }
 /**
  * Retrieve service image from jsdn server.
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -546,16 +546,16 @@ function get_service_image_api_call($api_url, $image_extension = '') {
     return jsdnapi_api_call($JSDN_MARKETPLACE_HOST, $url, $api_url, true, $image_extension);
 }
 /**
- * Api function to fetch a retrive services from a url 
+ * Api function to fetch a retrive services from a url
 */
 function jsdnapi_api_call($JSDN_HOST, $url , $api_url, $entire_response = false, $image_extension = '') {
     $JSDN_REQUEST_TOKEN_URL = $JSDN_HOST."/api/getRequestToken";
     $JSDN_AUTHORIZE_URL = $JSDN_HOST. "/api/confirmAccess";
     $JSDN_ACCESS_TOKEN_URL = $JSDN_HOST. "/api/getAccessToken?xoauth-jsdn-principal=guestuser.jamcracker.com&xoauth-jsdn-credentials=test&loginURL=".$url;
-    	
+
    //  Init the OAuthStore
     $options = array(
-        'consumer_key' => JSDN_CONSUMER_KEY, 
+        'consumer_key' => JSDN_CONSUMER_KEY,
         'consumer_secret' => JSDN_CONSUMER_SECRET,
         'server_uri' => $JSDN_HOST,
         'request_token_uri' => $JSDN_REQUEST_TOKEN_URL,
@@ -569,7 +569,7 @@ function jsdnapi_api_call($JSDN_HOST, $url , $api_url, $entire_response = false,
     {
 	//  STEP 1:  If we do not have an OAuth token yet, go get one
 	if (!isset($_SESSION['state']))
-	{	
+	{
                 // get a request token
 		$tokenResultParams = OAuthRequester::requestRequestToken(JSDN_CONSUMER_KEY, 0);
 		//  STEP 2:  Get an access token
@@ -581,7 +581,7 @@ function jsdnapi_api_call($JSDN_HOST, $url , $api_url, $entire_response = false,
 		}
 		catch (OAuthException2 $e)
 		{
-                    watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));  
+                    watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));
 		    return;
 		}
 		$request = new OAuthRequester($api_url, 'GET', $tokenResultParams, '', '', $image_extension);
@@ -590,36 +590,36 @@ function jsdnapi_api_call($JSDN_HOST, $url , $api_url, $entire_response = false,
 		if ($result['code'] == 200) {
                     	$_SESSION['state'] = 1;
                         if($entire_response){return $result;}
-                        else{return $result['body'];}   
+                        else{return $result['body'];}
 		}
 		else {
-                    watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));  
+                    watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));
                     return;
-		}	
+		}
 	}
-	else 
+	else
         {
-		$request = new OAuthRequester($api_url, 'GET', '', '', '', $image_extension);	
+		$request = new OAuthRequester($api_url, 'GET', '', '', '', $image_extension);
 		$result = $request->doRequest(0);
 		watchdog('jsdn_api_curl_response', 'Curl Response %exception.', array('%exception' => $result));
 		if ($result['code'] == 200) {
                         if($entire_response){return $result;}
-                        else{return $result['body'];}   
+                        else{return $result['body'];}
 		}
 		else {
-                        watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));  
+                        watchdog('jsdnapi', 'OAuth Request %exception.', array('%exception' => $result));
                         return;
 		}
 	}
     }
     catch(OAuthException2 $e) {
-            watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));            
+            watchdog('jsdnapi', 'OAuthException %exception.', array('%exception' => $e->getMessage()));
             return;
     }
 }
 /**
  * Create or Update the product page data.
- * 
+ *
  * @return
  *   NODE data.
  */
@@ -634,7 +634,7 @@ function node_data_object_create($service_data) {
     $node->field_offer_details['und'][0]['format'] = 'full_html';
     $node->field_case_studies['und'][0]['value'] = $service_data['faqs'];
     $node->field_case_studies['und'][0]['format'] = 'full_html';
-    if(!empty($service_data['mediaSet']['serviceMedia'][0]['mediaName'])){ 
+    if(!empty($service_data['mediaSet']['serviceMedia'][0]['mediaName'])){
         $node->field_features['und'][0]['value'] = jsdnapi_supplymentary_materials($service_data['mediaSet']['serviceMedia']);
         $node->field_features['und'][0]['format'] = 'full_html';
     }
@@ -687,7 +687,7 @@ function node_data_object_create($service_data) {
     }
     else{
         node_object_prepare($node); // Sets some defaults. Invokes hook_prepare() and hook_node_prepare().
-        $node->uid = $user->uid; 
+        $node->uid = $user->uid;
         $node = node_submit($node); // Prepare node for saving
     }
     node_save($node);
@@ -705,7 +705,7 @@ function jsdnapi_supplymentary_materials($supplymentary_materials){
         }
         else{
             $html_data .= '<li><a href="/jsdn'.$supplymentary['mediaUrn'].'" name="'.$supplymentary['mediaName'].'" target="_blank">'.$supplymentary['mediaName'].'</a></li>';
-        }  
+        }
     }
     $html_data .= '</ul>';
     return $html_data;
@@ -777,14 +777,14 @@ function jsdnapi_mail($key, &$message, $params){
 
 /**
  * Retrieve services data from jsdn server to display dependencies.
- * 
+ *
  * @param $offer
- * 
+ *
  * @return
  *   JSON data.
  */
 function jsdnapi_check_dependency(){
-    $offer = $_POST['offer'];  
+    $offer = $_POST['offer'];
     $name = $_POST['name'];
     $serviceId = $_POST['serviceId'];
 	$istrial = $_POST['trialService'];
@@ -828,9 +828,9 @@ function jsdnapi_check_dependency(){
 
 /**
  * Retrieve services data from jsdn server.
- * 
+ *
  * @param $api_url
- * 
+ *
  * @return
  *   JSON data.
  */
@@ -876,7 +876,7 @@ function jsdnapi_curl_raw ( $url ) {
         $error = curl_error($ch);
         curl_close($ch);
         watchdog('jsdnapi', 'Curl Request %exception.', array('%exception' => $error));
-    } 
+    }
     curl_close($ch);
     return $result;
 }
@@ -898,7 +898,7 @@ function jsdnapi_curl_call ( $url , $method, $data) {
         CURLOPT_SSL_VERIFYPEER => 0,
         CURLOPT_SSL_VERIFYHOST => 0,
     );
-   
+
     if ($isProxied){
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'X-Auth-Token:'.$_SESSION['authToken'],
@@ -930,7 +930,7 @@ function jsdnapi_curl_call ( $url , $method, $data) {
         case "PUT":
            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
            if ($data)
-              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);                         
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
            break;
         default:
            if ($data)
@@ -942,7 +942,7 @@ function jsdnapi_curl_call ( $url , $method, $data) {
     curl_close($ch);
     watchdog('jsdn_api_curl_response', 'Curl Response %exception.', array('%exception' => $result));
     if ($error) {
-        
+
     }
     else{
     //$result = '{"status":"success","error-message":"11IMGSMIM0004","success-message":""}';
