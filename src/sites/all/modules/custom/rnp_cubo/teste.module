@@ -1,0 +1,55 @@
+<?php
+/**
+ *  * Implements hook_block_info().
+ *   */
+function teste_block_info() {
+  $blocks['rnp_cubo'] = array(
+    // The name that will appear in the block list.
+    'info' => t('Teste'),
+    // Default setting.
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/* function teste_block_view($delta = '') { */
+/*   return  $block['content'] = '<strong>teste</strong>'; */
+/* } */
+
+/* function teste_block_view($delta = '') { */
+/*     return $block['content'] = array('<strong>teste</strong>'); */
+/* } */
+
+function teste_block_view() {
+  $block = array();
+  $block['content'] = theme('teste-theme');
+  return $block;
+}
+
+function rnp_cubo_theme($existing, $type, $theme, $path) {
+  return array(
+    'rnp_cubo-theme' => array(
+      'template' => 'html-page'
+    ),
+  );
+}
+
+function teste_menu() {
+  $items = array();
+  $items['books'] = array(
+    'title'             =>  'Books View',  //page title
+    'description'       =>  'Books Information',  //description show when mouse hover on link
+    'page callback'     =>  'books_list',  //callback function which is invoked when menu item is called.
+    'access callback'   =>  true,  //any user can access this page
+  );
+  return $items;
+}
+
+function teste_help($path, $arg) {
+  switch ($path) {
+      case "admin/help#teste":
+        return t("Displays links to nodes created on this date");
+        break;
+    }
+}
+

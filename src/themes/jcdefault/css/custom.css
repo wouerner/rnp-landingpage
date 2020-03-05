@@ -865,16 +865,26 @@ a:not([href]):not([tabindex]):hover {
  #jsdnSession{
     display:none;
 }
- .navbar{
-     margin-bottom: 0px;
-    border-bottom:1px solid #eee;
-    border-radius: 0px;
+
+.navbar {
+  height: 60px;
+  margin-bottom: 0px;
+  border-bottom:1px solid #eee;
+  border-radius: 0px;
+  padding: 0;
 }
 
- .navbar-brand{
-     height: auto;
-     padding: 7px 10px;
+.navbar-brand {
+  padding: 0;
 }
+
+.navbar-brand img {
+  height: 44px;
+}
+
+/* .navbar-brand > a > img{ */
+/*   height: 44px; */
+/* } */
  .navbar-left .block{
      float: left;
      padding: 4px 0px
@@ -919,6 +929,11 @@ a:not([href]):not([tabindex]):hover {
     position: relative;
     top: -3px;
 }
+.header-section{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
  .navbar-toggle{
     margin-top: 21px;
     margin-bottom: 21px;
@@ -950,15 +965,17 @@ a:not([href]):not([tabindex]):hover {
     font-family:'FontAwesome';
     font-size: 16px;
 }
- .tb-megamenu .nav-collapse.collapse{
-     display: block;
 
+.tb-megamenu .nav-collapse.collapse{
+     display: block;
 }
- .tb-megamenu .nav > li {
+
+div#block-tb-megamenu-main-menu.tb-megamenu .nav > li {
+
     height: 44px;
 }
 
-.tb-megamenu .nav > li > a{
+div#block-tb-megamenu-main-menu  .tb-megamenu .nav > li > a{
   color: white;
   font-weight: normal;
   font-size: 15px;
@@ -970,20 +987,52 @@ a:not([href]):not([tabindex]):hover {
   font-size: 18px;
 }
 
- .tb-megamenu .nav > .active > a, .tb-megamenu .nav > .active > a:hover, .tb-megamenu .nav > .active > a:focus{
+div#block-tb-megamenu-main-menu .tb-megamenu .nav > .active > a, .tb-megamenu .nav > .active > a:hover, .tb-megamenu .nav > .active > a:focus{
      background-color: #007fb1 ;
     color: white;
 }
- .tb-megamenu .nav > li > a:hover{
+div#block-tb-megamenu-main-menu .tb-megamenu .nav > li > a:hover{
     background-color: #007fb1;
     text-decoration: none;
 }
- .tb-megamenu .nav > li > a:focus{
+ div#block-tb-megamenu-main-menu .tb-megamenu .nav > li > a:focus{
     background-color: #007fb1;
 }
- .tb-megamenu .nav > li.open a{
+div#block-tb-megamenu-main-menu .tb-megamenu .nav > li.open a{
      background-color: #007fb1;
 }
+
+/*test*/
+ .tb-megamenu .nav-collapse.collapse{
+     display: block;
+
+}
+ .tb-megamenu .nav > li > a{
+     color: #007AD0;
+     font-weight: normal;
+     font-size: 15px;
+     padding:7px 10px;
+}
+ .tb-megamenu .nav > .active > a, .tb-megamenu .nav > .active > a:hover, .tb-megamenu .nav > .active > a:focus{
+     background-color: transparent ;
+    color: #767676;
+}
+ .tb-megamenu .nav > li > a:hover{
+    background-color: transparent;
+    color: #007AD0;
+	text-decoration:underline;
+}
+ .tb-megamenu .nav > li > a:focus{
+    background-color: transparent;
+}
+ .tb-megamenu .nav > li.open a{
+     background: transparent;
+}
+/*test*/
+
+
+
+
  .cloud_compare{
     display: none!important;
 }
@@ -1040,6 +1089,7 @@ a:not([href]):not([tabindex]):hover {
  #header .section .region-header{
      float: left;
     width: 100%;
+
     margin: 0px
 }
  #header .section .region-header #block-jsdn-common-render-menu{
@@ -2957,6 +3007,19 @@ top: -5px;
  .leftMenu .main-menu .menu_right #profileMenu ul li a:hover{
      text-decoration: underline;
 }
+
+#block-tb-megamenu-main-menu{
+  width: 970px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: auto;
+  float: initial;
+}
+
+#logo {
+  margin:0;
+}
+
  #footer-wrapper{
     width: 100%;
     color: #fff;

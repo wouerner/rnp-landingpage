@@ -20,13 +20,13 @@ function jcdefault_preprocess_html(&$variables) {
     || !empty($variables['page']['footer_fourthcolumn'])) {
     $variables['classes_array'][] = 'footer-columns';
   }
-   
+
 if(!empty($variables['page']['header']['jsdn_common_render_menu']) && (!empty(variable_get('menu_position') && variable_get('menu_position') == "vertical" )) ) {
 	$variables['classes_array'][] = 'hasLeftMenu';
-}  
+}
 if(!empty($variables['page']['header']['jsdn_common_render_menu']) && (!empty(variable_get('menu_position') && variable_get('menu_position') == "horizontal" )) ) {
   $variables['classes_array'][] = 'hasTopMenu';
-}  
+}
 
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
@@ -35,7 +35,10 @@ if(!empty($variables['page']['header']['jsdn_common_render_menu']) && (!empty(va
   drupal_add_css('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', array('type' => 'external'));
   drupal_add_css('https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css', array('type' => 'external'));
 
-  
+  // icons vuetify
+  drupal_add_css('https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css', array('type' => 'external'));
+
+
 }
 /**
  * login form placeholder

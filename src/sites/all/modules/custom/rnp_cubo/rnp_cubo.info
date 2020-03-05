@@ -1,0 +1,10 @@
+name = rnp_cubo
+description = rnp_cubo: RNP serviços
+core = 7.x
+dependencies[] = block
+
+;scripts[] = dist/app.js
+;scripts[] = dist/app.js.map
+;stylesheets[all][] = dist/chunk-vendors.css
+;scripts[] = dist/chunk-vendors.js
+;scripts[] = dist/chunk-vendors.js.map

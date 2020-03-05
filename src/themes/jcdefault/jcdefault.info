@@ -9,8 +9,9 @@ stylesheets[all][] = css/layout.css
 stylesheets[all][] = css/style.css
 stylesheets[all][] = css/colors.css
 stylesheets[print][] = css/print.css
-;stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = css/bootstrap.min.css
 stylesheets[all][] = css/custom.css
+;stylesheets[all][] = https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css
 
 scripts[] = js/custom.js
 scripts[] = js/bootstrap.min.js
@@ -19,8 +20,11 @@ regions[header] = Header
 regions[page_top] = Page top
 regions[page_bottom] = Page bottom
 
+
 regions[header_top_left] = Header Top Left
 regions[header_top_right] = Header Top Right
+regions[header_top_right_cubo] = header top right cubo
+
 regions[search_block] = Search Block
 regions[filter_block] = Filter Block
 regions[main_banner] = Main Banner

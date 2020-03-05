@@ -1,4 +1,5 @@
 <?php
+/* die('page:front'); */
 global $_domain;
 $roleName = json_decode($_SESSION['MenuJSON'])->profile->roleName;
 $menuPosition = variable_get('menu_position');
@@ -10,41 +11,11 @@ $menuPosition = variable_get('menu_position');
         </div>
       </div> <!-- /.section, /xmessages -->
     <?php endif; ?>
-<nav class="navbar">
-  <div class="container-fluid header-section">
-    <div class="navbar-header">
-      <?php if ($logo): ?>
-        <?php if (!$logged_in) { ?>
-			<a class="navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
-		<?php  }  else { ?>
-			<a class="navbar-brand" href="/jsdn/dashboard/dashboardHome.action" title="<?php print t('Home'); ?>" rel="home" id="logo">
-		<?php } ?>
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-        </a>
-      <?php endif; ?>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <?php if ($page['header_top_left']): ?>
-        <div class="navbar-nav navbar-left">
-          <?php print render($page['header_top_left']); ?>
-        </div> 
-      <?php endif; ?>
-	  <?php if ($logged_in) : ?>
-        <div class="navbar-nav navbar-right padding-0">
-         <a href="<?php echo $jsdnURL ?>/jsdn/users/myProfile.action?brdcrm=new" class="profileLink"><div class="lprofile"><span class="uname"><?php echo strlen($_SESSION['username']) > 25 ? substr($_SESSION['username'], 0, 25) . '..' : $_SESSION['username']; ?></span><span class="urole"><?php echo $roleName; ?></span></div></a>
-        </div>
-	  <?php endif; ?> 	  
-      <?php if ($page['header_top_right']): ?>
-        <div class="navbar-nav navbar-right">
-        <?php print render($page['header_top_right']); ?>
-        <?php include(drupal_get_path('theme', 'jcdefault').'/templates/inc/cart_icon.tpl.php'); ?>
-        </div> 
-      <?php endif; ?>
 
-      
-    </div> 
-  </div>
-</nav>  
+<!--inc/nav.tpl.php -->
+<?php include(path_to_theme() . '/templates/inc/nav.tpl.php'); ?>
+<!--inc/nav.tpl.php -->
+
 <a id="responsive-menu-button" href="#" class="menu-button">Menu</a>
 <?php if($menuPosition == "vertical"):?>
   <div id="verticalDiv">
@@ -123,7 +94,7 @@ $menuPosition = variable_get('menu_position');
       <?php endif; ?>
     </div></div> <!-- /.section, /#header -->
   <?php endif;?>
-<!-- <?php if ($logged_in) : ?> 
+<!-- <?php if ($logged_in) : ?>
       <?php print '<div id="breadcrumb"><div class="breadcrumb">' ?>
       <?php print '</div></div>';?>
     <?php endif; ?>  -->
@@ -134,7 +105,7 @@ $menuPosition = variable_get('menu_position');
           </div></div> <!-- /.section, /#Main Banner -->
           <?php endif; ?>
     </div>
-    <div class="bg-3 text-center">    
+    <div class="bg-3 text-center">
       <?php if ($page['highlighted']): ?>
         <div id="highlighted"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -162,11 +133,11 @@ $menuPosition = variable_get('menu_position');
         <?php print render($page['footer_fourthcolumn']); ?>
       </div> <!-- /#footer-columns -->
     <?php endif; ?>
-  
+
   <?php if ($page['footer_left']): ?>
       <div id="footerLeft">
         <?php print render($page['footer_left']); ?>
-      </div> 
+      </div>
     <?php endif; ?>
 
     <?php if ($page['footer']): ?>
@@ -175,4 +146,4 @@ $menuPosition = variable_get('menu_position');
       </div> <!-- /#footer -->
     <?php endif; ?>
   </div></div>
-</footer> 
+</footer>
