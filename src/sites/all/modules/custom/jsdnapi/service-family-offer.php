@@ -1,4 +1,5 @@
 <?php
+/* die('service-family'); */
 $server_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 define('DRUPAL_ROOT', $_SERVER['DOCUMENT_ROOT'].'/cms/');
 define("JSDN_OAUTH_HOST", $server_url);
@@ -24,7 +25,7 @@ for($j=0; $j < count($json->Services->serviceList); $j++){
 }
 $json = $data;
 $perPage = 4;
-$onePage = false;	
+$onePage = false;
 
 $totalCount = 0;
 for($j=0; $j < count($json->Services->serviceList); $j++){
@@ -35,7 +36,7 @@ for($j=0; $j < count($json->Services->serviceList); $j++){
 }
 ?>
 <ol class="carousel-indicators">
-            <?php 
+            <?php
             if($totalCount <= $perPage) {
                 $onePage = true;
             }
@@ -67,7 +68,7 @@ if ($service_type=='IaaS'){
                     $notactivated .=$key.', ';
                   }else{
                     $activated .=$key.', ';
-                  } 
+                  }
                 }
                 $_SESSION['inactiveprovider']=$notactivated;
             }
@@ -88,7 +89,7 @@ if ($service_type=='IaaS'){
                   $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";
                 }
             }else{
-                $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";		
+                $priceId="<a class='launch-button' href='".$jsdnDeepLink."'>".t("Launch")."</a>";
             }
             if(!user_is_logged_in()){
                 $priceId="<a class='launch-button ordersignin' offercode='".$offercode."' dlink='".$jsdnDeepLink."' href='#'>".t("Launch")."</a>";
@@ -146,7 +147,7 @@ if ($service_type=='IaaS'){
 
                 //Below Variables for Add to Prelogin shopping cart
                 $path = '/cms/jsdncart/family/nojs/' . $_SESSION['node_id'] . '/' . $offercode;
-                $pathtrial = '/cms/jsdncart/family/nojs/' . $_SESSION['node_id'] . '/' . $offercode . '/trial';		  
+                $pathtrial = '/cms/jsdncart/family/nojs/' . $_SESSION['node_id'] . '/' . $offercode . '/trial';
 
                 if ($promotionInfo!=null){
                     $customTrial=$json->Services->serviceList[$j]->offers->offerList[$i]->promotionInfo->iscustomtrial;
@@ -168,7 +169,7 @@ if ($service_type=='IaaS'){
                           else{
                                 $priceId="<a class='cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Buy Now")."</a> <a class='trialButton cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".$trialPeriod. " ".t("Day(s) Trial"). "</a>";
                           }
-                        }			
+                        }
                     } else if(empty($customTrial)){
                             if(in_array('end user', $user->roles) && $serviceAssignedToUser == false && $noOfLicenseAvailable > 0){
                               $priceId = "<a href='".$jsdnDeepLinkAssign."' class='cart-button self-assign' >".t("Self-Assign")."</a>";
@@ -178,19 +179,19 @@ if ($service_type=='IaaS'){
                               $priceId = "<a href='' class='cart-button unassign' >".t("Self-Assign")."</a>";
                             }else{
                               if(!user_is_logged_in()){
-                                $priceId = "<a class='trialButton cart-button basic-cart-add-to-cart' href='".$pathtrial."'>".t("Try Now")."</a>";				
-                              }				  
+                                $priceId = "<a class='trialButton cart-button basic-cart-add-to-cart' href='".$pathtrial."'>".t("Try Now")."</a>";
+                              }
                               else{
                                 $priceId = "<a class='trialButton cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Try Now")."</a>";
-                              }				  
-                        }			
+                              }
+                        }
                     }
                 }
                 else if($orderPlacedForMultiSubOffer){
                   $orderPlacedForMultiSubOfferLink = $jsdn_url.'/jsdn/manageservice/manageServices.action?brdcrm=new&from=catalog&offerName='.urlencode($offname).'&accountconfig=true' ;
                   $message= t("Looks like you already have an existing subscription or a saved order. Clicking on 'Proceed' will redirect you to Manage Subscriptions page, where you can add additional licenses to your existing subscription. <br><br>If you already have a saved order, navigate to Manage > Orders page and complete the order.")."";
                   $priceId="<a href='#' class='cart-message-popup' title='Alert' rel='width:900;resizable:false;position:[center,60];'>".t("Add to Cart")."</a><div style='display:none' id='cart-message-div'><div class='modal-header' style='text-align:left;background:#46b4c1'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title' style='color:#fff'>Alert</h4></div><div class='modal-body'>".$message."</div><div class='modal-footer'><a class='popupproceed btn btn-default btn-primary' href=".$orderPlacedForMultiSubOfferLink." offer='".$offname."' type='continue' style='background:#46b4c1;color:#fff'>".t('Proceed')."</a><button class='btn btn-default' data-dismiss='modal'>".t('Cancel')."</button></div></div>";
-                }		  
+                }
                 else{
                   if(in_array('end user', $user->roles) && $serviceAssignedToUser == false && $noOfLicenseAvailable > 0){
                     $priceId = "<a href='".$jsdnDeepLinkAssign."' class='cart-button self-assign' >".t("Self-Assign")."</a>";
@@ -200,7 +201,7 @@ if ($service_type=='IaaS'){
                     $priceId = "<a href='' class='cart-button unassign' >".t("Self-Assign")."</a>";
                   }else{
                       if(!user_is_logged_in()){
-                          $priceId = "<a class='cart-button basic-cart-add-to-cart' href='".$path."'>".t("Add to Cart")."</a>";				
+                          $priceId = "<a class='cart-button basic-cart-add-to-cart' href='".$path."'>".t("Add to Cart")."</a>";
                       }
                       else{
                           $priceId = "<a class='cartButton cart-button' serviceId=".$serviceId." rel='".$offercode."' name='".$offname."'>".t("Add to Cart")."</a>";
@@ -212,13 +213,13 @@ if ($service_type=='IaaS'){
                 }
                 // Get the price details from json
                 if(user_access('jsdn offer display')){
-                  if(!empty($price_details)){   
+                  if(!empty($price_details)){
                     $charge = $price_details->price->charges[0];
                     $currency = $price_details->price->currencysymbol;
                     $priceid= $price_details->price->id;
                     if($charge->tierDescription){
                       $offerPrice = $charge->tierDescription;
-                      $priceIddiv = "<span class='tier-price'><a href='javascript:void(0)' style='display:block;' class='opentierwindow' plandiv='tier-".$priceid."'>".t("View Detailed Price Plan")."</a></span><div style='display:none' id='tier-".$priceid."'>".$offerPrice."</div>";                     
+                      $priceIddiv = "<span class='tier-price'><a href='javascript:void(0)' style='display:block;' class='opentierwindow' plandiv='tier-".$priceid."'>".t("View Detailed Price Plan")."</a></span><div style='display:none' id='tier-".$priceid."'>".$offerPrice."</div>";
                     } else{
                       $offerPrice = $charge->totalScaledPriceAsStr;
                       $priceIddiv = "<span >".$currency." ".$offerPrice." ".$unit."</span>";
@@ -251,8 +252,8 @@ if ($service_type=='IaaS'){
                     <a class="left carousel-control" href="#myCarousel" data-slide="prev"></a>
                     <a class="right carousel-control" href="#myCarousel" data-slide="next"></a>
                 <?php endif; }?>
-<script type="text/javascript">  
-  if(jQuery(window).width() < "421"){ 
+<script type="text/javascript">
+  if(jQuery(window).width() < "421"){
     jQuery('.signin-msg p').text('You need to Sign In  to view the pricing.');
   }
   jQuery('a.signin').on('click',function(e){
@@ -265,7 +266,7 @@ if ($service_type=='IaaS'){
         jQuery("#orderservice").val(str);
         iaasOfferCode = jQuery(this).attr("offercode");
         jQuery('#loginPopUp').modal('show');
-  })   
+  })
   jQuery('a.cart-message-popup').on('click',function(e){
         e.preventDefault();
         jQuery('#enquirePopup .modal-content').html(jQuery('#cart-message-div').html());
@@ -297,7 +298,7 @@ if ($service_type=='IaaS'){
   jQuery('.unassign').click(function(e){
         e.preventDefault();
         jQuery('#unassignPopUp').modal('show');
-  })  
+  })
   jQuery('.request').click(function(e){
     e.preventDefault();
     jQuery('#requestPopUp input.offercode').val(jQuery(this).attr('offercode'));
@@ -323,5 +324,5 @@ var idx = jQuery('#myCarousel .item.active').index();
 // select currently active item and add active class
 jQuery('.carousel-indicators li:eq(' + idx + ')').addClass('active');
 
-});  
+});
 </script>

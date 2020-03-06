@@ -526,11 +526,11 @@ border: 1px solid #0662a3;
 
 
 .node-type-product-page header.group-header {
-        width: calc(100% + 60px);
-    margin-left: -30px;
-    margin-top: -30px;
-    margin-bottom: 30px;
-    position: relative;
+  width: calc(100% + 60px);
+  /* margin-left: -30px; */
+  /* margin-top: -30px; */
+  /* margin-bottom: 30px; */
+  position: relative;
 }
 
 .field-name-field-banner-title, .field-name-field-banner-punchline {
@@ -913,7 +913,7 @@ a:not([href]):not([tabindex]):hover {
 
 .header-section .fa-shopping-cart {
     position: absolute;
-    top: 33px;
+    top: 27px;
     right: 15px;
     color: #333;
 }
@@ -2286,14 +2286,40 @@ top: -5px;
 /*---------- offer popup Section ends---------------*/
 /*---------- Product Page Section ---------------*/
  .bg-3.product_page{
-     background: #fff
+     /* background: #fff */
+     /* background: red; */
+     /* border: 5px solid black; */
 }
  .innerPage.bg-3{
-     padding-top: 30px;
-     padding-bottom: 30px;
+     /* padding-top: 30px; */
+     /* padding-bottom: 30px; */
      padding-left: 0px;
      padding-right: 0px;
 }
+
+.product_page header.group-header {
+     /* background: blue; */
+     padding: 5px;
+     padding-left: 30px;
+}
+
+.product_page .serviceDetailsLogo {
+     /* background: green; */
+     padding: 5px;
+     padding-left: 30px;
+}
+
+.product_page .group-middle{
+     /* background: yellow; */
+     padding: 5px;
+}
+
+.product_page .offer-carousel {
+     /* background: grey; */
+     padding: 5px;
+     padding-left: 30px;
+}
+
  .loginPage .innerPage.bg-3{
      padding: 0px
 }
@@ -2331,7 +2357,8 @@ top: -5px;
  .bg-3.product_page .offer-carousel{
  /*   background: #f6f6f6;
     border:1px solid #e1e1e1;*/
-    padding: 0 50px 50px;
+    /* padding: 0 50px 50px; */
+    padding-left: 30px !important;
     margin: 1% 0px 2%;
     border-radius: 4px;
 }

@@ -193,6 +193,7 @@ if(drupal_mail('jsdnapi', 'reply', $mailto, language_default(), array('body' => 
   echo 2;
 }die();
 }
+
 function jsdnapi_popup_offers(){
   $serviceId = $_POST['id'];
   $nodedetails = node_load($serviceId);
@@ -214,6 +215,7 @@ function jsdnapi_popup_offers(){
   $data = '<div id="offer'.$serviceId.'" class="modal fade" role="dialog">'.$offerDetails.'</div>';
   echo $data;
 }
+
 function jsdnapi_entity_view_alter(&$build, $type) {
   if ($build['#view_mode'] == 'full' && $type == 'node') {
      if(_jsdnapi_node_check_node_type()){
