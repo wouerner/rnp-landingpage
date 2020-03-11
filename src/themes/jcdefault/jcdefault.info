@@ -1,6 +1,6 @@
 
 name = JSDN Default Theme
-description = A flexible, recolorable theme with many regions.
+description = JSDN Default Theme.
 package = Core
 version = VERSION
 core = 7.x

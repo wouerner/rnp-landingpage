@@ -1,10 +1,8 @@
 <?php
 /* echo drupal_get_path('module', 'teste') . '/dist/catalogo.js'; */
-echo '/cms/' . variable_get('file_public_path', conf_path() . '/files');
+/* echo '/cms/' . variable_get('file_public_path', conf_path() . '/files'); */
 ?>
-
 <div id="app"></div>
-
 <?php
 drupal_add_js(drupal_get_path('module', 'teste') . '/dist/catalogo.js', array(
   'type' => 'file',

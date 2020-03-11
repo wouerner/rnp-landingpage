@@ -35,10 +35,12 @@ if(!empty($variables['page']['header']['jsdn_common_render_menu']) && (!empty(va
   drupal_add_css('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', array('type' => 'external'));
   drupal_add_css('https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css', array('type' => 'external'));
 
+  /* drupal_add_css( */
+  /*   path_to_theme() . '/css/bootstrap.4.css' */
+  /* ); */
+
   // icons vuetify
   drupal_add_css('https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css', array('type' => 'external'));
-
-
 }
 /**
  * login form placeholder
